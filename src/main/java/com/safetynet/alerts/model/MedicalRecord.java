@@ -24,4 +24,9 @@ public class MedicalRecord {
 	@Column(name = "birth_date")
 	private Instant birthDate;
 
+	@Column(name = "medications")
+	private String medications;
+
+	@Column(name = "allergies")
+	private String allergies;
 }
