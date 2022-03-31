@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.PersonService;
 
 @RestController
@@ -13,8 +14,8 @@ public class PersonController {
 	PersonService personService;
 
 	@GetMapping("/person")
-	public void getPeople() {
-		// TODO : Implements get Person
+	public Iterable<Person> getPeople() {
+		return personService.getPersons();
 	}
 
 }

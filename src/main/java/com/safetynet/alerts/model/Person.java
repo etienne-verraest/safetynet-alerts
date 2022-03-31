@@ -10,12 +10,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name = "person")
 public class Person {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "person_id")
 	private Integer id;
 
 	@Column(name = "first_name")
@@ -31,7 +35,7 @@ public class Person {
 	private String city;
 
 	@Column(name = "zip_code")
-	private Integer zipCode;
+	private String zipCode;
 
 	@Column(name = "phone_number")
 	private String phoneNumber;
@@ -49,13 +53,7 @@ public class Person {
 	 * 
 	 */
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "medical_record_id", referencedColumnName = "id")
+	@JoinColumn(name = "medical_record_id", referencedColumnName = "record_id")
 	private MedicalRecord medicalRecord;
-
-	/**
-	 * 
-	 * Getters and setters
-	 * 
-	 */
 
 }
