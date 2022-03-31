@@ -18,4 +18,14 @@ public class PersonService {
 	public Iterable<Person> getPeopleFromDatabase() {
 		return personRepository.findAll();
 	}
+
+	public Person createPerson(Person person) {
+		return personRepository.save(person);
+	}
+
+	// Identificateur unique : combinaison prénom + nom
+	public void deletePerson(String firstName, String lastName) {
+		//
+	}
+
 }
