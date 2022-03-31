@@ -13,17 +13,18 @@ CREATE TABLE person (
 	city                 VARCHAR(100)      ,
 	zip_code             INT      ,
 	phone_number         VARCHAR(100)      ,
-	email                VARCHAR(100)      
+	email                VARCHAR(100)      ,
+	medical_record_id    INT  NOT NULL    ,
+	CONSTRAINT unq_person_medical_record_id UNIQUE ( medical_record_id ) 
  ) engine=InnoDB;
 
 CREATE TABLE medical_record ( 
-	person_id            INT  NOT NULL    ,
+	id                   INT  NOT NULL    PRIMARY KEY,
 	birth_date           DATE      ,
 	medications          TEXT      ,
-	allergies            TEXT      
+	allergies            TEXT      ,
+	CONSTRAINT fk_medical_record_person FOREIGN KEY ( id ) REFERENCES person( medical_record_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
-
-ALTER TABLE medical_record ADD CONSTRAINT fk_person_id FOREIGN KEY ( person_id ) REFERENCES person( id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE person COMMENT 'This table contains information about a person (first name, last name, adress, city, zip code, phone number and email)';
 
