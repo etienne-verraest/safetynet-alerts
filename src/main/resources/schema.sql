@@ -21,7 +21,6 @@ CREATE TABLE person (
 	zip_code             VARCHAR(100)      ,
 	phone_number         VARCHAR(100)      ,
 	email                VARCHAR(100)      ,
-	medical_record_id    INT  NOT NULL    ,
-	CONSTRAINT fk_person_person FOREIGN KEY ( medical_record_id ) REFERENCES medical_record( record_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+	medical_record_id    INT      
  ) engine=InnoDB;
 

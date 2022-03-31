@@ -22,11 +22,12 @@ public class MedicalRecord {
 	private Integer id;
 
 	@Column(name = "birth_date")
-	private Instant birthDate;
+	private Instant birthdate;
 
 	@Column(name = "medications")
 	private String medications;
 
 	@Column(name = "allergies")
 	private String allergies;
+
 }
