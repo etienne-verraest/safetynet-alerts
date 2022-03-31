@@ -14,8 +14,10 @@ public class PersonController {
 	PersonService personService;
 
 	@GetMapping("/person")
-	public Iterable<Person> getPeople() {
-		return personService.getPersons();
+	public Iterable<Person> returnPeopleJson() {
+		Person person = new Person();
+		System.out.println();
+		return personService.getPeopleFromDatabase();
 	}
 
 }

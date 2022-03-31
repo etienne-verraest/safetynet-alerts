@@ -44,12 +44,10 @@ public class Person {
 	private String email;
 
 	/**
-	 * "medical_record_id" column is from this table (person) and "id" column is
-	 * from medical_record table.
+	 * "medical_record_id" column is from this table and "record_id" column is from
+	 * medical_record table.
 	 * 
-	 * "medical_record_id" is a foreign key.
-	 * 
-	 * This is a bidirectional relationship
+	 * "medical_record_id" is a foreign key (this is a bidirectional relationship).
 	 * 
 	 */
 	@OneToOne(cascade = CascadeType.ALL)
