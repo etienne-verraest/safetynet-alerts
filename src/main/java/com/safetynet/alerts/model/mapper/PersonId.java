@@ -1,4 +1,4 @@
-package com.safetynet.alerts.model;
+package com.safetynet.alerts.model.mapper;
 
 import java.io.Serializable;
 

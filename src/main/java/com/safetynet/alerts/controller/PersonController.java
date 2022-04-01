@@ -30,6 +30,7 @@ public class PersonController {
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Person createPerson(@RequestBody Person person) {
 		log.info("Adding {} {} to database", person.getFirstName(), person.getLastName());
+		person.setUid(person.getFirstName() + "-" + person.getLastName());
 		return personService.createPerson(person);
 	}
 }
