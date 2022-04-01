@@ -22,10 +22,4 @@ public class PersonService {
 	public Person createPerson(Person person) {
 		return personRepository.save(person);
 	}
-
-	// Identificateur unique : combinaison prénom + nom
-	public void deletePerson(String firstName, String lastName) {
-		//
-	}
-
 }

@@ -2,27 +2,28 @@ package com.safetynet.alerts.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
 @Entity
 @Table(name = "person")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@IdClass(PersonId.class)
 public class Person {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "person_id")
-	private Integer id;
-
-	@Column(name = "first_name")
+	@Column(name = "firstname")
 	private String firstName;
 
-	@Column(name = "last_name")
+	@Id
+	@Column(name = "lastname")
 	private String lastName;
 
 	@Column(name = "address")
@@ -31,14 +32,17 @@ public class Person {
 	@Column(name = "city")
 	private String city;
 
-	@Column(name = "zip_code")
+	@Column(name = "zip")
 	private String zip;
 
-	@Column(name = "phone_number")
+	@Column(name = "phone")
 	private String phone;
 
 	@Column(name = "email")
 	private String email;
+
+	@Column(name = "birthdate")
+	private String birthdate;
 
 	/**
 	 * "medical_record_id" column is from this table and "record_id" column is from
