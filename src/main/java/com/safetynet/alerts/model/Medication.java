@@ -17,13 +17,10 @@ public class Medication {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "medication_id")
-	private String id;
+	private Integer id;
 
-	@Column(name = "name")
-	private String name;
-
-	@Column(name = "posology")
-	private String posology;
+	@Column(name = "name_posology")
+	private String namePosology;
 
 	@Column(name = "p_firstname")
 	private String firstName;

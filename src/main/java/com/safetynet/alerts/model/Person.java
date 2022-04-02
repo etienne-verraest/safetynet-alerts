@@ -25,7 +25,7 @@ import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.safetynet.alerts.model.mapper.PersonId;
+import com.safetynet.alerts.mapper.PersonId;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -64,9 +64,6 @@ public class Person {
 
 	@Column(name = "birthdate")
 	private String birthdate;
-
-	@Column(name = "uid")
-	private String uid;
 
 	/**
 	 * Allergy and Medication have a OneToMany relationship with a person (firstname, lastname)
