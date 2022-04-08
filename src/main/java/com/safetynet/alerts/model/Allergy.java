@@ -5,7 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -16,16 +21,17 @@ public class Allergy {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	@Column(name = "allergy_id")
 	private String id;
 
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "p_firstname")
-	private String firstName;
-	
-	@Column(name = "p_lastname")
-	private String lastName;
+	@JsonBackReference
+    @ManyToOne()
+    @JoinColumn(name = "firstName", nullable = false)
+    @JoinColumn(name = "lastName", nullable = false)
+    private Person person;
 	
 }
