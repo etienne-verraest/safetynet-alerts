@@ -9,4 +9,6 @@ import com.safetynet.alerts.model.Person;
 @Repository
 public interface PersonRepository extends CrudRepository<Person, PersonId> {
 
+	// Derived query
+	public Person findPersonById(PersonId id);
 }

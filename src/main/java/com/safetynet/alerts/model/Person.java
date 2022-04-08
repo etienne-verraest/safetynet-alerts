@@ -16,14 +16,12 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicUpdate;
 
 import com.safetynet.alerts.mapper.PersonId;
 
@@ -36,16 +34,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(PersonId.class)
+@DynamicUpdate
 public class Person {
 
-	@Id
-	@Column(name = "firstname")
-	private String firstName;
-
-	@Id
-	@Column(name = "lastname")
-	private String lastName;
+	@EmbeddedId
+	private PersonId id;
 
 	@Column(name = "address")
 	private String address;
@@ -67,32 +60,31 @@ public class Person {
 
 	/**
 	 * Allergy and Medication have a OneToMany relationship with a person (firstname, lastname)
-	 * We need to reference both primary key columns in our two tables
+	 * We need to reference both primary key columns in the two tables
 	 * 
 	 * CascadeType.ALL : If we delete a person, associated medications and allergies will be deleted
 	 * orphanRemoval = true : If we delete a medication from a Person list, this medication is also deleted in the database
-	 * FetchType.LAZY : We load medications and allergies on demand, because it is a part of MedicalRecord, and not from a person
 	 * 
 	 */
 	@OneToMany(
-			cascade = CascadeType.ALL, 
-			orphanRemoval = true, 
-			fetch = FetchType.LAZY
+			cascade = CascadeType.ALL,
+			orphanRemoval = true,
+			mappedBy = "person"
 	)
-	@JoinColumns({
-		@JoinColumn(name= "p_firstname", referencedColumnName = "firstname"),
-		@JoinColumn(name= "p_lastname", referencedColumnName = "lastname")
-	})
+//	@JoinColumns({
+//		@JoinColumn(name= "p_firstname", referencedColumnName = "firstname"),
+//		@JoinColumn(name= "p_lastname", referencedColumnName = "lastname")
+//	})
 	private List<Medication> medications;
 	
 	@OneToMany(
 			cascade = CascadeType.ALL, 
-			orphanRemoval = true, 
-			fetch = FetchType.LAZY
+			orphanRemoval = true,
+			mappedBy = "person"
 	)
-	@JoinColumns({
-		@JoinColumn(name= "p_firstname", referencedColumnName = "firstname"),
-		@JoinColumn(name= "p_lastname", referencedColumnName = "lastname")
-	})
+//	@JoinColumns({
+//		@JoinColumn(name= "p_firstname", referencedColumnName = "firstname"),
+//		@JoinColumn(name= "p_lastname", referencedColumnName = "lastname")
+//	})
 	private List<Allergy> allergies;
 }

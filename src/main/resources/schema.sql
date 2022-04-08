@@ -18,17 +18,17 @@ CREATE TABLE person (
  ) engine=InnoDB;
 
 CREATE TABLE allergy ( 
-	allergy_id           INT  NOT NULL    ,
+	allergy_id           INT  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
 	name                 VARCHAR(100)      ,
 	p_firstname          VARCHAR(100)      ,
 	p_lastname           VARCHAR(100)      
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE medication ( 
-	medication_id        INT  NOT NULL    ,
+	medication_id        INT  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
 	name_posology        VARCHAR(100)      ,
-	p_firstname          VARCHAR(100)  NOT NULL    ,
-	p_lastname           VARCHAR(100)  NOT NULL    
+	p_firstname          VARCHAR(100)      ,
+	p_lastname           VARCHAR(100)      
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 ALTER TABLE allergy ADD CONSTRAINT fk_allergy_person FOREIGN KEY ( p_firstname, p_lastname ) REFERENCES person( firstname, lastname ) ON DELETE NO ACTION ON UPDATE NO ACTION;
