@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.dto.FirestationDto;
 import com.safetynet.alerts.service.FirestationService;
@@ -47,12 +48,16 @@ public class FirestationController {
 	}
 	
 	@PutMapping()
-	public ResponseEntity<Firestation> updateFirestation(@RequestBody FirestationDto firestationDto) {	
+	public ResponseEntity<Firestation> updateFirestation(@RequestBody FirestationDto firestationDto) {
 		
 		Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
-		Firestation firestation = firestationService.updateFirestation(firestationRequestBody);		
+		Firestation firestation = firestationService.updateFirestation(firestationRequestBody);
 		
-		return new ResponseEntity<Firestation>(firestation, HttpStatus.ACCEPTED);
+		if(firestation != null) {
+			return new ResponseEntity<Firestation>(firestation, HttpStatus.ACCEPTED);
+		}
+		
+		throw new ResourceNotFoundException("Fire station was not found");
 	}
 	
 	@DeleteMapping(path = "/{address}")

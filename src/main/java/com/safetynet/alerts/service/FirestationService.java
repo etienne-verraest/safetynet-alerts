@@ -53,7 +53,12 @@ public class FirestationService {
 	 * @return				True if a firestation has been found and updated
 	 */
 	public Firestation updateFirestation(Firestation firestationEntity) {
-		return firestationRepository.save(firestationEntity);
+		Firestation firestation = findFirestationByAddress(firestationEntity.getAddress());			
+		
+		if(firestation != null) {
+			return firestationRepository.save(firestationEntity);
+		}
+		return null;
 	}
 
 	/**
