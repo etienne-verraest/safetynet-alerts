@@ -19,13 +19,13 @@ import lombok.Data;
 @Table(name = "allergy")
 public class Allergy {
 
+	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonIgnore
 	@Column(name = "allergy_id")
 	private String id;
 
-	@Column(name = "name")
+	@Column
 	private String name;
 
 	@JsonBackReference

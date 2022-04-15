@@ -40,27 +40,27 @@ public class Person {
 	@EmbeddedId
 	private PersonId id;
 
-	@Column(name = "address")
+	@Column
 	private String address;
 
-	@Column(name = "city")
+	@Column
 	private String city;
 
-	@Column(name = "zip")
+	@Column
 	private String zip;
 
-	@Column(name = "phone")
+	@Column
 	private String phone;
 
-	@Column(name = "email")
+	@Column
 	private String email;
 
-	@Column(name = "birthdate")
+	@Column
 	private String birthdate;
 
 	/**
-	 * Allergy and Medication have a OneToMany relationship with a person (firstname, lastname)
-	 * We need to reference both primary key columns in the two tables
+	 * Allergy and Medication have a OneToMany relationship with a person PK(firstname, lastname)
+	 * We need to reference both columns in the two tables
 	 * 
 	 * CascadeType.ALL : If we delete a person, associated medications and allergies will be deleted
 	 * orphanRemoval = true : If we delete a medication from a Person list, this medication is also deleted in the database
@@ -71,10 +71,6 @@ public class Person {
 			orphanRemoval = true,
 			mappedBy = "person"
 	)
-//	@JoinColumns({
-//		@JoinColumn(name= "p_firstname", referencedColumnName = "firstname"),
-//		@JoinColumn(name= "p_lastname", referencedColumnName = "lastname")
-//	})
 	private List<Medication> medications;
 	
 	@OneToMany(
@@ -82,9 +78,6 @@ public class Person {
 			orphanRemoval = true,
 			mappedBy = "person"
 	)
-//	@JoinColumns({
-//		@JoinColumn(name= "p_firstname", referencedColumnName = "firstname"),
-//		@JoinColumn(name= "p_lastname", referencedColumnName = "lastname")
-//	})
 	private List<Allergy> allergies;
+	
 }
