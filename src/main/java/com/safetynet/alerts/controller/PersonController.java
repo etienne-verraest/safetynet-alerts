@@ -75,6 +75,6 @@ public class PersonController {
 			log.info("[DELETE /PERSON] Deleted '{} {}' from database", firstName, lastName);
 			return new ResponseEntity<String>(firstName + " " + lastName + " was succesfully deleted", HttpStatus.OK);
 		}
-		return new ResponseEntity<String>("Person not found", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>("Person not found", HttpStatus.NOT_FOUND);
 	}	
 }
