@@ -13,10 +13,9 @@ import lombok.Data;
 public class Firestation {
 
 	@Id
-	@Column(name = "station_id")
-	private Integer station;
-
-	@Column(name = "address")
+	@Column
 	private String address;
-
+	
+	@Column
+	private Integer stationNumber;
 }
