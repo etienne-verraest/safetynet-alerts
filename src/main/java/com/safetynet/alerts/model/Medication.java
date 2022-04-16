@@ -29,8 +29,8 @@ public class Medication {
 	private String namePosology;
 
 	@JsonBackReference
-    @ManyToOne()
-    @JoinColumn(name = "firstName", nullable = false)
-    @JoinColumn(name = "lastName", nullable = false)
-    private Person person;
+	@ManyToOne()
+	@JoinColumn(name = "firstName", nullable = false)
+	@JoinColumn(name = "lastName", nullable = false)
+	private Person person;
 }

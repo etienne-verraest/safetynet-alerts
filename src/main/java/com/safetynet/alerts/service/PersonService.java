@@ -59,7 +59,12 @@ public class PersonService {
 	 * @return					An updated person object
 	 */
 	public Person updatePerson(Person personEntity) {
-		return personRepository.save(personEntity);
+		Person person = getPersonFromDatabase(personEntity.getId().getFirstName(), personEntity.getId().getLastName());
+		
+		if(person != null) {
+			return personRepository.save(personEntity);
+		}
+		return null;
 	}
 	
 	/**
