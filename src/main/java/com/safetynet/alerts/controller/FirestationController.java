@@ -29,47 +29,76 @@ public class FirestationController {
 
 	@Autowired
 	private FirestationService firestationService;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
-	
-	@GetMapping()
+
+	/**
+	 * This method returns a list of every fire station
+	 * 
+	 * @return List<Firestation> List of fire stations
+	 */
+	@GetMapping
 	public List<Firestation> returnFirestations() {
 		log.info("[GET /FIRESTATION] Fetching all firestations");
-		return firestationService.getAllFirestation();		
+		return firestationService.getAllFirestation();
 	}
-	
-	@PostMapping()
-	public ResponseEntity<Firestation> createFirestation(@RequestBody FirestationDto firestationDto) {				
-		log.info("[POST /FIRESTATION] Mapping '{}' to firestation number '{}'", firestationDto.getAddress(), firestationDto.getStationNumber());
+
+	/**
+	 * This method creates a {@link Firestation.java}, using address as a primary
+	 * key
+	 * 
+	 * @param firestationDto (@link FirestationDto.java}
+	 * @return a new {@link Firestation.java} entity
+	 */
+	@PostMapping
+	public ResponseEntity<Firestation> createFirestation(@RequestBody FirestationDto firestationDto) {
+		log.info("[POST /FIRESTATION] Mapping '{}' to firestation number '{}'", firestationDto.getAddress(),
+				firestationDto.getStationNumber());
 		Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
-		Firestation firestation = firestationService.createFirestation(firestationRequestBody);	
+		Firestation firestation = firestationService.createFirestation(firestationRequestBody);
 		return new ResponseEntity<Firestation>(firestation, HttpStatus.CREATED);
 	}
-	
-	@PutMapping()
+
+	/**
+	 * This method updates a Fire station. The fire station must be registered in
+	 * the database
+	 * 
+	 * @param firestationDto {@link FirestationDto.java}
+	 * @return an updated {@link Firestation.java} entity
+	 * @throws ResourceNotFoundException if the fire station was not found
+	 */
+	@PutMapping
 	public ResponseEntity<Firestation> updateFirestation(@RequestBody FirestationDto firestationDto) {
-		
+
 		Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
 		Firestation firestation = firestationService.updateFirestation(firestationRequestBody);
-		
-		if(firestation != null) {
+
+		if (firestation != null) {
 			return new ResponseEntity<Firestation>(firestation, HttpStatus.ACCEPTED);
 		}
-		
+
 		throw new ResourceNotFoundException("Fire station was not found");
 	}
-	
+
+	/**
+	 * This method deletes a fire station given an address
+	 * 
+	 * @param address The address that has to be deleted
+	 * @return A message indicating that the fire station has been deleted
+	 * @throws ResourceNotFoundException if the fire station was not found
+	 */
 	@DeleteMapping(path = "/{address}")
 	public ResponseEntity<String> deleteFirestation(@PathVariable("address") String address) {
-		
-		if(firestationService.deleteFirestation(address) == true) {
+
+		if (firestationService.deleteFirestation(address) == true) {
 			log.info("[DELETE /FIRESTATION] Deleted fire station with address : '{}'", address);
-			return new ResponseEntity<String>("Firestation with address '" + address + "' has been deleted", HttpStatus.OK);
+			return new ResponseEntity<String>("Firestation with address '" + address + "' has been deleted",
+					HttpStatus.OK);
 		}
-		
+
 		log.error("[DELETE /FIRESTATION] Could not delete firestation with address '{}'", address);
-		return new ResponseEntity<String>("Firestation was not found", HttpStatus.NOT_FOUND);
+		throw new ResourceNotFoundException("Fire station was not found");
 	}
-	
+
 }
