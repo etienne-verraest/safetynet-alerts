@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.safetynet.alerts.exception.ExceptionMessages;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.model.dto.PersonDto;
@@ -98,7 +99,8 @@ public class PersonController {
 
 		log.error("[PUT /FIRESTATION] Person with name '{} {}' was not found in database",
 				personDto.getId().getFirstName(), personDto.getId().getLastName());
-		throw new ResourceNotFoundException("Person was not found");
+		
+		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
 
 	/**
@@ -118,6 +120,6 @@ public class PersonController {
 			return new ResponseEntity<String>(firstName + " " + lastName + " was succesfully deleted", HttpStatus.OK);
 		}
 
-		throw new ResourceNotFoundException("Person was not found");
+		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
 }
