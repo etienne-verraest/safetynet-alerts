@@ -32,7 +32,7 @@ public class MedicalRecordController {
 	PersonService personService;
 
 	/**
-	 * This method adds a new allergy to a person medical record
+	 * This method adds a new allergy to a person medical record 
 	 * 
 	 * @param firstName		The first name of the person
 	 * @param lastName		The last name of the person

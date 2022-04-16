@@ -17,14 +17,15 @@ public class PersonService {
 
 	@Autowired
 	private PersonRepository personRepository;
-	
+
 	/**
-	 * 	 * Get a person from database using first name and last name
+	 * Get a person from database using first name and last name
 	 *
 	 * 
-	 * @param firstName			First name of the person
-	 * @param lastName			Last name of the person
-	 * @return 					a person if first and last name matches someone, otherwise returns null
+	 * @param firstName First name of the person
+	 * @param lastName  Last name of the person
+	 * @return a person if first and last name matches someone, otherwise returns
+	 *         null
 	 */
 	public Person getPersonFromDatabase(String firstName, String lastName) {
 		PersonId id = new PersonId();
@@ -32,55 +33,49 @@ public class PersonService {
 		id.setLastName(lastName);
 		return personRepository.findPersonById(id);
 	}
-	
+
 	/**
 	 * Get every person (= people) in the database
 	 * 
-	 * @return 					a list of Person
+	 * @return a list of Person
 	 */
 	public List<Person> getPeople() {
 		return personRepository.findAll();
 	}
-	
+
 	/**
 	 * Creates and populate a person in database
 	 * 
-	 * @param person			A Person object
-	 * @return					A person is saved in database
-	 */	
+	 * @param person A Person object
+	 * @return A person is saved in database
+	 */
 	public Person createPerson(Person personEntity) {
 		return personRepository.save(personEntity);
 	}
-	 
+
 	/**
 	 * Update person fields and save it in a database
 	 * 
-	 * @param person			A person object
-	 * @return					An updated person object
+	 * @param person A person object
+	 * @return An updated person object
 	 */
 	public Person updatePerson(Person personEntity) {
-		Person person = getPersonFromDatabase(personEntity.getId().getFirstName(), personEntity.getId().getLastName());
-		
-		if(person != null) {
+		if (personEntity != null) {
 			return personRepository.save(personEntity);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Delete a person from database, only if the person exists
 	 * 
-	 * @param firstName			First name of the person
-	 * @param lastName 			Last name of the person
-	 * @return 					true if the person exists, otherwise returns false
+	 * @param firstName First name of the person
+	 * @param lastName  Last name of the person
+	 * @return true if the person exists, otherwise returns false
 	 */
-	public boolean deletePerson(String firstName, String lastName) {			
-		Person person = getPersonFromDatabase(firstName, lastName);
-		
-		if(person != null) {
-			personRepository.delete(person);
-			return true;
+	public void deletePerson(Person personEntity) {
+		if (personEntity != null) {
+			personRepository.delete(personEntity);
 		}
-		return false;
 	}
 }

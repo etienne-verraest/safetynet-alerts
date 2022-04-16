@@ -88,18 +88,27 @@ public class PersonController {
 	@PutMapping
 	public ResponseEntity<Person> updatePerson(@RequestBody PersonDto personDto) {
 
-		Person personRequestBody = modelMapper.map(personDto, Person.class);
-		Person person = personService.updatePerson(personRequestBody);
+		// Checking if the person exists in database
+		Person person = personService.getPersonFromDatabase(personDto.getId().getFirstName(),
+				personDto.getId().getLastName());
 
+		// Updating the person if she exists in database
 		if (person != null) {
-			log.info("[PUT /PERSON] Updating person in database : {} {}", personDto.getId().getFirstName(),
-					personDto.getId().getLastName());
+
+			Person personRequestBody = modelMapper.map(personDto, Person.class);
+			person = personService.updatePerson(personRequestBody);
+	
+			// Logging the request
+			log.info("[PUT /PERSON] Updating person in database : {} {}", person.getId().getFirstName(),
+					person.getId().getLastName());
 			return new ResponseEntity<Person>(person, HttpStatus.ACCEPTED);
 		}
 
+		// Logging the error
 		log.error("[PUT /FIRESTATION] Person with name '{} {}' was not found in database",
 				personDto.getId().getFirstName(), personDto.getId().getLastName());
-		
+
+		// Throwing an exception if the person doesn't not exist
 		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
 
@@ -114,12 +123,23 @@ public class PersonController {
 	@DeleteMapping(path = "/{firstName}/{lastName}")
 	public ResponseEntity<String> deletePerson(@PathVariable("firstName") String firstName,
 			@PathVariable("lastName") String lastName) {
-
-		if (personService.deletePerson(firstName, lastName) == true) {
+		
+		// Checking if the person exists in database
+		Person person = personService.getPersonFromDatabase(firstName, lastName);
+		
+		// Deleting the person if she exists in the database
+		if(person != null) {	
+			personService.deletePerson(person);
+			
+			// Logging the request
 			log.info("[DELETE /PERSON] Deleted '{} {}' from database", firstName, lastName);
 			return new ResponseEntity<String>(firstName + " " + lastName + " was succesfully deleted", HttpStatus.OK);
 		}
-
+		
+		// Logging the error
+		log.error("[DELETE /PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
+		
+		// Throwing an exception if the person doesn't not exist
 		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
 }
