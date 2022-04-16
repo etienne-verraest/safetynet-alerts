@@ -5,10 +5,8 @@ import lombok.Data;
 @Data
 public class AllergyDto {
 
-	private String id;
+	private PersonDto person;
 	
 	private String name;
-	
-	private PersonDto person;
 	
 }

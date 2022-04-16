@@ -5,10 +5,9 @@ import lombok.Data;
 @Data
 public class MedicationDto {
 
-	private Integer id;
+	private PersonDto person;
 	
 	private String namePosology;
 	
-	private PersonDto person;
 	
 }
