@@ -20,7 +20,7 @@ public class PersonControllerTest {
 
 	@MockBean
 	private PersonService personService;
-
+	
 	@Test
 	@DisplayName("GET on /person should return a 200 status")
 	public void performGet_ShouldReturnStatus200() throws Exception {
