@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.safetynet.alerts.exception.ExceptionMessages;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.dto.FirestationDto;
@@ -55,6 +56,7 @@ public class FirestationController {
 	public ResponseEntity<Firestation> createFirestation(@RequestBody FirestationDto firestationDto) {
 		log.info("[POST /FIRESTATION] Mapping '{}' to firestation number '{}'", firestationDto.getAddress(),
 				firestationDto.getStationNumber());
+		
 		Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
 		Firestation firestation = firestationService.createFirestation(firestationRequestBody);
 		return new ResponseEntity<Firestation>(firestation, HttpStatus.CREATED);
@@ -78,7 +80,7 @@ public class FirestationController {
 			return new ResponseEntity<Firestation>(firestation, HttpStatus.ACCEPTED);
 		}
 
-		throw new ResourceNotFoundException("Fire station was not found");
+		throw new ResourceNotFoundException(ExceptionMessages.FIRESTATION_NOT_FOUND);
 	}
 
 	/**
@@ -98,7 +100,7 @@ public class FirestationController {
 		}
 
 		log.error("[DELETE /FIRESTATION] Could not delete firestation with address '{}'", address);
-		throw new ResourceNotFoundException("Fire station was not found");
+		throw new ResourceNotFoundException(ExceptionMessages.FIRESTATION_NOT_FOUND);
 	}
 
 }
