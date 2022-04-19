@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.exception.ExceptionMessages;
+import com.safetynet.alerts.exception.ResourceAlreadyExistingException;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.dto.FirestationDto;
@@ -54,12 +55,22 @@ public class FirestationController {
 	 */
 	@PostMapping
 	public ResponseEntity<Firestation> createFirestation(@RequestBody FirestationDto firestationDto) {
-		log.info("[POST /FIRESTATION] Mapping '{}' to firestation number '{}'", firestationDto.getAddress(),
-				firestationDto.getStationNumber());
+		
+		String address = firestationDto.getAddress();
+		Firestation firestation = firestationService.findFirestationByAddress(address);
+		if(firestation == null) {
+			
+			Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
+			firestation = firestationService.createFirestation(firestationRequestBody);
 
-		Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
-		Firestation firestation = firestationService.createFirestation(firestationRequestBody);
-		return new ResponseEntity<Firestation>(firestation, HttpStatus.CREATED);
+			log.info("[POST /FIRESTATION] Mapping '{}' to firestation number '{}'", address,
+					firestationDto.getStationNumber());
+			
+			return new ResponseEntity<Firestation>(firestation, HttpStatus.CREATED);
+		}	
+		
+		log.error("[POST /FIRESTATION] Fire station with address '{}' already exists", address);
+		throw new ResourceAlreadyExistingException(ExceptionMessages.FIRESTATION_FOUND);
 	}
 
 	/**
