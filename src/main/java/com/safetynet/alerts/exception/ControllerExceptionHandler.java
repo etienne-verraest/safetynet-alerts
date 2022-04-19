@@ -22,4 +22,16 @@ public class ControllerExceptionHandler {
 	    
 	    return message;
 	}
+	
+	@ExceptionHandler(ResourceAlreadyExistingException.class)
+	@ResponseStatus(value = HttpStatus.FOUND)
+	public ErrorMessage resourceAlreadyExistingException(Exception ex, WebRequest request) {
+		
+		ErrorMessage message = new ErrorMessage(
+		        String.format("%s", HttpStatus.FOUND),
+		        new Date(),
+		        ex.getMessage());
+		
+		return message;
+	}
 }
