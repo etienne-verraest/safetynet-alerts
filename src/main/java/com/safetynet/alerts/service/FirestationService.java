@@ -53,8 +53,7 @@ public class FirestationService {
 	 * @return				True if a firestation has been found and updated
 	 */
 	public Firestation updateFirestation(Firestation firestationEntity) {
-		Firestation firestation = findFirestationByAddress(firestationEntity.getAddress());			
-		
+		Firestation firestation = findFirestationByAddress(firestationEntity.getAddress());				
 		if(firestation != null) {
 			return firestationRepository.save(firestationEntity);
 		}
@@ -67,13 +66,10 @@ public class FirestationService {
 	 * @param  address	The address of the fire station
 	 * @return boolean	True if the fire station has been deleted
 	 */
-	public boolean deleteFirestation(String address) {
-		Firestation firestation = findFirestationByAddress(address);
-		
-		if(firestation != null) {
-			firestationRepository.delete(firestation);
-			return true;
+	public void deleteFirestation(String address) {
+		Firestation firestationEntity = findFirestationByAddress(address);		
+		if(firestationEntity != null) {
+			firestationRepository.delete(firestationEntity);
 		}
-		return false;
 	}
 }

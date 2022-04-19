@@ -66,7 +66,7 @@ public class PersonController {
 		}
 
 		// Logging the error if the person doesn't exists
-		log.error("[GET /PERSON] Person with name '{} {}' is not registered in database");
+		log.error("[GET /PERSON] Person with name '{} {}' is not registered in database", firstName, lastName);
 		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
 
@@ -94,7 +94,7 @@ public class PersonController {
 		}
 
 		// If the person exists we throw a "ResourceAlreadyExistingException"
-		log.error("[POST /PERSON] Person with name '{} {}' is already registered in database.");
+		log.error("[POST /PERSON] Person with name '{} {}' is already registered in database", firstName, lastName);
 		throw new ResourceAlreadyExistingException(ExceptionMessages.PERSON_FOUND);
 	}
 
