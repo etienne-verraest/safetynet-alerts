@@ -56,7 +56,7 @@ public class FirestationController {
 	public ResponseEntity<Firestation> createFirestation(@RequestBody FirestationDto firestationDto) {
 		log.info("[POST /FIRESTATION] Mapping '{}' to firestation number '{}'", firestationDto.getAddress(),
 				firestationDto.getStationNumber());
-		
+
 		Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
 		Firestation firestation = firestationService.createFirestation(firestationRequestBody);
 		return new ResponseEntity<Firestation>(firestation, HttpStatus.CREATED);
@@ -93,12 +93,20 @@ public class FirestationController {
 	@DeleteMapping(path = "/{address}")
 	public ResponseEntity<String> deleteFirestation(@PathVariable("address") String address) {
 
-		if (firestationService.deleteFirestation(address) == true) {
+		// Checking if the fire station exists, if it exists we delete it
+		Firestation firestation = firestationService.findFirestationByAddress(address);
+
+		if (firestation != null) {
+
+			firestationService.deleteFirestation(address);
+
+			// Logging the request
 			log.info("[DELETE /FIRESTATION] Deleted fire station with address : '{}'", address);
 			return new ResponseEntity<String>("Firestation with address '" + address + "' has been deleted",
 					HttpStatus.OK);
 		}
 
+		// Log an error and throw an exception if the fire station doesn't exist
 		log.error("[DELETE /FIRESTATION] Could not delete firestation with address '{}'", address);
 		throw new ResourceNotFoundException(ExceptionMessages.FIRESTATION_NOT_FOUND);
 	}
