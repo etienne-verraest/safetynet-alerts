@@ -2,8 +2,11 @@ package com.safetynet.alerts.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,6 +17,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -21,12 +25,16 @@ import com.safetynet.alerts.mapper.PersonId;
 import com.safetynet.alerts.model.Allergy;
 import com.safetynet.alerts.model.Medication;
 import com.safetynet.alerts.model.Person;
+import com.safetynet.alerts.repository.PersonRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class PersonServiceTest {
 
-	@Mock
+	@InjectMocks
 	PersonService personService;
+	
+	@Mock
+	PersonRepository personRepository;
 	
 	private Person person;
 
@@ -84,7 +92,7 @@ public class PersonServiceTest {
 		String firstName = person.getId().getFirstName();
 		String lastName = person.getId().getLastName();
 
-		when(personService.getPersonFromDatabase(firstName, lastName)).thenReturn(person);
+		when(personRepository.findPersonById(any(PersonId.class))).thenReturn(person);
 
 		// ACT
 		Person response = personService.getPersonFromDatabase(firstName, lastName);
@@ -96,8 +104,9 @@ public class PersonServiceTest {
 
 	@Test
 	void testGetPeople_ShouldReturn_ListOfPerson() {
+		
 		// ARRANGE
-		when(personService.getPeople()).thenReturn(listOfPerson);
+		when(personRepository.findAll()).thenReturn(listOfPerson);
 
 		// ACT
 		List<Person> response = personService.getPeople();
@@ -109,7 +118,7 @@ public class PersonServiceTest {
 	@Test
 	void testCreatePerson_ShouldReturn_NewPerson() {
 		// ARRANGE
-		when(personService.createPerson(person)).thenReturn(person);
+		when(personRepository.save(any(Person.class))).thenReturn(person);
 
 		// ACT
 		Person response = personService.createPerson(person);
@@ -123,7 +132,7 @@ public class PersonServiceTest {
 	void testUpdatePerson_ShouldReturn_UpdatedPerson() {
 		// ARRANGE
 		person.setCity("Manchester");
-		when(personService.updatePerson(person)).thenReturn(person);
+		when(personRepository.save(any(Person.class))).thenReturn(person);
 
 		// ACT
 		Person response = personService.updatePerson(person);
@@ -132,16 +141,29 @@ public class PersonServiceTest {
 		assertNotNull(response);
 		assertTrue(response.getCity().equals("Manchester"));
 	}
+	
+	@Test
+	void testUpdatePerson_ShouldReturn_Null() {
+		// ARRANGE
+		lenient().when(personRepository.save(any(Person.class))).thenReturn(null);
+		
+		// ACT
+		Person response = personService.updatePerson(null);
+		
+		// ASSERT
+		assertNull(response);
+		
+	}
 
 	@Test
 	void testDeletePerson_VerifyThat_MethodIsCalled() {
 		// ARRANGE
-		doNothing().when(personService).deletePerson(person);
+		doNothing().when(personRepository).delete(person);
 
 		// ACT
 		personService.deletePerson(person);
 
 		// ASSERT
-		verify(personService, times(1)).deletePerson(person);
+		verify(personRepository, times(1)).delete(person);
 	}
 }
