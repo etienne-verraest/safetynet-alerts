@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.safetynet.alerts.exception.ExceptionMessages;
 import com.safetynet.alerts.exception.ResourceAlreadyExistingException;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
+import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.model.dto.PersonDto;
+import com.safetynet.alerts.service.FirestationService;
 import com.safetynet.alerts.service.PersonService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,9 @@ public class PersonController {
 
 	@Autowired
 	PersonService personService;
+
+	@Autowired
+	FirestationService firestationService;
 
 	@Autowired
 	ModelMapper modelMapper;
@@ -50,7 +55,9 @@ public class PersonController {
 	 * This method returns datas linked to a given person (first name + last name)
 	 * 
 	 * @param firstName The first name of the person
+	 * 
 	 * @param lastName  The last name of the person
+	 * 
 	 * @return Related informations about a given person
 	 */
 	@GetMapping(path = "/{firstName}/{lastName}")
@@ -58,7 +65,7 @@ public class PersonController {
 			@PathVariable("lastName") String lastName) {
 
 		Person person = personService.getPersonFromDatabase(firstName, lastName);
-		
+
 		// Fetching person data if she exists
 		if (person != null) {
 			log.info("[GET /PERSON] Fetching person from database : {} {}", firstName, lastName);
@@ -74,6 +81,7 @@ public class PersonController {
 	 * This method creates a new person in database
 	 * 
 	 * @param personDto {@link PersonDto.java}
+	 * 
 	 * @return a new {@link Person.java} entity
 	 */
 	@PostMapping
@@ -86,10 +94,17 @@ public class PersonController {
 		Person person = personService.getPersonFromDatabase(firstName, lastName);
 		if (person == null) {
 
-			log.info("[POST /PERSON] Adding person to database : {} {}", firstName, lastName);
-
+			// Mapping Person DTO to an Entity
 			Person personRequestBody = modelMapper.map(personDto, Person.class);
 			person = personService.createPerson(personRequestBody);
+
+			// Creating a firestation if the address is not found in database
+			Firestation firestation = firestationService.findFirestationByAddress(personDto.getAddress());
+			if (firestation == null) {
+				// TODO [US] : Create a firestation mapping if the address doesn't exist
+			}
+
+			log.info("[POST /PERSON] Adding person to database : {} {}", firstName, lastName);
 			return new ResponseEntity<Person>(person, HttpStatus.CREATED);
 		}
 
@@ -103,7 +118,9 @@ public class PersonController {
 	 * the database
 	 * 
 	 * @param personDto {@link PersonDto.java}
+	 * 
 	 * @return an updated {@link Person.java} entity
+	 * 
 	 * @throws ResourceNotFoundException if the person was not found
 	 */
 	@PutMapping
@@ -118,6 +135,8 @@ public class PersonController {
 		// Updating the person if she exists in database
 		if (person != null) {
 
+			// TODO [BUG] : Allergies and Medications are deleted when mapping (+ we don't want to
+			// include medications and allergies in the Json
 			Person personRequestBody = modelMapper.map(personDto, Person.class);
 			person = personService.updatePerson(personRequestBody);
 
@@ -138,7 +157,9 @@ public class PersonController {
 	 * 
 	 * @param firstName The first name of the person
 	 * @param lastName  The last name of the person
+	 * 
 	 * @return A message indicating that the person has been deleted
+	 * 
 	 * @throws ResourceNotFoundException if the person was not found
 	 */
 	@DeleteMapping(path = "/{firstName}/{lastName}")
