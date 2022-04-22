@@ -15,9 +15,15 @@ public class AllergyService {
 	@Autowired
 	AllergyRepository allergyRepository;
 	
-	public List<Allergy> findPersonAllergies(Person personEntity) {
-		return allergyRepository.findByPerson(personEntity);
-		
+	public List<Allergy> getAllPersonAllergies(Person personEntity) {
+		return allergyRepository.findAllByPerson(personEntity);		
 	}
 	
+	public Allergy getPersonAllergy(Person personEntity, String name) {
+		return allergyRepository.findByPersonAndName(personEntity, name);
+	}
+	
+	public void deletePersonAllergy(Person personEntity, String allergyName) {
+		allergyRepository.deleteByPersonAndName(personEntity, allergyName);
+	}
 }
