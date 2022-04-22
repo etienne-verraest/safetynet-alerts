@@ -8,6 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import com.safetynet.alerts.model.Medication;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.model.dto.MedicalRecordDto;
 import com.safetynet.alerts.model.dto.MedicationDto;
+import com.safetynet.alerts.service.MedicationService;
 import com.safetynet.alerts.service.PersonService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +38,29 @@ public class MedicalRecordController {
 	PersonService personService;
 
 	@Autowired
+	MedicationService medicationService;
+	@Autowired
 	ModelMapper modelMapper;
+
+	/**
+	 * This method returns medications for a given person
+	 * 
+	 * @param firstName The first name of the person
+	 * @param lastName  The last name of the person
+	 * @return A list of medications
+	 * @throws ResourceNotFoundException if the person was not found in database
+	 */
+	@GetMapping(path = "/{firstName}/{lastName}/medication")
+	public ResponseEntity<List<Medication>> getPersonMedication(@PathVariable("firstName") String firstName,
+			@PathVariable("lastName") String lastName) {
+		
+		Person person = personService.getPersonFromDatabase(firstName, lastName);
+		if (person != null) {
+			List<Medication> medication = medicationService.findPersonMedication(person);
+			return new ResponseEntity<List<Medication>>(medication, HttpStatus.FOUND);
+		}
+		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
+	}
 
 	/**
 	 * This method adds a new medical record to a person
@@ -93,5 +118,4 @@ public class MedicalRecordController {
 		// Throwing an exception if the person doesn't exist
 		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
-
 }
