@@ -49,89 +49,6 @@ public class MedicalRecordController {
 	ModelMapper modelMapper;
 
 	/**
-	 * This method returns medications for a given person
-	 * 
-	 * @param firstName The first name of the person
-	 * @param lastName  The last name of the person
-	 * @return A list of medications
-	 * @throws ResourceNotFoundException if the person was not found in database
-	 */
-	@GetMapping(path = "/{firstName}/{lastName}/medications")
-	public ResponseEntity<List<Medication>> getPersonMedications(@PathVariable("firstName") String firstName,
-			@PathVariable("lastName") String lastName) {
-
-		Person person = personService.getPersonFromDatabase(firstName, lastName);
-		if (person != null) {
-			List<Medication> medications = medicationService.findPersonMedications(person);
-			return new ResponseEntity<List<Medication>>(medications, HttpStatus.FOUND);
-		}
-		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
-	}
-
-	/**
-	 * This method returns allergies for a given person
-	 * 
-	 * @param firstName The first name of the person
-	 * @param lastName  The last name of the person
-	 * 
-	 * @return A list of allergies
-	 * 
-	 * @throws ResourceNotFoundException if the person was not found in database
-	 */
-	@GetMapping(path = "/{firstName}/{lastName}/allergies")
-	public ResponseEntity<List<Allergy>> getPersonAllergies(@PathVariable("firstName") String firstName,
-			@PathVariable("lastName") String lastName) {
-
-		Person person = personService.getPersonFromDatabase(firstName, lastName);
-		if (person != null) {
-			List<Allergy> allergies = allergyService.getAllPersonAllergies(person);
-			return new ResponseEntity<List<Allergy>>(allergies, HttpStatus.FOUND);
-		}
-		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
-	}
-
-	/**
-	 * This method deletes an allergy for a given person
-	 * 
-	 * @param firstName The first name of the person
-	 * @param lastName  The last name of the person
-	 * 
-	 * @return
-	 * 
-	 * @throws ResourceNotFoundException if the person was not found in database
-	 * @throws ResourceNotFoundException if the allergy for the given person was not found
-	 */
-	@DeleteMapping(path = "/{firstName}/{lastName}/allergies/{name}")
-	public ResponseEntity<String> deletePersonAllergy(@PathVariable("firstName") String firstName,
-			@PathVariable("lastName") String lastName, @PathVariable("name") String name) {
-
-		// Checking if the person exists
-		Person person = personService.getPersonFromDatabase(firstName, lastName);
-		if (person != null) {
-
-			// Checking if the person has the specified allergy
-			if (allergyService.getPersonAllergy(person, name) != null) {
-
-				// Deleting allergy if found and updating person
-				allergyService.deletePersonAllergy(person, name);
-				personService.updatePerson(person);
-
-				// Logging the request
-				log.info("[DELETE /MEDICALRECORD] Deleted allergy '{}' for {} {}", name, firstName, lastName);
-				
-				return new ResponseEntity<String>("Delete Allergy : " + name + " for " + firstName + " " + lastName,
-						HttpStatus.OK);
-			}
-			// Logging the error
-			log.error("[DELETE /MEDICALRECORD] Allergy '{}' was not found for {} {}", name, firstName, lastName);
-			throw new ResourceNotFoundException(ExceptionMessages.ALLERGY_NOT_FOUND);
-		}
-		// Logging the error
-		log.error("[DELETE /MEDICALRECORD] Person with name '{} {}' was not found in database", firstName, lastName);
-		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
-	}
-
-	/**
 	 * This method adds a new medical record to a person
 	 * 
 	 * @param firstName     The first name of the person
@@ -155,29 +72,32 @@ public class MedicalRecordController {
 			List<Allergy> personAllergies = person.getAllergies();
 			List<Medication> personMedications = person.getMedications();
 
-			// Mapping Allergy Dto to Person's entity
+			// Mapping AllergyDto to Allergy entity
+			// It verifies that the allergy doesn't exist for a given person before mapping
+			// it (you can't have an allergy twice)
 			medicalRecordDto.getAllergies().forEach(allergyDto -> {
-				allergyDto.setPerson(personId);
-				personAllergies.add(modelMapper.map(allergyDto, Allergy.class));
+				if (allergyService.getPersonAllergy(person, allergyDto.getName()) == null) {
+					allergyDto.setPerson(personId);
+					personAllergies.add(modelMapper.map(allergyDto, Allergy.class));
+					log.info("[POST /MEDICALRECORD] Added allergy '{}' for {} {}", allergyDto.getName(), firstName, lastName);
+				}
 			});
 
-			// Mapping Medication Dto to Person's entity
+			// Mapping MedicationDto to Medication entity
 			medicalRecordDto.getMedications().forEach(medicationDto -> {
 				medicationDto.setPerson(personId);
 				personMedications.add(modelMapper.map(medicationDto, Medication.class));
+				log.info("[POST /MEDICALRECORD] Added medication '{}' for {} {}", medicationDto.getNamePosology(), firstName, lastName);
 			});
 
-			// Adding allergies and medications to Person entity
+			// Setting allergy and medications to Person entity
 			person.setAllergies(personAllergies);
 			person.setMedications(personMedications);
 
-			// Updating person's entity
+			// Updating Person entity
 			personService.updatePerson(person);
 
-			// Logging our request
-			log.info("[POST /MEDICALRECORD] Added Medical record for {} {}", firstName, lastName);
-
-			// Returning person entity with medicalRecord information updated
+			// Returning person entity with its medical record informations updated
 			return new ResponseEntity<Person>(person, HttpStatus.ACCEPTED);
 		}
 
@@ -185,6 +105,92 @@ public class MedicalRecordController {
 		log.error("[POST /MEDICALRECORD] Person with name '{} {}' was not found in database", firstName, lastName);
 
 		// Throwing an exception if the person doesn't exist
+		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
+	}
+	
+	/**
+	 * This method returns allergies for a given person
+	 * 
+	 * @param firstName The first name of the person
+	 * @param lastName  The last name of the person
+	 * 
+	 * @return A list of allergies
+	 * 
+	 * @throws ResourceNotFoundException if the person was not found in database
+	 */
+	@GetMapping(path = "/{firstName}/{lastName}/allergies")
+	public ResponseEntity<List<Allergy>> getPersonAllergies(@PathVariable("firstName") String firstName,
+			@PathVariable("lastName") String lastName) {
+
+		Person person = personService.getPersonFromDatabase(firstName, lastName);
+		if (person != null) {
+			List<Allergy> allergies = allergyService.getAllPersonAllergies(person);
+			return new ResponseEntity<List<Allergy>>(allergies, HttpStatus.FOUND);
+		}
+		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
+	}
+	
+	/**
+	 * This method returns medications for a given person
+	 * 
+	 * @param firstName The first name of the person
+	 * @param lastName  The last name of the person
+	 * 
+	 * @return A list of medications
+	 * 
+	 * @throws ResourceNotFoundException if the person was not found in database
+	 */
+	@GetMapping(path = "/{firstName}/{lastName}/medications")
+	public ResponseEntity<List<Medication>> getPersonMedications(@PathVariable("firstName") String firstName,
+			@PathVariable("lastName") String lastName) {
+
+		Person person = personService.getPersonFromDatabase(firstName, lastName);
+		if (person != null) {
+			List<Medication> medications = medicationService.findPersonMedications(person);
+			return new ResponseEntity<List<Medication>>(medications, HttpStatus.FOUND);
+		}
+		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
+	}
+		
+	/**
+	 * This method deletes an allergy for a given person
+	 * 
+	 * @param firstName The first name of the person
+	 * @param lastName  The last name of the person
+	 * 
+	 * @return
+	 * 
+	 * @throws ResourceNotFoundException if the person was not found in database
+	 * @throws ResourceNotFoundException if the allergy for the given person was not
+	 *                                   found
+	 */
+	@DeleteMapping(path = "/{firstName}/{lastName}/allergies/{name}")
+	public ResponseEntity<String> deletePersonAllergy(@PathVariable("firstName") String firstName,
+			@PathVariable("lastName") String lastName, @PathVariable("name") String name) {
+
+		// Checking if the person exists
+		Person person = personService.getPersonFromDatabase(firstName, lastName);
+		if (person != null) {
+
+			// Checking if the person has the specified allergy
+			if (allergyService.getPersonAllergy(person, name) != null) {
+
+				// Deleting allergy if found and updating person
+				allergyService.deletePersonAllergy(person, name);
+				personService.updatePerson(person);
+
+				// Logging the request
+				log.info("[DELETE /MEDICALRECORD] Deleted allergy '{}' for {} {}", name, firstName, lastName);
+
+				return new ResponseEntity<String>("Deleted Allergy : " + name + " for " + firstName + " " + lastName,
+						HttpStatus.OK);
+			}
+			// Logging the error
+			log.error("[DELETE /MEDICALRECORD] Allergy '{}' was not found for {} {}", name, firstName, lastName);
+			throw new ResourceNotFoundException(ExceptionMessages.ALLERGY_NOT_FOUND);
+		}
+		// Logging the error
+		log.error("[DELETE /MEDICALRECORD] Person with name '{} {}' was not found in database", firstName, lastName);
 		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
 }
