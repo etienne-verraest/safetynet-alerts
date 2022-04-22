@@ -23,6 +23,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.safetynet.alerts.mapper.PersonId;
 
 import lombok.AllArgsConstructor;
@@ -71,6 +73,7 @@ public class Person {
 			orphanRemoval = true,
 			mappedBy = "person"
 	)
+	@JsonInclude(Include.NON_EMPTY)
 	private List<Medication> medications;
 	
 	@OneToMany(
@@ -78,6 +81,7 @@ public class Person {
 			orphanRemoval = true,
 			mappedBy = "person"
 	)
+	@JsonInclude(Include.NON_EMPTY)
 	private List<Allergy> allergies;
 	
 }

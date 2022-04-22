@@ -11,6 +11,10 @@ import com.safetynet.alerts.model.Person;
 @Repository
 public interface AllergyRepository extends CrudRepository<Allergy, Integer>{
 
-	List<Allergy> findByPerson(Person person);
+	List<Allergy> findAllByPerson(Person person);
+	
+	Allergy findByPersonAndName(Person person, String name);
+	
+	void deleteByPersonAndName(Person person, String name);
 	
 }
