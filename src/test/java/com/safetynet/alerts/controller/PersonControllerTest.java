@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.safetynet.alerts.service.FirestationService;
 import com.safetynet.alerts.service.PersonService;
 
 @WebMvcTest(controllers = PersonController.class)
@@ -20,6 +21,9 @@ public class PersonControllerTest {
 
 	@MockBean
 	private PersonService personService;
+	
+	@MockBean
+	private FirestationService firestationService;
 	
 	@Test
 	@DisplayName("GET on /person should return a 200 status")
