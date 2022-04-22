@@ -13,8 +13,8 @@ public interface AllergyRepository extends CrudRepository<Allergy, Integer>{
 
 	List<Allergy> findAllByPerson(Person person);
 	
-	Allergy findByPersonAndName(Person person, String name);
+	Allergy findByPersonAndName(Person person, String allergyName);
 	
-	void deleteByPersonAndName(Person person, String name);
+	void deleteByPersonAndName(Person person, String allergyName);
 	
 }
