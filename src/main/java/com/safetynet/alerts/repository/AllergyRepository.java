@@ -1,10 +1,16 @@
 package com.safetynet.alerts.repository;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import com.safetynet.alerts.mapper.PersonId;
 import com.safetynet.alerts.model.Allergy;
+import com.safetynet.alerts.model.Person;
 
-public interface AllergyRepository extends CrudRepository<Allergy, PersonId>{
+@Repository
+public interface AllergyRepository extends CrudRepository<Allergy, Integer>{
 
+	List<Allergy> findByPerson(Person person);
+	
 }
