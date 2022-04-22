@@ -15,7 +15,7 @@ public class MedicationService {
 	@Autowired
 	MedicationRepository medicationRepository;
 	
-	public List<Medication> findPersonMedication(Person personEntity) {
+	public List<Medication> findPersonMedications(Person personEntity) {
 		return medicationRepository.findByPerson(personEntity);
 	}
 	

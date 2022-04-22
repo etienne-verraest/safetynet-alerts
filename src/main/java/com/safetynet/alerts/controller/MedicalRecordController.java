@@ -23,6 +23,7 @@ import com.safetynet.alerts.model.Medication;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.model.dto.MedicalRecordDto;
 import com.safetynet.alerts.model.dto.MedicationDto;
+import com.safetynet.alerts.service.AllergyService;
 import com.safetynet.alerts.service.MedicationService;
 import com.safetynet.alerts.service.PersonService;
 
@@ -39,6 +40,10 @@ public class MedicalRecordController {
 
 	@Autowired
 	MedicationService medicationService;
+	
+	@Autowired
+	AllergyService allergyService;
+	
 	@Autowired
 	ModelMapper modelMapper;
 
@@ -50,14 +55,34 @@ public class MedicalRecordController {
 	 * @return A list of medications
 	 * @throws ResourceNotFoundException if the person was not found in database
 	 */
-	@GetMapping(path = "/{firstName}/{lastName}/medication")
-	public ResponseEntity<List<Medication>> getPersonMedication(@PathVariable("firstName") String firstName,
+	@GetMapping(path = "/{firstName}/{lastName}/medications")
+	public ResponseEntity<List<Medication>> getPersonMedications(@PathVariable("firstName") String firstName,
 			@PathVariable("lastName") String lastName) {
 		
 		Person person = personService.getPersonFromDatabase(firstName, lastName);
 		if (person != null) {
-			List<Medication> medication = medicationService.findPersonMedication(person);
-			return new ResponseEntity<List<Medication>>(medication, HttpStatus.FOUND);
+			List<Medication> medications = medicationService.findPersonMedications(person);
+			return new ResponseEntity<List<Medication>>(medications, HttpStatus.FOUND);
+		}
+		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
+	}
+	
+	/**
+	 * This method returns allergies for a given person
+	 * 
+	 * @param firstName The first name of the person
+	 * @param lastName  The last name of the person
+	 * @return A list of allergies
+	 * @throws ResourceNotFoundException if the person was not found in database
+	 */
+	@GetMapping(path = "/{firstName}/{lastName}/allergies")
+	public ResponseEntity<List<Allergy>> getPersonAllergies(@PathVariable("firstName") String firstName,
+			@PathVariable("lastName") String lastName) {
+		
+		Person person = personService.getPersonFromDatabase(firstName, lastName);
+		if (person != null) {
+			List<Allergy> allergies = allergyService.findPersonAllergies(person);
+			return new ResponseEntity<List<Allergy>>(allergies, HttpStatus.FOUND);
 		}
 		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
