@@ -99,10 +99,13 @@ public class PersonController {
 			person = personService.createPerson(personRequestBody);
 
 			// Creating a firestation if the address is not found in database
-			Firestation firestation = firestationService.findFirestationByAddress(personDto.getAddress());
-			
+			Firestation firestation = firestationService.findFirestationByAddress(personDto.getAddress());	
 			if (firestation == null) {
-				// TODO [US] : Create a firestation mapping if the address doesn't exist
+				firestation = new Firestation();
+				firestation.setAddress(personDto.getAddress());
+				firestation.setStationNumber(firestationService.getMaxFirestationNumber() + 1);
+				firestationService.createFirestation(firestation);
+				log.info("[FIRESTATION] Created firestation for address '{}'", personDto.getAddress());
 			}
 
 			log.info("[POST /PERSON] Adding person to database : {} {}", firstName, lastName);
@@ -138,6 +141,16 @@ public class PersonController {
 			
 			// Mapping Person Dto to the entity
 			Person personRequestBody = modelMapper.map(personDto, Person.class);
+			
+			// Creating a firestation if the address is not found in database
+			Firestation firestation = firestationService.findFirestationByAddress(personDto.getAddress());	
+			if (firestation == null) {
+				firestation = new Firestation();
+				firestation.setAddress(personDto.getAddress());
+				firestation.setStationNumber(firestationService.getMaxFirestationNumber() + 1);
+				firestationService.createFirestation(firestation);
+				log.info("[FIRESTATION] Created firestation for address '{}'", personDto.getAddress());
+			}
 			
 			// Avoiding deletion of allergies and medications when updating the person
 			personRequestBody.setAllergies(person.getAllergies());
