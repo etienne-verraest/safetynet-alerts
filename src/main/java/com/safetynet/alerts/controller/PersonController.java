@@ -134,10 +134,15 @@ public class PersonController {
 
 		// Updating the person if she exists in database
 		if (person != null) {
-
-			// TODO [BUG] : Allergies and Medications are deleted when mapping (+ we don't want to
-			// include medications and allergies in the Json
+			
+			// Mapping Person Dto to the entity
 			Person personRequestBody = modelMapper.map(personDto, Person.class);
+			
+			// Avoiding deletion of allergies and medications when updating the person
+			personRequestBody.setAllergies(person.getAllergies());
+			personRequestBody.setMedications(person.getMedications());
+			
+			// Updating the person
 			person = personService.updatePerson(personRequestBody);
 
 			// Logging the request
