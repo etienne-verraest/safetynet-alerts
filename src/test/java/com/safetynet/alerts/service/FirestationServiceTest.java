@@ -47,7 +47,7 @@ class FirestationServiceTest {
 			// Creating a firestation with address : 789 Dummy Address and stationNumber is
 			// equals to 2
 			firestations.setAddress(address[i]);
-			firestations.setStationNumber(i);
+			firestations.setStationNumber(i+1);
 
 			// Adding firestation to a list
 			listOfFirestation.add(firestations);
@@ -73,7 +73,7 @@ class FirestationServiceTest {
 	}
 
 	@Test
-	void testGetAllFirestation_ShouldReturn_OneFirestation() {
+	void testGetAllFirestation_ShouldReturn_TwoFirestations() {
 		// ACT
 		when(firestationRepository.findAll()).thenReturn(listOfFirestation);
 		
