@@ -109,7 +109,7 @@ public class FirestationController {
 
 		if (firestation != null) {
 
-			firestationService.deleteFirestation(address);
+			firestationService.deleteFirestation(firestation);
 
 			// Logging the request
 			log.info("[DELETE /FIRESTATION] Deleted fire station with address : '{}'", address);

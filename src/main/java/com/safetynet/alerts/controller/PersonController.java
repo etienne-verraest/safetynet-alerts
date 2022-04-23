@@ -100,6 +100,7 @@ public class PersonController {
 
 			// Creating a firestation if the address is not found in database
 			Firestation firestation = firestationService.findFirestationByAddress(personDto.getAddress());
+			
 			if (firestation == null) {
 				// TODO [US] : Create a firestation mapping if the address doesn't exist
 			}
