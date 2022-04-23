@@ -70,4 +70,8 @@ public class FirestationService {
 			firestationRepository.delete(firestationEntity);
 		}
 	}
+	
+	public Integer getMaxFirestationNumber() {
+		return firestationRepository.getMaxFirestationNumberNative();
+	}
 }
