@@ -11,4 +11,6 @@ public class ExceptionMessages {
 	public final static String PERSON_FOUND = "This person is already registered in database";
 	
 	public final static String FIRESTATION_FOUND = "This fire station is already registered in database";
+	
+	public final static String FIRESTATION_MALFORMED_REQUEST = "The request for this firestation is malformed";
 }

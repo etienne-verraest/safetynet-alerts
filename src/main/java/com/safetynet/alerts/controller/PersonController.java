@@ -2,6 +2,8 @@ package com.safetynet.alerts.controller;
 
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,12 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.exception.ExceptionMessages;
 import com.safetynet.alerts.exception.ResourceAlreadyExistingException;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
-import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.model.dto.PersonDto;
 import com.safetynet.alerts.service.FirestationService;
@@ -60,9 +62,9 @@ public class PersonController {
 	 * 
 	 * @return Related informations about a given person
 	 */
-	@GetMapping(path = "/{firstName}/{lastName}")
-	public ResponseEntity<Person> findByFirstNameAndLastName(@PathVariable("firstName") String firstName,
-			@PathVariable("lastName") String lastName) {
+	@GetMapping(path = "/personInfo")
+	public ResponseEntity<Person> findByFirstNameAndLastName(@NotBlank(message = "First name cannot be empty") @RequestParam String firstName,
+			@NotBlank(message = "Last name cannot be empty") @RequestParam String lastName) {
 
 		Person person = personService.getPersonFromDatabase(firstName, lastName);
 
@@ -98,16 +100,6 @@ public class PersonController {
 			Person personRequestBody = modelMapper.map(personDto, Person.class);
 			person = personService.createPerson(personRequestBody);
 
-			// Creating a firestation if the address is not found in database
-			Firestation firestation = firestationService.findFirestationByAddress(personDto.getAddress());	
-			if (firestation == null) {
-				firestation = new Firestation();
-				firestation.setAddress(personDto.getAddress());
-				firestation.setStationNumber(firestationService.getMaxFirestationNumber() + 1);
-				firestationService.createFirestation(firestation);
-				log.info("[FIRESTATION] Created firestation for address '{}'", personDto.getAddress());
-			}
-
 			log.info("[POST /PERSON] Adding person to database : {} {}", firstName, lastName);
 			return new ResponseEntity<Person>(person, HttpStatus.CREATED);
 		}
@@ -141,16 +133,6 @@ public class PersonController {
 			
 			// Mapping Person Dto to the entity
 			Person personRequestBody = modelMapper.map(personDto, Person.class);
-			
-			// Creating a firestation if the address is not found in database
-			Firestation firestation = firestationService.findFirestationByAddress(personDto.getAddress());	
-			if (firestation == null) {
-				firestation = new Firestation();
-				firestation.setAddress(personDto.getAddress());
-				firestation.setStationNumber(firestationService.getMaxFirestationNumber() + 1);
-				firestationService.createFirestation(firestation);
-				log.info("[FIRESTATION] Created firestation for address '{}'", personDto.getAddress());
-			}
 			
 			// Avoiding deletion of allergies and medications when updating the person
 			personRequestBody.setAllergies(person.getAllergies());

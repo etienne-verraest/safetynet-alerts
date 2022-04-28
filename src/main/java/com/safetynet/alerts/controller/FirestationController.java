@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.exception.ExceptionMessages;
-import com.safetynet.alerts.exception.ResourceAlreadyExistingException;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.dto.FirestationDto;
@@ -42,7 +41,6 @@ public class FirestationController {
 	 */
 	@GetMapping
 	public List<Firestation> returnFirestations() {
-		log.info("[GET /FIRESTATION] Fetching all firestations");
 		return firestationService.getAllFirestation();
 	}
 
@@ -55,22 +53,21 @@ public class FirestationController {
 	 */
 	@PostMapping
 	public ResponseEntity<Firestation> createFirestation(@RequestBody FirestationDto firestationDto) {
-		
-		String address = firestationDto.getAddress();
-		Firestation firestation = firestationService.findFirestationByAddress(address);
-		if(firestation == null) {
-			
-			Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
-			firestation = firestationService.createFirestation(firestationRequestBody);
 
-			log.info("[POST /FIRESTATION] Mapping '{}' to firestation number '{}'", address,
-					firestationDto.getStationNumber());
-			
+		// Checking if the RequestBody is not null
+		if (firestationDto != null) {
+
+			// Mapping DTO to Entity
+			Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
+
+			// Returning the result
+			Firestation firestation = firestationService.createFirestation(firestationRequestBody);
 			return new ResponseEntity<Firestation>(firestation, HttpStatus.CREATED);
-		}	
-		
-		log.error("[POST /FIRESTATION] Fire station with address '{}' already exists", address);
-		throw new ResourceAlreadyExistingException(ExceptionMessages.FIRESTATION_FOUND);
+		}
+
+		// Logging the error if firestationDto is malformed
+		log.error("[POST /FIRESTATION] Request body of the firestation is malformed");
+		throw new IllegalArgumentException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
 	}
 
 	/**
@@ -84,42 +81,43 @@ public class FirestationController {
 	@PutMapping
 	public ResponseEntity<Firestation> updateFirestation(@RequestBody FirestationDto firestationDto) {
 
-		Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
-		Firestation firestation = firestationService.updateFirestation(firestationRequestBody);
+		// Checking if the request body is not null
+		if (firestationDto != null) {
 
-		if (firestation != null) {
+			// Mapping DTO to Entity
+			Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
+
+			// Returning the result
+			Firestation firestation = firestationService.updateFirestation(firestationRequestBody);
 			return new ResponseEntity<Firestation>(firestation, HttpStatus.ACCEPTED);
 		}
 
-		throw new ResourceNotFoundException(ExceptionMessages.FIRESTATION_NOT_FOUND);
+		// Logging the error if firestationDto is malformed
+		log.error("[PUT /FIRESTATION] Request to update firestation is malformed");
+		throw new IllegalArgumentException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
 	}
 
 	/**
 	 * This method deletes a fire station given an address
 	 * 
 	 * @param address The address that has to be deleted
-	 * @return A message indicating that the fire station has been deleted
-	 * @throws ResourceNotFoundException if the fire station was not found
+	 * @return
+	 * @throws
 	 */
 	@DeleteMapping(path = "/{address}")
 	public ResponseEntity<String> deleteFirestation(@PathVariable("address") String address) {
 
-		// Checking if the fire station exists, if it exists we delete it
-		Firestation firestation = firestationService.findFirestationByAddress(address);
+		// Checking if the address is non null
+		if (address != null) {
 
-		if (firestation != null) {
-
-			firestationService.deleteFirestation(firestation);
-
-			// Logging the request
-			log.info("[DELETE /FIRESTATION] Deleted fire station with address : '{}'", address);
+			// Returning the result
+			firestationService.deleteFirestation(address);
 			return new ResponseEntity<String>("Firestation with address '" + address + "' has been deleted",
 					HttpStatus.OK);
 		}
 
-		// Log an error and throw an exception if the fire station doesn't exist
-		log.error("[DELETE /FIRESTATION] Could not delete firestation with address '{}'", address);
-		throw new ResourceNotFoundException(ExceptionMessages.FIRESTATION_NOT_FOUND);
+		// Logging the error if the address is null
+		log.error("[DELETE /FIRESTATION] Request to delete firestation is malformed");
+		throw new IllegalArgumentException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
 	}
-
 }
