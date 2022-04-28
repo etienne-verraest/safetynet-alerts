@@ -34,4 +34,16 @@ public class ControllerExceptionHandler {
 		
 		return message;
 	}
+	
+	@ExceptionHandler(ResourceMalformedException.class)
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	public ErrorMessage resourceMalformedException(Exception ex, WebRequest request) {
+		
+		ErrorMessage message = new ErrorMessage(
+		        String.format("%s", HttpStatus.BAD_REQUEST),
+		        new Date(),
+		        ex.getMessage());
+		
+		return message;
+	}
 }

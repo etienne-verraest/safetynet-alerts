@@ -2,8 +2,6 @@ package com.safetynet.alerts.controller;
 
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,12 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.exception.ExceptionMessages;
-import com.safetynet.alerts.exception.ResourceAlreadyExistingException;
+import com.safetynet.alerts.exception.ResourceMalformedException;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.model.dto.PersonDto;
@@ -30,7 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/person")
 public class PersonController {
 
 	@Autowired
@@ -47,9 +43,8 @@ public class PersonController {
 	 * 
 	 * @return List<Person> List of Person
 	 */
-	@GetMapping
+	@GetMapping(path = "/person")
 	public List<Person> returnGetPeopleJson() {
-		log.info("[GET /PERSON] Fetching people from database");
 		return personService.getPeople();
 	}
 
@@ -57,26 +52,23 @@ public class PersonController {
 	 * This method returns datas linked to a given person (first name + last name)
 	 * 
 	 * @param firstName The first name of the person
-	 * 
 	 * @param lastName  The last name of the person
 	 * 
 	 * @return Related informations about a given person
 	 */
 	@GetMapping(path = "/personInfo")
-	public ResponseEntity<Person> findByFirstNameAndLastName(@NotBlank(message = "First name cannot be empty") @RequestParam String firstName,
-			@NotBlank(message = "Last name cannot be empty") @RequestParam String lastName) {
-
-		Person person = personService.getPersonFromDatabase(firstName, lastName);
-
-		// Fetching person data if she exists
-		if (person != null) {
-			log.info("[GET /PERSON] Fetching person from database : {} {}", firstName, lastName);
+	public ResponseEntity<Person> findByFirstNameAndLastName(@RequestParam String firstName,
+			@RequestParam String lastName) {
+		
+		// Checking if the parameters are non-null or not malformed
+		if(firstName.trim().isEmpty() == false & lastName.trim().isEmpty() == false) {		
+			Person person = personService.getPersonFromDatabase(firstName, lastName);		
 			return new ResponseEntity<Person>(person, HttpStatus.FOUND);
 		}
-
-		// Logging the error if the person doesn't exists
-		log.error("[GET /PERSON] Person with name '{} {}' is not registered in database", firstName, lastName);
-		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
+		
+		// Logging the error
+		log.error("[GET /PERSON] Request to get person is malformed");
+		throw new ResourceMalformedException(ExceptionMessages.PERSON_MALFORMED_REQUEST);
 	}
 
 	/**
@@ -86,27 +78,22 @@ public class PersonController {
 	 * 
 	 * @return a new {@link Person.java} entity
 	 */
-	@PostMapping
+	@PostMapping(path = "/person")
 	public ResponseEntity<Person> createPerson(@RequestBody PersonDto personDto) {
-
-		String firstName = personDto.getId().getFirstName();
-		String lastName = personDto.getId().getLastName();
-
-		// Checking if the person exists in database, if not, we add it to the database
-		Person person = personService.getPersonFromDatabase(firstName, lastName);
-		if (person == null) {
-
-			// Mapping Person DTO to an Entity
+		
+		// Checking if the request is non-null or not malformed
+		if (personDto != null) {
+			
+			// Mapping DTO -> Entity
 			Person personRequestBody = modelMapper.map(personDto, Person.class);
-			person = personService.createPerson(personRequestBody);
-
-			log.info("[POST /PERSON] Adding person to database : {} {}", firstName, lastName);
+			
+			// Returning the result
+			Person person = personService.createPerson(personRequestBody);
 			return new ResponseEntity<Person>(person, HttpStatus.CREATED);
 		}
-
-		// If the person exists we throw a "ResourceAlreadyExistingException"
-		log.error("[POST /PERSON] Person with name '{} {}' is already registered in database", firstName, lastName);
-		throw new ResourceAlreadyExistingException(ExceptionMessages.PERSON_FOUND);
+		
+		log.error("[POST /PERSON] Request to create person is malformed");
+		throw new ResourceMalformedException(ExceptionMessages.PERSON_MALFORMED_REQUEST);
 	}
 
 	/**
@@ -119,38 +106,23 @@ public class PersonController {
 	 * 
 	 * @throws ResourceNotFoundException if the person was not found
 	 */
-	@PutMapping
+	@PutMapping("/person")
 	public ResponseEntity<Person> updatePerson(@RequestBody PersonDto personDto) {
-
-		String firstName = personDto.getId().getFirstName();
-		String lastName = personDto.getId().getLastName();
-
-		// Checking if the person exists in database
-		Person person = personService.getPersonFromDatabase(firstName, lastName);
-
-		// Updating the person if she exists in database
-		if (person != null) {
+		
+		// Checking if the request is non-null or not malformed
+		if (personDto != null) {		
 			
-			// Mapping Person Dto to the entity
-			Person personRequestBody = modelMapper.map(personDto, Person.class);
+			// Mapping DTO -> Entity
+			Person personRequestBody = modelMapper.map(personDto, Person.class);		
 			
-			// Avoiding deletion of allergies and medications when updating the person
-			personRequestBody.setAllergies(person.getAllergies());
-			personRequestBody.setMedications(person.getMedications());
-			
-			// Updating the person
-			person = personService.updatePerson(personRequestBody);
-
-			// Logging the request
-			log.info("[PUT /PERSON] Updating person in database : {} {}", firstName, lastName);
+			// Returning the result
+			Person person = personService.updatePerson(personRequestBody);	
 			return new ResponseEntity<Person>(person, HttpStatus.ACCEPTED);
 		}
-
+		
 		// Logging the error
-		log.error("[PUT /PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
-
-		// Throwing an exception if the person doesn't not exist
-		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
+		log.error("[PUT /PERSON] Request to update person is malformed");
+		throw new ResourceMalformedException(ExceptionMessages.PERSON_MALFORMED_REQUEST);
 	}
 
 	/**
@@ -163,26 +135,20 @@ public class PersonController {
 	 * 
 	 * @throws ResourceNotFoundException if the person was not found
 	 */
-	@DeleteMapping(path = "/{firstName}/{lastName}")
+	@DeleteMapping(path = "/person/{firstName}/{lastName}")
 	public ResponseEntity<String> deletePerson(@PathVariable("firstName") String firstName,
 			@PathVariable("lastName") String lastName) {
 
-		// Checking if the person exists in database
-		Person person = personService.getPersonFromDatabase(firstName, lastName);
-
-		// Deleting the person if she exists in the database
-		if (person != null) {
-			personService.deletePerson(person);
-
-			// Logging the request
-			log.info("[DELETE /PERSON] Deleted '{} {}' from database", firstName, lastName);
+		// Checking if the request is not malformed
+		if (firstName != null && lastName != null) {
+			
+			// Returning the result
+			personService.deletePerson(firstName, lastName);
 			return new ResponseEntity<String>(firstName + " " + lastName + " was succesfully deleted", HttpStatus.OK);
 		}
 
 		// Logging the error
-		log.error("[DELETE /PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
-
-		// Throwing an exception if the person doesn't not exist
-		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
+		log.error("[DELETE /PERSON] Request to delete person is malformed");
+		throw new ResourceMalformedException(ExceptionMessages.PERSON_MALFORMED_REQUEST);
 	}
 }

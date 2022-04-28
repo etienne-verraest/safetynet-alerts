@@ -5,14 +5,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.safetynet.alerts.exception.ExceptionMessages;
+import com.safetynet.alerts.exception.ResourceAlreadyExistingException;
+import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.mapper.PersonId;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.PersonRepository;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Data
 @Service
+@Slf4j
 public class PersonService {
 
 	@Autowired
@@ -28,10 +33,15 @@ public class PersonService {
 	 *         null
 	 */
 	public Person getPersonFromDatabase(String firstName, String lastName) {
-		PersonId id = new PersonId();
-		id.setFirstName(firstName);
-		id.setLastName(lastName);
-		return personRepository.findPersonById(id);
+		
+		PersonId id = new PersonId(firstName, lastName);
+		if(personRepository.findPersonById(id) != null) {
+			log.info("[GET /PERSON] Fetching person from database : {} {}", firstName, lastName);
+			return personRepository.findPersonById(id);
+		}
+		
+		log.error("[GET /PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
+		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
 
 	/**
@@ -40,6 +50,7 @@ public class PersonService {
 	 * @return a list of Person
 	 */
 	public List<Person> getPeople() {
+		log.info("[GET /PERSON] Fetching people from database");
 		return personRepository.findAll();
 	}
 
@@ -50,7 +61,17 @@ public class PersonService {
 	 * @return A person is saved in database
 	 */
 	public Person createPerson(Person personEntity) {
-		return personRepository.save(personEntity);
+		
+		String firstName = personEntity.getId().getFirstName();
+		String lastName = personEntity.getId().getLastName();
+		
+		if(getPersonFromDatabase(firstName, lastName) == null) {
+			log.info("[POST /PERSON] Adding person to database : {} {}", firstName, lastName);
+			return personRepository.save(personEntity);
+		}
+		
+		log.error("[POST /PERSON] Person with name '{} {}' is already registered in database", firstName, lastName);
+		throw new ResourceAlreadyExistingException(ExceptionMessages.PERSON_FOUND);
 	}
 
 	/**
@@ -60,10 +81,24 @@ public class PersonService {
 	 * @return An updated person object
 	 */
 	public Person updatePerson(Person personEntity) {
-		if (personEntity != null) {
+		
+		String firstName = personEntity.getId().getFirstName();
+		String lastName =  personEntity.getId().getLastName();
+		
+		Person person = getPersonFromDatabase(firstName, lastName);
+		if (person != null) {
+			
+			// Avoiding deletion of allergies and medications when updating the person
+			personEntity.setAllergies(person.getAllergies());
+			personEntity.setMedications(person.getMedications());
+			
+			// Updating the person
+			log.info("[PUT /PERSON] Updating person in database : {} {}", firstName, lastName);
 			return personRepository.save(personEntity);
-		}
-		return null;
+		
+		}		
+		log.error("[PUT /PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
+		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
 
 	/**
@@ -73,9 +108,14 @@ public class PersonService {
 	 * @param lastName  Last name of the person
 	 * @return true if the person exists, otherwise returns false
 	 */
-	public void deletePerson(Person personEntity) {
-		if (personEntity != null) {
-			personRepository.delete(personEntity);
+	public void deletePerson(String firstName, String lastName) {
+		Person person = getPersonFromDatabase(firstName, lastName);
+		if (person != null) {	
+			log.info("[DELETE /PERSON] Deleted '{} {}' from database", firstName, lastName);
+			personRepository.delete(person);
+			return;
 		}
+		log.error("[DELETE /PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
+		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
 }
