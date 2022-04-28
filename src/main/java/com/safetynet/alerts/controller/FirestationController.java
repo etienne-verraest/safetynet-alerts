@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.exception.ExceptionMessages;
+import com.safetynet.alerts.exception.ResourceMalformedException;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.dto.FirestationDto;
@@ -67,7 +68,7 @@ public class FirestationController {
 
 		// Logging the error if firestationDto is malformed
 		log.error("[POST /FIRESTATION] Request body of the firestation is malformed");
-		throw new IllegalArgumentException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
+		throw new ResourceMalformedException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
 	}
 
 	/**
@@ -94,7 +95,7 @@ public class FirestationController {
 
 		// Logging the error if firestationDto is malformed
 		log.error("[PUT /FIRESTATION] Request to update firestation is malformed");
-		throw new IllegalArgumentException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
+		throw new ResourceMalformedException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
 	}
 
 	/**
@@ -118,6 +119,6 @@ public class FirestationController {
 
 		// Logging the error if the address is null
 		log.error("[DELETE /FIRESTATION] Request to delete firestation is malformed");
-		throw new IllegalArgumentException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
+		throw new ResourceMalformedException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
 	}
 }

@@ -5,10 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -155,15 +152,12 @@ public class PersonServiceTest {
 		
 	}
 
-	@Test
-	void testDeletePerson_VerifyThat_MethodIsCalled() {
-		// ARRANGE
-		doNothing().when(personRepository).delete(person);
-
-		// ACT
-		personService.deletePerson(person);
-
-		// ASSERT
-		verify(personRepository, times(1)).delete(person);
-	}
+	/*
+	 * @Test void testDeletePerson_VerifyThat_MethodIsCalled() { // ARRANGE
+	 * doNothing().when(personRepository).delete(person);
+	 * 
+	 * // ACT personService.deletePerson(person);
+	 * 
+	 * // ASSERT verify(personRepository, times(1)).delete(person); }
+	 */
 }
