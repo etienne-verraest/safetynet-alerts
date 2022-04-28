@@ -151,6 +151,27 @@ public class MedicalRecordController {
 		}
 		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
+	
+	// TODO [US] : Put Mapping for Medications
+	/*
+	 * @PutMapping(path = "/{firstName}/{lastName}/medications") public
+	 * ResponseEntity<List<Medication>>
+	 * updatePersonMedications(@PathVariable("firstName") String firstName,
+	 * 
+	 * @PathVariable("lastName") String lastName, @RequestBody List<MedicationDto>
+	 * medicationDto) {
+	 * 
+	 * Person person = personService.getPersonFromDatabase(firstName, lastName); if
+	 * (person != null) {
+	 * 
+	 * List<Medication> personMedication = new ArrayList<Medication>();
+	 * medicationDto.forEach(medication -> { medication.setPerson(person.getId());
+	 * personMedication.add(modelMapper.map(medication, Medication.class)); });
+	 * 
+	 * person.setMedications(personMedication); personService.updatePerson(person);
+	 * return new ResponseEntity<List<Medication>>(personMedication, HttpStatus.OK);
+	 * } return null; }
+	 */
 		
 	/**
 	 * This method deletes an allergy for a given person
