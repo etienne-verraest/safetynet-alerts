@@ -32,16 +32,14 @@ public class PersonService {
 	 * @return a person if first and last name matches someone, otherwise returns
 	 *         null
 	 */
-	public Person getPersonFromDatabase(String firstName, String lastName) {
-		
+	public Person getPersonFromDatabase(String firstName, String lastName) {		
 		PersonId id = new PersonId(firstName, lastName);
 		if(personRepository.findPersonById(id) != null) {
-			log.info("[GET /PERSON] Fetching person from database : {} {}", firstName, lastName);
+			log.info("[PERSON] Fetching person from database : {} {}", firstName, lastName);
 			return personRepository.findPersonById(id);
-		}
-		
-		log.error("[GET /PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
-		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
+		}		
+		log.error("[PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
+		return null;
 	}
 
 	/**
@@ -50,7 +48,7 @@ public class PersonService {
 	 * @return a list of Person
 	 */
 	public List<Person> getPeople() {
-		log.info("[GET /PERSON] Fetching people from database");
+		log.info("[PERSON] Fetching people from database");
 		return personRepository.findAll();
 	}
 
@@ -66,11 +64,11 @@ public class PersonService {
 		String lastName = personEntity.getId().getLastName();
 		
 		if(getPersonFromDatabase(firstName, lastName) == null) {
-			log.info("[POST /PERSON] Adding person to database : {} {}", firstName, lastName);
+			log.info("[PERSON] Adding person to database : {} {}", firstName, lastName);
 			return personRepository.save(personEntity);
 		}
 		
-		log.error("[POST /PERSON] Person with name '{} {}' is already registered in database", firstName, lastName);
+		log.error("[PERSON] Person with name '{} {}' is already registered in database", firstName, lastName);
 		throw new ResourceAlreadyExistingException(ExceptionMessages.PERSON_FOUND);
 	}
 
@@ -93,11 +91,11 @@ public class PersonService {
 			personEntity.setMedications(person.getMedications());
 			
 			// Updating the person
-			log.info("[PUT /PERSON] Updating person in database : {} {}", firstName, lastName);
+			log.info("[PERSON] Updating person in database : {} {}", firstName, lastName);
 			return personRepository.save(personEntity);
 		
 		}		
-		log.error("[PUT /PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
+		log.error("[PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
 		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
 
@@ -111,11 +109,11 @@ public class PersonService {
 	public void deletePerson(String firstName, String lastName) {
 		Person person = getPersonFromDatabase(firstName, lastName);
 		if (person != null) {	
-			log.info("[DELETE /PERSON] Deleted '{} {}' from database", firstName, lastName);
+			log.info("[PERSON] Deleted '{} {}' from database", firstName, lastName);
 			personRepository.delete(person);
 			return;
 		}
-		log.error("[DELETE /PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
+		log.error("[PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
 		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
 }

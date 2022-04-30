@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.exception.ExceptionMessages;
 import com.safetynet.alerts.exception.ResourceMalformedException;
-import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.model.dto.PersonDto;
 import com.safetynet.alerts.service.FirestationService;
@@ -38,24 +37,11 @@ public class PersonController {
 	@Autowired
 	ModelMapper modelMapper;
 
-	/**
-	 * This method returns a list of every person registered in database
-	 * 
-	 * @return List<Person> List of Person
-	 */
 	@GetMapping(path = "/person")
 	public List<Person> returnGetPeopleJson() {
 		return personService.getPeople();
 	}
 
-	/**
-	 * This method returns datas linked to a given person (first name + last name)
-	 * 
-	 * @param firstName The first name of the person
-	 * @param lastName  The last name of the person
-	 * 
-	 * @return Related informations about a given person
-	 */
 	@GetMapping(path = "/personInfo")
 	public ResponseEntity<Person> findByFirstNameAndLastName(@RequestParam String firstName,
 			@RequestParam String lastName) {
@@ -71,13 +57,6 @@ public class PersonController {
 		throw new ResourceMalformedException(ExceptionMessages.PERSON_MALFORMED_REQUEST);
 	}
 
-	/**
-	 * This method creates a new person in database
-	 * 
-	 * @param personDto {@link PersonDto.java}
-	 * 
-	 * @return a new {@link Person.java} entity
-	 */
 	@PostMapping(path = "/person")
 	public ResponseEntity<Person> createPerson(@RequestBody PersonDto personDto) {
 		
@@ -96,16 +75,7 @@ public class PersonController {
 		throw new ResourceMalformedException(ExceptionMessages.PERSON_MALFORMED_REQUEST);
 	}
 
-	/**
-	 * This method updates a person's information. The person must be registered in
-	 * the database
-	 * 
-	 * @param personDto {@link PersonDto.java}
-	 * 
-	 * @return an updated {@link Person.java} entity
-	 * 
-	 * @throws ResourceNotFoundException if the person was not found
-	 */
+
 	@PutMapping("/person")
 	public ResponseEntity<Person> updatePerson(@RequestBody PersonDto personDto) {
 		
@@ -125,16 +95,6 @@ public class PersonController {
 		throw new ResourceMalformedException(ExceptionMessages.PERSON_MALFORMED_REQUEST);
 	}
 
-	/**
-	 * This method deletes a person from the database.
-	 * 
-	 * @param firstName The first name of the person
-	 * @param lastName  The last name of the person
-	 * 
-	 * @return A message indicating that the person has been deleted
-	 * 
-	 * @throws ResourceNotFoundException if the person was not found
-	 */
 	@DeleteMapping(path = "/person/{firstName}/{lastName}")
 	public ResponseEntity<String> deletePerson(@PathVariable("firstName") String firstName,
 			@PathVariable("lastName") String lastName) {

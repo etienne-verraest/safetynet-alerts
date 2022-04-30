@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.exception.ExceptionMessages;
 import com.safetynet.alerts.exception.ResourceMalformedException;
-import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.dto.FirestationDto;
 import com.safetynet.alerts.service.FirestationService;
@@ -26,33 +24,22 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/firestation")
 public class FirestationController {
 
+	// TODO [CLEAN CODE] : Rewrite full java documentation on controllers and services
+	
 	@Autowired
 	private FirestationService firestationService;
 
 	@Autowired
 	private ModelMapper modelMapper;
 
-	/**
-	 * This method returns a list of every fire station
-	 * 
-	 * @return List<Firestation> List of fire stations
-	 */
 	@GetMapping
 	public List<Firestation> returnFirestations() {
 		return firestationService.getAllFirestation();
 	}
 
-	/**
-	 * This method creates a {@link Firestation.java}, using address as a primary
-	 * key
-	 * 
-	 * @param firestationDto (@link FirestationDto.java}
-	 * @return a new {@link Firestation.java} entity
-	 */
-	@PostMapping
+	@PostMapping(path = "/firestation")
 	public ResponseEntity<Firestation> createFirestation(@RequestBody FirestationDto firestationDto) {
 
 		// Checking if the RequestBody is not null
@@ -71,15 +58,7 @@ public class FirestationController {
 		throw new ResourceMalformedException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
 	}
 
-	/**
-	 * This method updates a Fire station. The fire station must be registered in
-	 * the database
-	 * 
-	 * @param firestationDto {@link FirestationDto.java}
-	 * @return an updated {@link Firestation.java} entity
-	 * @throws ResourceNotFoundException if the fire station was not found
-	 */
-	@PutMapping
+	@PutMapping(path = "/firestation")
 	public ResponseEntity<Firestation> updateFirestation(@RequestBody FirestationDto firestationDto) {
 
 		// Checking if the request body is not null
@@ -98,14 +77,7 @@ public class FirestationController {
 		throw new ResourceMalformedException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
 	}
 
-	/**
-	 * This method deletes a fire station given an address
-	 * 
-	 * @param address The address that has to be deleted
-	 * @return
-	 * @throws
-	 */
-	@DeleteMapping(path = "/{address}")
+	@DeleteMapping(path = "/firestation/{address}")
 	public ResponseEntity<String> deleteFirestation(@PathVariable("address") String address) {
 
 		// Checking if the address is non null
