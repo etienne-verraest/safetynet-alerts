@@ -70,7 +70,7 @@ public class FirestationService {
 					firestationEntity.getStationNumber());
 			return firestationRepository.save(firestationEntity);
 		}
-		log.error("[PUT /FIRESTATION] Could not delete firestation with address '{}'", firestationEntity.getAddress());
+		log.error("[PUT /FIRESTATION] Could not update firestation with address '{}'", firestationEntity.getAddress());
 		throw new ResourceNotFoundException(ExceptionMessages.FIRESTATION_NOT_FOUND);
 	}
 

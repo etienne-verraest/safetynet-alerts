@@ -1,5 +1,6 @@
 package com.safetynet.alerts.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -17,13 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.exception.ExceptionMessages;
-import com.safetynet.alerts.exception.ResourceNotFoundException;
-import com.safetynet.alerts.mapper.PersonId;
+import com.safetynet.alerts.exception.ResourceMalformedException;
 import com.safetynet.alerts.model.Allergy;
-import com.safetynet.alerts.model.Medication;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.model.dto.MedicalRecordDto;
-import com.safetynet.alerts.model.dto.MedicationDto;
 import com.safetynet.alerts.service.AllergyService;
 import com.safetynet.alerts.service.MedicationService;
 import com.safetynet.alerts.service.PersonService;
@@ -49,169 +47,98 @@ public class MedicalRecordController {
 	ModelMapper modelMapper;
 
 	/**
-	 * This method adds a new medical record to a person
+	 * Creates new allergies or medication for a given person
 	 * 
-	 * @param firstName     The first name of the person
-	 * @param lastName      The last name of the person
-	 * @param medicationDto {@link MedicationDto.java}
-	 * @return updated information about a person
-	 * @throws ResourceNotFoundException if the person was not found in database
+	 * @param medicalRecordDto		The requested body, containing allergies and medications
+	 * @return						Created allergies and medications
+	 * @throws 						ResourceMalformedException : an error is thrown if the request is incorrect
 	 */
 	@PostMapping
 	public ResponseEntity<Person> addMedicalRecord(@RequestBody MedicalRecordDto medicalRecordDto) {
 
-		String firstName = medicalRecordDto.getId().getFirstName();
-		String lastName = medicalRecordDto.getId().getLastName();
+		// Checking if the requestbody is not malformed or not null
+		if (medicalRecordDto != null) {
+			
+			// Fetching informations about our person
+			String firstName = medicalRecordDto.getId().getFirstName();
+			String lastName = medicalRecordDto.getId().getLastName();
+			Person person = personService.getPersonFromDatabase(firstName, lastName);
+				
+			// Creating a new empty list to add our allergies
+			List<Allergy> personAllergies = new ArrayList<Allergy>();
 
-		// Checking if the person exists in database
-		Person person = personService.getPersonFromDatabase(firstName, lastName);
-		if (person != null) {
-
-			PersonId personId = person.getId();
-
-			List<Allergy> personAllergies = person.getAllergies();
-			List<Medication> personMedications = person.getMedications();
-
-			// Mapping AllergyDto to Allergy entity
-			// It verifies that the allergy doesn't exist for a given person before mapping
-			// it (you can't have an allergy twice)
+			// Mapping Allergies : if the allergy already exists, we skip it
 			medicalRecordDto.getAllergies().forEach(allergyDto -> {
 				if (allergyService.getPersonAllergy(person, allergyDto.getName()) == null) {
-					allergyDto.setPerson(personId);
+					allergyDto.setPerson(person.getId());
 					personAllergies.add(modelMapper.map(allergyDto, Allergy.class));
-					log.info("[POST /MEDICALRECORD] Added allergy '{}' for {} {}", allergyDto.getName(), firstName, lastName);
 				}
 			});
+			
+			// We won't call the service if there is nothing to update
+			if(personAllergies.size() > 0) {
+				allergyService.savePersonAllergies(person, personAllergies);
+			}
 
-			// Mapping MedicationDto to Medication entity
-			medicalRecordDto.getMedications().forEach(medicationDto -> {
-				medicationDto.setPerson(personId);
-				personMedications.add(modelMapper.map(medicationDto, Medication.class));
-				log.info("[POST /MEDICALRECORD] Added medication '{}' for {} {}", medicationDto.getNamePosology(), firstName, lastName);
-			});
-
-			// Setting allergy and medications to Person entity
-			person.setAllergies(personAllergies);
-			person.setMedications(personMedications);
-
-			// Updating Person entity
-			personService.updatePerson(person);
-
-			// Returning person entity with its medical record informations updated
 			return new ResponseEntity<Person>(person, HttpStatus.ACCEPTED);
 		}
-
-		// Logging the error
-		log.error("[POST /MEDICALRECORD] Person with name '{} {}' was not found in database", firstName, lastName);
-
-		// Throwing an exception if the person doesn't exist
-		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
+		
+		log.error("[MEDICALRECORD] Request to post medical record is malformed");
+		throw new ResourceMalformedException(ExceptionMessages.MEDICALRECORD_MALFORMED_REQUEST);
 	}
 	
 	/**
-	 * This method returns allergies for a given person
+	 * Get allergies for a given person (first name + last name)
 	 * 
-	 * @param firstName The first name of the person
-	 * @param lastName  The last name of the person
-	 * 
-	 * @return A list of allergies
-	 * 
-	 * @throws ResourceNotFoundException if the person was not found in database
+	 * @param firstName			String : First name of the person
+	 * @param lastName			String : Last name of the person
+	 * @return					List<Allergy> : Allergies for the given person
+	 * @throws 					ResourceMalformedException : an error is thrown if the request is incorrect
 	 */
 	@GetMapping(path = "/{firstName}/{lastName}/allergies")
 	public ResponseEntity<List<Allergy>> getPersonAllergies(@PathVariable("firstName") String firstName,
 			@PathVariable("lastName") String lastName) {
 
-		Person person = personService.getPersonFromDatabase(firstName, lastName);
-		if (person != null) {
+		// Checking if the request is not malformed or not null
+		if(firstName != null && lastName != null) {
+			
+			Person person = personService.getPersonFromDatabase(firstName, lastName);
+			
 			List<Allergy> allergies = allergyService.getAllPersonAllergies(person);
 			return new ResponseEntity<List<Allergy>>(allergies, HttpStatus.FOUND);
 		}
-		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
+	
+		log.error("[ALLERGIES] Request to get allergies is malformed");
+		throw new ResourceMalformedException(ExceptionMessages.PERSON_MALFORMED_REQUEST);
 	}
 	
-	/**
-	 * This method returns medications for a given person
-	 * 
-	 * @param firstName The first name of the person
-	 * @param lastName  The last name of the person
-	 * 
-	 * @return A list of medications
-	 * 
-	 * @throws ResourceNotFoundException if the person was not found in database
-	 */
-	@GetMapping(path = "/{firstName}/{lastName}/medications")
-	public ResponseEntity<List<Medication>> getPersonMedications(@PathVariable("firstName") String firstName,
-			@PathVariable("lastName") String lastName) {
+	// TODO [US] : GET MEDICATIONS
 
-		Person person = personService.getPersonFromDatabase(firstName, lastName);
-		if (person != null) {
-			List<Medication> medications = medicationService.findPersonMedications(person);
-			return new ResponseEntity<List<Medication>>(medications, HttpStatus.FOUND);
-		}
-		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
-	}
-	
-	// TODO [US] : Put Mapping for Medications
-	/*
-	 * @PutMapping(path = "/{firstName}/{lastName}/medications") public
-	 * ResponseEntity<List<Medication>>
-	 * updatePersonMedications(@PathVariable("firstName") String firstName,
-	 * 
-	 * @PathVariable("lastName") String lastName, @RequestBody List<MedicationDto>
-	 * medicationDto) {
-	 * 
-	 * Person person = personService.getPersonFromDatabase(firstName, lastName); if
-	 * (person != null) {
-	 * 
-	 * List<Medication> personMedication = new ArrayList<Medication>();
-	 * medicationDto.forEach(medication -> { medication.setPerson(person.getId());
-	 * personMedication.add(modelMapper.map(medication, Medication.class)); });
-	 * 
-	 * person.setMedications(personMedication); personService.updatePerson(person);
-	 * return new ResponseEntity<List<Medication>>(personMedication, HttpStatus.OK);
-	 * } return null; }
-	 */
-		
 	/**
-	 * This method deletes an allergy for a given person
+	 * Delete an allergy for a given person
 	 * 
-	 * @param firstName The first name of the person
-	 * @param lastName  The last name of the person
-	 * 
-	 * @return
-	 * 
-	 * @throws ResourceNotFoundException if the person was not found in database
-	 * @throws ResourceNotFoundException if the allergy for the given person was not
-	 *                                   found
+	 * @param firstName			String : First name of the person
+	 * @param lastName			String : Last name of the person
+	 * @param name				String : Allergy's name
+	 * @return					ResponseEntity
+	 * @throws 					ResourceMalformedException : an error is thrown if the request is incorrect
 	 */
 	@DeleteMapping(path = "/{firstName}/{lastName}/allergies/{name}")
 	public ResponseEntity<String> deletePersonAllergy(@PathVariable("firstName") String firstName,
 			@PathVariable("lastName") String lastName, @PathVariable("name") String name) {
 
-		// Checking if the person exists
-		Person person = personService.getPersonFromDatabase(firstName, lastName);
-		if (person != null) {
-
-			// Checking if the person has the specified allergy
-			if (allergyService.getPersonAllergy(person, name) != null) {
-
-				// Deleting allergy if found and updating person
-				allergyService.deletePersonAllergy(person, name);
-				personService.updatePerson(person);
-
-				// Logging the request
-				log.info("[DELETE /MEDICALRECORD] Deleted allergy '{}' for {} {}", name, firstName, lastName);
-
-				return new ResponseEntity<String>("Deleted Allergy : " + name + " for " + firstName + " " + lastName,
-						HttpStatus.OK);
-			}
-			// Logging the error
-			log.error("[DELETE /MEDICALRECORD] Allergy '{}' was not found for {} {}", name, firstName, lastName);
-			throw new ResourceNotFoundException(ExceptionMessages.ALLERGY_NOT_FOUND);
+		if (firstName != null && lastName != null && name != null) 
+		{
+			Person person = personService.getPersonFromDatabase(firstName, lastName);
+			
+			// Deleting a person allergy by its name
+			allergyService.deletePersonAllergy(person, name);
+			
+			return new ResponseEntity<String>("Deleted Allergy : " + name + " for " + firstName + " " + lastName,
+					HttpStatus.OK);
 		}
-		// Logging the error
-		log.error("[DELETE /MEDICALRECORD] Person with name '{} {}' was not found in database", firstName, lastName);
-		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
+		
+		log.error("[ALLERGIES] Request to get allergies is malformed");
+		throw new ResourceMalformedException(ExceptionMessages.ALLERGY_MALFORMED_REQUEST);
 	}
 }

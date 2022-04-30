@@ -15,4 +15,8 @@ public class ExceptionMessages {
 	public final static String FIRESTATION_MALFORMED_REQUEST = "The request for this firestation is malformed";
 	
 	public final static String PERSON_MALFORMED_REQUEST = "The request for this person is malformed";
+	
+	public final static String ALLERGY_MALFORMED_REQUEST = "The request for this allergy is malformed";
+	
+	public final static String MEDICALRECORD_MALFORMED_REQUEST = "The request for this allergy is malformed";
 }
