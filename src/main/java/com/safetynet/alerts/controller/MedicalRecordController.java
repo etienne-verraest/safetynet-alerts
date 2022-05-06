@@ -66,15 +66,15 @@ public class MedicalRecordController {
 				
 			// Creating a new empty list to add our allergies
 			List<Allergy> personAllergies = new ArrayList<Allergy>();
-
-			// Mapping Allergies : if the allergy already exists, we skip it
-			medicalRecordDto.getAllergies().forEach(allergyDto -> {
-				if (allergyService.getPersonAllergy(person, allergyDto.getName()) == null) {
+			
+			// Mapping allergies : if the allergy already exists, we skip it
+			medicalRecordDto.getAllergies().stream()
+			.filter(allergyDto -> allergyService.getPersonAllergy(person, allergyDto.getName()) == null)
+			.forEach(allergyDto -> { 
 					allergyDto.setPerson(person.getId());
 					personAllergies.add(modelMapper.map(allergyDto, Allergy.class));
-				}
-			});
-			
+				});
+				
 			// We won't call the service if there is nothing to update
 			if(personAllergies.size() > 0) {
 				allergyService.savePersonAllergies(person, personAllergies);
