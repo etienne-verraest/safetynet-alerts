@@ -33,11 +33,13 @@ public class PersonService {
 	 *         null
 	 */
 	public Person getPersonFromDatabase(String firstName, String lastName) {		
+		
 		PersonId id = new PersonId(firstName, lastName);
 		if(personRepository.findPersonById(id) != null) {
 			log.info("[PERSON] Fetching person from database : {} {}", firstName, lastName);
 			return personRepository.findPersonById(id);
 		}		
+		
 		log.error("[PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
 		return null;
 	}
@@ -95,6 +97,7 @@ public class PersonService {
 			return personRepository.save(personEntity);
 		
 		}		
+		
 		log.error("[PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
 		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
@@ -113,6 +116,7 @@ public class PersonService {
 			personRepository.delete(person);
 			return;
 		}
+		
 		log.error("[PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
 		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
