@@ -20,16 +20,11 @@ public class AllergyService {
 	@Autowired
 	AllergyRepository allergyRepository;
 
-	@Autowired
-	PersonService personService;
-
 	/**
 	 * Get every allergies for a given person
 	 * 
-	 * @param personEntity		A Person Object (must be entity)
-	 * @return					List<Allergy> a list of allergies 
-	 * 	 
-	 * 
+	 * @param personEntity A Person Object (must be an entity)
+	 * @return List<Allergy> a list of allergies
 	 */
 	public List<Allergy> getAllPersonAllergies(Person personEntity) {
 
@@ -45,9 +40,9 @@ public class AllergyService {
 	/**
 	 * Get a single allergy for a person
 	 * 
-	 * @param personEntity		A Person Object (must be entity)
-	 * @param allergyName		A String with the desired allergy name
-	 * @return					The desired allergy, if it exists in database
+	 * @param personEntity A Person Object (must be entity)
+	 * @param allergyName  A String with the desired allergy name
+	 * @return The desired allergy, if it exists in database
 	 */
 	public Allergy getPersonAllergy(Person personEntity, String allergyName) {
 
@@ -61,8 +56,8 @@ public class AllergyService {
 	/**
 	 * Delete a single allergy for a person
 	 * 
-	 * @param personEntity		A Person Object (must be entity)
-	 * @param allergyName		A String with the desired allergy name
+	 * @param personEntity A Person Object (must be entity)
+	 * @param allergyName  A String with the desired allergy name
 	 */
 	public void deletePersonAllergy(Person personEntity, String allergyName) {
 
@@ -76,9 +71,6 @@ public class AllergyService {
 				// Deleting the allergy
 				allergyRepository.deleteByPersonAndName(personEntity, allergyName);
 				log.info("[ALLERGIES] Deleted allergy '{}' for {} {}", allergyName, firstName, lastName);
-				
-				// Updating person Entity
-				personService.updatePerson(personEntity);
 				return;
 			}
 
@@ -92,9 +84,9 @@ public class AllergyService {
 	/**
 	 * Save person allergies
 	 * 
-	 * @param personEntity		A Person Object (must be entity)
-	 * @param allergies			A List<Allergy> we want to save to our Person
-	 * @return					List<Allergy> containg all saved allergies
+	 * @param personEntity A Person Object (must be entity)
+	 * @param allergies    A List<Allergy> we want to save to our Person
+	 * @return List<Allergy> containg all saved allergies
 	 */
 	public List<Allergy> savePersonAllergies(Person personEntity, List<Allergy> allergies) {
 
@@ -114,8 +106,8 @@ public class AllergyService {
 						personEntity.getId().getFirstName(), personEntity.getId().getLastName());
 			});
 
-			// Updating our person with person service
-			personService.updatePerson(personEntity);
+			// Saving the new allergies
+			allergyRepository.saveAll(personAllergies);
 			return personAllergies;
 		}
 

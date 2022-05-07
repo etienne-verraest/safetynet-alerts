@@ -16,5 +16,5 @@ public interface AllergyRepository extends CrudRepository<Allergy, Integer>{
 	Allergy findByPersonAndName(Person person, String allergyName);
 	
 	void deleteByPersonAndName(Person person, String allergyName);
-	
+			
 }
