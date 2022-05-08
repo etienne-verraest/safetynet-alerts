@@ -1,6 +1,6 @@
 package com.safetynet.alerts.model.dto;
 
-import com.safetynet.alerts.mapper.PersonId;
+import com.safetynet.alerts.model.Person;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MedicationDto {
 	
-	private PersonId person;
+	private Person person;
 	
 	private String namePosology;
 
