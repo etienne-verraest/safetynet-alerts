@@ -53,8 +53,7 @@ public class FirestationController {
 			return new ResponseEntity<Firestation>(firestation, HttpStatus.CREATED);
 		}
 
-		// Logging the error if firestationDto is malformed
-		log.error("[POST /FIRESTATION] Request body of the firestation is malformed");
+		log.error("[FIRESTATION] Request body of the firestation is malformed");
 		throw new ResourceMalformedException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
 	}
 
@@ -72,8 +71,7 @@ public class FirestationController {
 			return new ResponseEntity<Firestation>(firestation, HttpStatus.ACCEPTED);
 		}
 
-		// Logging the error if firestationDto is malformed
-		log.error("[PUT /FIRESTATION] Request to update firestation is malformed");
+		log.error("[FIRESTATION] Request to update firestation is malformed");
 		throw new ResourceMalformedException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
 	}
 
@@ -89,8 +87,7 @@ public class FirestationController {
 					HttpStatus.OK);
 		}
 
-		// Logging the error if the address is null
-		log.error("[DELETE /FIRESTATION] Request to delete firestation is malformed");
+		log.error("[FIRESTATION] Request to delete firestation is malformed");
 		throw new ResourceMalformedException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
 	}
 }

@@ -23,8 +23,8 @@ public class AllergyService {
 	/**
 	 * Get every allergies for a given person
 	 * 
-	 * @param personEntity A Person Object (must be an entity)
-	 * @return List<Allergy> a list of allergies
+	 * @param personEntity 			A Person Object (must be an entity)
+	 * @return 						List<Allergy> a list of allergies
 	 */
 	public List<Allergy> getAllPersonAllergies(Person personEntity) {
 
@@ -40,9 +40,9 @@ public class AllergyService {
 	/**
 	 * Get a single allergy for a person
 	 * 
-	 * @param personEntity A Person Object (must be entity)
-	 * @param allergyName  A String with the desired allergy name
-	 * @return The desired allergy, if it exists in database
+	 * @param personEntity 			A Person Object (must be entity)
+	 * @param allergyName  			A String with the desired allergy name
+	 * @return 						The allergy, if it exists in database
 	 */
 	public Allergy getPersonAllergy(Person personEntity, String allergyName) {
 
@@ -56,8 +56,8 @@ public class AllergyService {
 	/**
 	 * Delete a single allergy for a person
 	 * 
-	 * @param personEntity A Person Object (must be entity)
-	 * @param allergyName  A String with the desired allergy name
+	 * @param personEntity 			A Person Object (must be entity)
+	 * @param allergyName  			A String with the desired allergy name
 	 */
 	public void deletePersonAllergy(Person personEntity, String allergyName) {
 
@@ -65,10 +65,8 @@ public class AllergyService {
 			String firstName = personEntity.getId().getFirstName();
 			String lastName = personEntity.getId().getLastName();
 
-			// Checking if the allergy exists in database
 			if (getPersonAllergy(personEntity, allergyName) != null) {
 
-				// Deleting the allergy
 				allergyRepository.deleteByPersonAndName(personEntity, allergyName);
 				log.info("[ALLERGIES] Deleted allergy '{}' for {} {}", allergyName, firstName, lastName);
 				return;
@@ -84,31 +82,23 @@ public class AllergyService {
 	/**
 	 * Save person allergies
 	 * 
-	 * @param personEntity A Person Object (must be entity)
-	 * @param allergies    A List<Allergy> we want to save to our Person
-	 * @return List<Allergy> containg all saved allergies
+	 * @param personEntity 			A Person Object (must be entity)
+	 * @param allergies    			A List<Allergy> that we want to save for a person
+	 * @return 						List<Allergy> containg the new allergies
 	 */
 	public List<Allergy> savePersonAllergies(Person personEntity, List<Allergy> allergies) {
 
-		// Checking if person exists in database
 		if (personEntity != null) {
 
-			// Getting saved allergies and adding the new ones (list will be empty if
-			// allergies are non-existent)
-			List<Allergy> personAllergies = personEntity.getAllergies();
-			personAllergies.addAll(allergies);
+			allergies.stream().filter(allergy -> getPersonAllergy(personEntity, allergy.getName()) == null)
+					.forEach(allergy -> {
+						allergy.setPerson(personEntity);
+						allergyRepository.save(allergy);
+						log.info("[ALLERGIES] Adding allergy '{}' to {} {}", allergy.getName(),
+								personEntity.getId().getFirstName(), personEntity.getId().getLastName());
+					});
 
-			// Setting person allergy
-			personEntity.setAllergies(personAllergies);
-
-			allergies.stream().forEach(allergy -> {
-				log.info("[ALLERGIES] Adding allergy '{}' to {} {}", allergy.getName(),
-						personEntity.getId().getFirstName(), personEntity.getId().getLastName());
-			});
-
-			// Saving the new allergies
-			allergyRepository.saveAll(personAllergies);
-			return personAllergies;
+			return allergies;
 		}
 
 		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);

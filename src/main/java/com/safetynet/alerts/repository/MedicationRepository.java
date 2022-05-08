@@ -11,6 +11,8 @@ import com.safetynet.alerts.model.Person;
 @Repository
 public interface MedicationRepository extends CrudRepository<Medication, Integer> {
 		
-	List<Medication> findByPerson(Person person);
+	List<Medication> findAllByPerson(Person person);
+	
+	Medication findByPersonAndNamePosology(Person person, String medicationName);
 
 }
