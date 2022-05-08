@@ -25,8 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 public class FirestationController {
-
-	// TODO [CLEAN CODE] : Rewrite full java documentation on controllers and services
 	
 	@Autowired
 	private FirestationService firestationService;
@@ -34,21 +32,29 @@ public class FirestationController {
 	@Autowired
 	private ModelMapper modelMapper;
 
+	/**
+	 * Get a list of every firestation
+	 * 
+	 * @return						A List<Firestation> containing existing firestations
+	 */
 	@GetMapping
 	public List<Firestation> returnFirestations() {
 		return firestationService.getAllFirestation();
 	}
 
+	/**
+	 * Create a firestation
+	 * 
+	 * @param firestationDto		A FirestationDTO that contains informations about firestation	
+	 * @return						The newly created firestation
+	 */
 	@PostMapping(path = "/firestation")
 	public ResponseEntity<Firestation> createFirestation(@RequestBody FirestationDto firestationDto) {
 
-		// Checking if the RequestBody is not null
 		if (firestationDto != null) {
 
-			// Mapping DTO to Entity
 			Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
 
-			// Returning the result
 			Firestation firestation = firestationService.createFirestation(firestationRequestBody);
 			return new ResponseEntity<Firestation>(firestation, HttpStatus.CREATED);
 		}
@@ -57,16 +63,19 @@ public class FirestationController {
 		throw new ResourceMalformedException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
 	}
 
+	/**
+	 * Update a firestation
+	 * 
+	 * @param firestationDto		A FirestationDTO that contains informations about firestation
+	 * @return						The updated firestation
+	 */
 	@PutMapping(path = "/firestation")
 	public ResponseEntity<Firestation> updateFirestation(@RequestBody FirestationDto firestationDto) {
 
-		// Checking if the request body is not null
 		if (firestationDto != null) {
 
-			// Mapping DTO to Entity
 			Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
 
-			// Returning the result
 			Firestation firestation = firestationService.updateFirestation(firestationRequestBody);
 			return new ResponseEntity<Firestation>(firestation, HttpStatus.ACCEPTED);
 		}
@@ -75,13 +84,17 @@ public class FirestationController {
 		throw new ResourceMalformedException(ExceptionMessages.FIRESTATION_MALFORMED_REQUEST);
 	}
 
+	/**
+	 * Delete a firestation by its address
+	 * 
+	 * @param address				String : the address of the firestation
+	 * @return						A 201 HTTP CODE, meaning the firestation has been deleted
+	 */
 	@DeleteMapping(path = "/firestation/{address}")
 	public ResponseEntity<String> deleteFirestation(@PathVariable("address") String address) {
 
-		// Checking if the address is non null
 		if (address != null) {
 
-			// Returning the result
 			firestationService.deleteFirestation(address);
 			return new ResponseEntity<String>("Firestation with address '" + address + "' has been deleted",
 					HttpStatus.OK);

@@ -44,8 +44,7 @@ public class PersonControllerTest {
 	@BeforeEach
 	void setup() {
 
-		// A list of Person we are going to test (John Dummy, Emma Dummy)
-		String[] names = new String[] { "John", "Emma" };
+		String[] names = new String[] { "Alpha", "Bravo" };
 		for (int i = 0; i < 2; i++) {
 			Person person = new Person();
 
@@ -70,11 +69,11 @@ public class PersonControllerTest {
 			listOfPerson.add(person);
 		}
 
-		// The unique Person we are going to test (Fred Dummy)
+		// The unique Person we are going to test
 		person = new Person();
 
 		// Person ID
-		PersonId personId = new PersonId("Fred", "Dummy");
+		PersonId personId = new PersonId("Alpha", "Dummy");
 		person.setId(personId);
 
 		// Personal informations
@@ -92,7 +91,6 @@ public class PersonControllerTest {
 		person.setMedications(medications);
 	}
 
-	// In this case we are going to test the values of our listOfPerson
 	@Test
 	void performGetAll_ShouldReturn_Status200() throws Exception {
 
@@ -103,11 +101,10 @@ public class PersonControllerTest {
 		mockMvc.perform(get("/person").header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$").isArray())
-				.andExpect(jsonPath("$[0].id.firstName").value("John"))
-				.andExpect(jsonPath("$[1].id.firstName").value("Emma"));
+				.andExpect(jsonPath("$[0].id.firstName").value("Alpha"))
+				.andExpect(jsonPath("$[1].id.firstName").value("Bravo"));
 	}
 
-	// In this case we are going to test the values for Fred Dummy
 	@Test
 	void performUnitGet_ShouldReturn_Status302() throws Exception {
 	
@@ -118,14 +115,13 @@ public class PersonControllerTest {
 		String firstName = person.getId().getFirstName();
 		String lastName = person.getId().getLastName();
 		
-		mockMvc.perform(get(String.format("/person/%s/%s", firstName, lastName))
+		mockMvc.perform(get(String.format("/personInfo?firstName=%s&lastName=%s", firstName, lastName))
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
 				.andExpect(status().isFound())
 				.andExpect(jsonPath("$.id.firstName").value(firstName))
 				.andExpect(jsonPath("$.id.lastName").value(lastName));
 	}
 	
-	// In this case we are going to test the values for an unexisting person
 	@Test
 	void performUnitGet_ShouldReturn_Status404() throws Exception {
 	
@@ -133,10 +129,7 @@ public class PersonControllerTest {
 		when(personService.getPersonFromDatabase(anyString(), anyString())).thenReturn(null);
 
 		// ACT AND ASSERT
-		String firstName = "Alpha";
-		String lastName = "Dummy";
-		
-		mockMvc.perform(get(String.format("/person/%s/%s", firstName, lastName))
+		mockMvc.perform(get(String.format("/personInfo?firstName=%s&lastName=%s", "Zulu", "Foxtrot"))
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
 				.andExpect(status().isNotFound());
 	}

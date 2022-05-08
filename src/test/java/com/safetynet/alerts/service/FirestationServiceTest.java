@@ -2,10 +2,10 @@ package com.safetynet.alerts.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -20,6 +20,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.safetynet.alerts.exception.ResourceAlreadyExistingException;
+import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.repository.FirestationRepository;
 
@@ -93,7 +95,9 @@ class FirestationServiceTest {
 	
 	@Test
 	void testCreateFirestation_ShouldReturn_NewFirestation() {
+		
 		// ARRANGE
+		when(firestationRepository.findByAddress(anyString())).thenReturn(null);
 		when(firestationRepository.save(any(Firestation.class))).thenReturn(firestation);
 
 		// ACT
@@ -105,9 +109,22 @@ class FirestationServiceTest {
 	}
 	
 	@Test
+	void testCreateFirestation_ShouldReturn_ResourceAlreadyExistingException() {
+		
+		// ARRANGE
+		when(firestationRepository.findByAddress(anyString())).thenReturn(firestation);
+		
+		// ACT and ASSERT
+		assertThrows(ResourceAlreadyExistingException.class, () -> firestationService.createFirestation(firestation));
+		
+	}
+	
+	@Test
 	void testUpdateFirestation_ShouldReturn_UpdatedFirestation() {
+		
 		// ARRANGE
 		firestation.setAddress("123 New Address");
+		when(firestationRepository.findByAddress(anyString())).thenReturn(firestation);
 		when(firestationRepository.save(any(Firestation.class))).thenReturn(firestation);
 
 		// ACT
@@ -119,26 +136,38 @@ class FirestationServiceTest {
 	}
 	
 	@Test
-	void testUpdateFirestation_ShouldReturn_Null() {
+	void testUpdateFirestation_ShouldReturn_ResourceNotFoundException() {
+		
 		// ARRANGE
-		lenient().when(firestationRepository.save(any(Firestation.class))).thenReturn(null);
-		
-		// ACT
-		Firestation response = firestationService.updateFirestation(null);
-		
-		// ASSERT
-		assertNull(response);	
+		when(firestationRepository.findByAddress(anyString())).thenReturn(null);
+				
+		// ACT and ASSERT
+		assertThrows(ResourceNotFoundException.class, () -> firestationService.updateFirestation(firestation));
 	}
 	
-	/*
-	 * @Disabled
-	 * 
-	 * @Test void testDeleteFirestation_VerifyThat_MethodIsCalled() { // ARRANGE
-	 * doNothing().when(firestationRepository).delete(firestation);
-	 * 
-	 * // ACT firestationService.deleteFirestation(firestation);
-	 * 
-	 * // ASSERT verify(firestationRepository, times(1)).delete(firestation); }
-	 */
+
+	 @Test 
+	 void testDeleteFirestation_VerifyThat_MethodIsCalled() { 
+		
+		 // ARRANGE
+		 when(firestationRepository.findByAddress(anyString())).thenReturn(firestation);
+		 doNothing().when(firestationRepository).delete(firestation);
+		
+		 // ACT 
+		 firestationService.deleteFirestation(FIRESTATION_ADDRESS);
+		
+		 // ASSERT
+		 verify(firestationRepository, times(1)).delete(firestation);
+	 }
+	 
+	 @Test
+	 void testDeleteFirestation_ShouldReturn_ResourceNotFoundException() {
+		
+		 // ARRANGE
+		 when(firestationRepository.findByAddress(anyString())).thenReturn(null);
+		 
+		 // ACT and ASSERT
+		 assertThrows(ResourceNotFoundException.class, () -> firestationService.deleteFirestation("Zulu Foxtrot"));
+	 }
 
 }

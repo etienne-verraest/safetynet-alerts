@@ -3,9 +3,12 @@ package com.safetynet.alerts.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -18,6 +21,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.safetynet.alerts.exception.ResourceAlreadyExistingException;
+import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.mapper.PersonId;
 import com.safetynet.alerts.model.Allergy;
 import com.safetynet.alerts.model.Medication;
@@ -55,11 +60,9 @@ public class PersonServiceTest {
 	void setup() {
 
 		// Names of our dummy person
-		String[] names = new String[] { "John", "Emma" };
-
-		// Creating 2 persons with hand-filled datas
+		String[] names = new String[] { "Alpha", "Bravo" };
 		for (int i = 0; i < 2; i++) {
-			person = new Person();
+			Person person = new Person();
 
 			// Person ID
 			PersonId personId = new PersonId(names[i], "Dummy");
@@ -81,10 +84,33 @@ public class PersonServiceTest {
 
 			listOfPerson.add(person);
 		}
+		
+		// Value of the person we will test unitarily
+		person = new Person();
+
+		// Person ID
+		PersonId personId = new PersonId("Alpha", "Dummy");
+		person.setId(personId);
+
+		// Personal informations
+		person.setAddress("123 Dummy Address");
+		person.setCity("Liverpool");
+		person.setZip("000000");
+		person.setPhone("0102030405");
+		person.setEmail("dummy-name@gmail.com");
+		person.setBirthdate("16/02/1998");
+
+		// Allergies and medications
+		List<Allergy> allergies = new ArrayList<Allergy>();
+		List<Medication> medications = new ArrayList<Medication>();
+		person.setAllergies(allergies);
+		person.setMedications(medications);
+		
 	}
 	
 	@Test
 	void testGetPersonFromDatabase_ShouldReturn_DummyUser() {
+		
 		// ARRANGE
 		String firstName = person.getId().getFirstName();
 		String lastName = person.getId().getLastName();
@@ -97,6 +123,20 @@ public class PersonServiceTest {
 		// ASSERT
 		assertTrue(response.getId().getFirstName().equals(firstName));
 		assertTrue(response.getId().getLastName().equals(lastName));
+	}
+	
+	@Test
+	void testGetPersonFromDatabase_ShouldReturn_Null() {
+		
+		// ARRANGE
+		when(personRepository.findPersonById(any(PersonId.class))).thenReturn(null);
+		
+		// ACT
+		Person response = personService.getPersonFromDatabase("Zulu", "Dummy");
+		
+		// ASSERT
+		assertNull(response);
+	
 	}
 
 	@Test
@@ -114,7 +154,9 @@ public class PersonServiceTest {
 
 	@Test
 	void testCreatePerson_ShouldReturn_NewPerson() {
+		
 		// ARRANGE
+		when(personRepository.findPersonById(any(PersonId.class))).thenReturn(null);
 		when(personRepository.save(any(Person.class))).thenReturn(person);
 
 		// ACT
@@ -124,11 +166,24 @@ public class PersonServiceTest {
 		assertNotNull(response);
 		assertTrue(response.getCity().equals("Liverpool"));
 	}
-
+	
+	@Test
+	void testCreatePerson_ShouldReturn_ResourceAlreadyExistingException() {
+		
+		// ARRANGE
+		when(personRepository.findPersonById(any(PersonId.class))).thenReturn(person);
+		
+		// ACT AND ASSERT
+		assertThrows(ResourceAlreadyExistingException.class, () -> personService.createPerson(person));
+		
+	}
+	
 	@Test
 	void testUpdatePerson_ShouldReturn_UpdatedPerson() {
+		
 		// ARRANGE
 		person.setCity("Manchester");
+		when(personRepository.findPersonById(any(PersonId.class))).thenReturn(person);
 		when(personRepository.save(any(Person.class))).thenReturn(person);
 
 		// ACT
@@ -140,24 +195,39 @@ public class PersonServiceTest {
 	}
 	
 	@Test
-	void testUpdatePerson_ShouldReturn_Null() {
+	void testUpdatePerson_ShouldReturn_ResourceNotFoundException() {
+		
 		// ARRANGE
-		lenient().when(personRepository.save(any(Person.class))).thenReturn(null);
-		
-		// ACT
-		Person response = personService.updatePerson(null);
-		
-		// ASSERT
-		assertNull(response);
+		when(personRepository.findPersonById(any(PersonId.class))).thenReturn(null);
+			
+		// ACT and ASSERT
+		assertThrows(ResourceNotFoundException.class, () -> personService.updatePerson(person));
 		
 	}
 
-	/*
-	 * @Test void testDeletePerson_VerifyThat_MethodIsCalled() { // ARRANGE
-	 * doNothing().when(personRepository).delete(person);
-	 * 
-	 * // ACT personService.deletePerson(person);
-	 * 
-	 * // ASSERT verify(personRepository, times(1)).delete(person); }
-	 */
+	 @Test 
+	 void testDeletePerson_VerifyThat_MethodIsCalled() { 
+		 
+		 // ARRANGE
+		 when(personRepository.findPersonById(any(PersonId.class))).thenReturn(person);
+		 doNothing().when(personRepository).delete(person);
+	 
+		 // ACT 
+		 personService.deletePerson("Alpha", "Dummy");
+	 
+		 // ASSERT 
+		verify(personRepository, times(1)).delete(person); 
+	}
+	 
+	 @Test
+	 void testDeletePerson_ShouldReturn_ResourceNotFoundException() {
+		 
+		 // ARRANGE
+		 when(personRepository.findPersonById(any(PersonId.class))).thenReturn(null);
+		 
+		 // ACT and ASSERT
+		 assertThrows(ResourceNotFoundException.class, () -> personService.deletePerson("Zulu", "Dummy"));
+		 
+	 }
+	 
 }
