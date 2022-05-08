@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.exception.ExceptionMessages;
 import com.safetynet.alerts.exception.ResourceMalformedException;
+import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.model.dto.PersonDto;
 import com.safetynet.alerts.service.FirestationService;
@@ -49,7 +50,13 @@ public class PersonController {
 		// Checking if the parameters are non-null or not malformed
 		if(firstName.trim().isEmpty() == false & lastName.trim().isEmpty() == false) {		
 			Person person = personService.getPersonFromDatabase(firstName, lastName);		
-			return new ResponseEntity<Person>(person, HttpStatus.FOUND);
+			
+			if(person != null) {
+				return new ResponseEntity<Person>(person, HttpStatus.FOUND);
+			}
+			
+			log.error("[PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
+			throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 		}
 		
 		// Logging the error
