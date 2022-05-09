@@ -23,7 +23,7 @@ public class Allergy {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "allergy_id")
-	private String id;
+	private Integer id;
 
 	@Column
 	private String name;
