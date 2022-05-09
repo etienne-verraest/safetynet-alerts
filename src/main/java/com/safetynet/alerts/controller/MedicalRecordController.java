@@ -105,7 +105,7 @@ public class MedicalRecordController {
 		}
 
 		log.error("[ALLERGIES] Request to get allergies is malformed");
-		throw new ResourceMalformedException(ExceptionMessages.PERSON_MALFORMED_REQUEST);
+		throw new ResourceMalformedException(ExceptionMessages.ALLERGY_MALFORMED_REQUEST);
 	}
 
 	/**
@@ -128,8 +128,8 @@ public class MedicalRecordController {
 			return new ResponseEntity<List<Medication>>(medications, HttpStatus.FOUND);
 		}
 
-		log.error("[MEDICATION] Request to get allergies is malformed");
-		throw new ResourceMalformedException(ExceptionMessages.PERSON_MALFORMED_REQUEST);
+		log.error("[MEDICATIONS] Request to get medication is malformed");
+		throw new ResourceMalformedException(ExceptionMessages.MEDICATION_MALFORMED_REQUEST);
 	}
 
 	/**
@@ -154,7 +154,33 @@ public class MedicalRecordController {
 					HttpStatus.OK);
 		}
 
-		log.error("[ALLERGIES] Request to get allergies is malformed");
+		log.error("[ALLERGIES] Request to delete allergies is malformed");
 		throw new ResourceMalformedException(ExceptionMessages.ALLERGY_MALFORMED_REQUEST);
+	}
+	
+	/**
+	 * Delete a medication for a given person
+	 * 
+	 * @param firstName 			String : First name of the person
+	 * @param lastName  			String : Last name of the person
+	 * @param name      			String : Medication's namePosology
+	 * @return ResponseEntity
+	 * @throws 						ResourceMalformedException : an error is thrown if the request is incorrect
+	 */
+	@DeleteMapping(path = "/{firstName}/{lastName}/medications/{namePosology}")
+	public ResponseEntity<String> deletePersonMedication(@PathVariable("firstName") String firstName,
+			@PathVariable("lastName") String lastName, @PathVariable("namePosology") String namePosology) {
+
+		if (firstName != null && lastName != null && namePosology != null) {
+			Person person = personService.getPersonFromDatabase(firstName, lastName);
+
+			medicationService.deletePersonMedication(person, namePosology);
+
+			return new ResponseEntity<String>("Deleted medication : " + namePosology + " for " + firstName + " " + lastName,
+					HttpStatus.OK);
+		}
+
+		log.error("[MEDICATIONS] Request to delete medication is malformed");
+		throw new ResourceMalformedException(ExceptionMessages.MEDICATION_MALFORMED_REQUEST);
 	}
 }

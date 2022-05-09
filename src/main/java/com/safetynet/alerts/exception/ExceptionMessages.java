@@ -8,6 +8,8 @@ public class ExceptionMessages {
 	
 	public final static String ALLERGY_NOT_FOUND = "This allergy was not found in database";
 	
+	public final static String MEDICATION_NOT_FOUND = "This medication was not found in database";
+	
 	public final static String PERSON_FOUND = "This person is already registered in database";
 	
 	public final static String FIRESTATION_FOUND = "This fire station is already registered in database";
@@ -18,5 +20,7 @@ public class ExceptionMessages {
 	
 	public final static String ALLERGY_MALFORMED_REQUEST = "The request for this allergy is malformed";
 	
-	public final static String MEDICALRECORD_MALFORMED_REQUEST = "The request for this allergy is malformed";
+	public final static String MEDICATION_MALFORMED_REQUEST = "The request for this medication is malformed";
+	
+	public final static String MEDICALRECORD_MALFORMED_REQUEST = "The request for this medical record is malformed";
 }

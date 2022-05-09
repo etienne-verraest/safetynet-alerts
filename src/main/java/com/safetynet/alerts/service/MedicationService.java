@@ -52,6 +52,33 @@ public class MedicationService {
 
 		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
+	
+	/**
+	 * Delete a single medication for a person
+	 * 
+	 * @param personEntity 			A Person Object (must be entity)
+	 * @param namePosology 			A String with the desired namePosology
+	 */
+	public void deletePersonMedication(Person personEntity, String namePosology) {
+
+		if (personEntity != null) {
+			
+			String firstName = personEntity.getId().getFirstName();
+			String lastName = personEntity.getId().getLastName();
+
+			if (getPersonMedication(personEntity, namePosology) != null) {
+
+				medicationRepository.deleteByPersonAndNamePosology(personEntity, namePosology);
+				log.info("[MEDICATION] Deleted medication '{}' for {} {}", namePosology, firstName, lastName);
+				return;
+			}
+
+			log.error("[MEDICATION] Medication '{}' was not found for {} {}", namePosology, firstName, lastName);
+			throw new ResourceNotFoundException(ExceptionMessages.MEDICATION_NOT_FOUND);
+		}
+
+		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
+	}
 
 	/**
 	 * Save person medications
