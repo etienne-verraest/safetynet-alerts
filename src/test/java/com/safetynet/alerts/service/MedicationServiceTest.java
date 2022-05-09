@@ -4,6 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -97,6 +100,37 @@ class MedicationServiceTest {
 		
 		// ACT and ASSERT
 		assertThrows(ResourceNotFoundException.class, () -> medicationService.getPersonMedication(null, "Doliprane:1g"));
+	}
+	
+	@Test
+	void testDeletePersonMedication_ShouldReturn_Void() {
+		// ARRANGE
+		when(medicationRepository.findByPersonAndNamePosology(any(Person.class), anyString())).thenReturn(medications.get(0));
+		doNothing().when(medicationRepository).deleteByPersonAndNamePosology(any(Person.class), anyString());
+		
+		// ACT
+		medicationService.deletePersonMedication(person, "Doliprane:1g");
+		
+		// ASSERT
+		verify(medicationRepository, times(1)).deleteByPersonAndNamePosology(person, "Doliprane:1g");
+	}
+	
+	@Test
+	void testDeletePersonMedication_ButPersonIsNull() {
+		
+		// ACT and ASSERT
+		assertThrows(ResourceNotFoundException.class, () -> medicationService.deletePersonMedication(null, null));
+	}
+	
+	@Test
+	void testDeletePersonMedication_ShouldReturn_MedicationNotFound() {
+		
+		// ARRANGE
+		when(medicationRepository.findByPersonAndNamePosology(any(Person.class), anyString())).thenReturn(null);
+		
+		// ACT and ASSERT
+		assertThrows(ResourceNotFoundException.class, () -> medicationService.deletePersonMedication(person, "Unknown Medication"));
+
 	}
 
 	@Test

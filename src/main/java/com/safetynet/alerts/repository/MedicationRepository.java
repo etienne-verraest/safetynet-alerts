@@ -13,6 +13,8 @@ public interface MedicationRepository extends CrudRepository<Medication, Integer
 		
 	List<Medication> findAllByPerson(Person person);
 	
-	Medication findByPersonAndNamePosology(Person person, String medicationName);
+	Medication findByPersonAndNamePosology(Person person, String namePosology);
+	
+	void deleteByPersonAndNamePosology(Person person, String namePosology);
 
 }
