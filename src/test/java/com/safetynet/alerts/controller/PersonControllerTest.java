@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,7 +32,6 @@ import com.safetynet.alerts.mapper.PersonId;
 import com.safetynet.alerts.model.Allergy;
 import com.safetynet.alerts.model.Medication;
 import com.safetynet.alerts.model.Person;
-import com.safetynet.alerts.service.FirestationService;
 import com.safetynet.alerts.service.PersonService;
 
 @WebMvcTest(controllers = PersonController.class)
@@ -47,9 +45,6 @@ public class PersonControllerTest {
 
 	@MockBean
 	private PersonService personService;
-
-	@MockBean
-	private FirestationService firestationService;
 
 	private Person person;
 
@@ -142,8 +137,7 @@ public class PersonControllerTest {
 
 		// ARRANGE
 		String firstName = "Zulu";
-		String lastName = "Foxtrot";
-		
+		String lastName = "Foxtrot";	
 		when(personService.getPersonFromDatabase(anyString(), anyString())).thenReturn(null);
 
 		// ASSERT
@@ -153,6 +147,22 @@ public class PersonControllerTest {
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
 			).andExpect(status().isNotFound());
 	}
+	
+	@Test
+	void performUnitGet_ShouldReturn_StatusBadRequest() throws Exception {
+
+		// ARRANGE
+		String firstName = "";
+		String lastName = "";	
+		when(personService.getPersonFromDatabase(anyString(), anyString())).thenReturn(null);
+
+		// ASSERT
+		mockMvc.perform(get("/personInfo")
+				.param("firstName", firstName)
+				.param("lastName", lastName)
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+			).andExpect(status().isBadRequest());
+	}
 
 	@Test
 	void performPost_ShouldReturn_StatusCreated() throws Exception {
@@ -161,7 +171,6 @@ public class PersonControllerTest {
 		when(personService.createPerson(any(Person.class))).thenReturn(person);
 
 		// ACT
-		// Convert our person to a Json String
 		ObjectMapper objectMapper = new ObjectMapper();
 		String json = objectMapper.writeValueAsString(person);
 
@@ -178,7 +187,6 @@ public class PersonControllerTest {
 	void performPost_ShouldReturn_StatusBadRequest() throws Exception {
 
 		// ACT
-		// Convert our person to a Json String
 		ObjectMapper objectMapper = new ObjectMapper();
 		String json = objectMapper.writeValueAsString(null);
 
@@ -187,7 +195,7 @@ public class PersonControllerTest {
 				.content(json)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
-			).andDo(print())
+			)
 		.andExpect(status().isBadRequest());
 	}
 
@@ -199,7 +207,6 @@ public class PersonControllerTest {
 		when(personService.updatePerson(any(Person.class))).thenReturn(person);
 
 		// ACT
-		// Convert our person to a Json String
 		ObjectMapper objectMapper = new ObjectMapper();
 		String json = objectMapper.writeValueAsString(person);
 
@@ -216,7 +223,6 @@ public class PersonControllerTest {
 	void performPut_ShouldReturn_StatusBadRequest() throws Exception {
 
 		// ACT
-		// Convert our person to a Json String
 		ObjectMapper objectMapper = new ObjectMapper();
 		String json = objectMapper.writeValueAsString(null);
 
@@ -250,8 +256,8 @@ public class PersonControllerTest {
 	void performDelete_ShouldReturn_StatusBadRequest() throws Exception {
 
 		// ARRANGE
-		String firstName = null;
-		String lastName = null;
+		String firstName = "";
+		String lastName = "";
 
 		// ACT
 		mockMvc.perform(delete("/person")

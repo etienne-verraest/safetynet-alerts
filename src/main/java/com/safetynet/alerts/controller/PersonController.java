@@ -26,23 +26,35 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 public class PersonController {
-
+	
 	@Autowired
 	PersonService personService;
 
 	@Autowired
 	ModelMapper modelMapper;
 
+	/**
+	 * Get a list of every person
+	 * 
+	 * @return					A List<Person> containing all existing persons
+	 */
 	@GetMapping(path = "/person")
 	public List<Person> returnGetPeopleJson() {
 		return personService.getPeople();
 	}
 
+	/**
+	 * Get information for a given person
+	 * 
+	 * @param firstName			String : The first name of the person
+	 * @param lastName			String : The last name of the person
+	 * @return					A Person if it exists in database
+	 */
 	@GetMapping(path = "/personInfo")
 	public ResponseEntity<Person> findByFirstNameAndLastName(@RequestParam String firstName,
 			@RequestParam String lastName) {
 		
-		if(firstName.trim().isEmpty() == false & lastName.trim().isEmpty() == false) {		
+		if (!firstName.isBlank() && !lastName.isBlank()) {		
 			Person person = personService.getPersonFromDatabase(firstName, lastName);		
 			
 			if(person != null) {
@@ -57,12 +69,16 @@ public class PersonController {
 		throw new ResourceMalformedException(ExceptionMessages.PERSON_MALFORMED_REQUEST);
 	}
 
+	/**
+	 * Creates and populate a person in database
+	 * 
+	 * @param personDto			A Data Transfer Object class that contains informations we want to save
+	 * @return					A created peron
+	 */
 	@PostMapping(path = "/person")
 	public ResponseEntity<Person> createPerson(@RequestBody PersonDto personDto) {
 		
 		if (personDto != null) {
-			
-			// Mapping DTO -> Entity
 			Person personRequestBody = modelMapper.map(personDto, Person.class);
 			
 			Person person = personService.createPerson(personRequestBody);
@@ -74,12 +90,16 @@ public class PersonController {
 	}
 
 
+	/**
+	 * Updates a person in database
+	 * 
+	 * @param personDto			A Data Transfer Object class that contains informations we want to save
+	 * @return					An updated person
+	 */
 	@PutMapping("/person")
 	public ResponseEntity<Person> updatePerson(@RequestBody PersonDto personDto) {
 		
 		if (personDto != null) {		
-			
-			// Mapping DTO -> Entity
 			Person personRequestBody = modelMapper.map(personDto, Person.class);		
 			
 			Person person = personService.updatePerson(personRequestBody);	
@@ -90,12 +110,18 @@ public class PersonController {
 		throw new ResourceMalformedException(ExceptionMessages.PERSON_MALFORMED_REQUEST);
 	}
 
+	/**
+	 * Deletes a person in database
+	 * 
+	 * @param firstName			String : The first name of the person
+	 * @param lastName			String : The last name of the person
+	 * @return					A message that indicates that the person has been deleted
+	 */
 	@DeleteMapping(path = "/person")
 	public ResponseEntity<String> deletePerson(@RequestParam String firstName,
 			@RequestParam String lastName) {
 
-		if (firstName != null && lastName != null) {
-			
+		if (!firstName.isBlank() && !lastName.isBlank()) {
 			personService.deletePerson(firstName, lastName);
 			return new ResponseEntity<String>(firstName + " " + lastName + " was succesfully deleted", HttpStatus.OK);
 		}
