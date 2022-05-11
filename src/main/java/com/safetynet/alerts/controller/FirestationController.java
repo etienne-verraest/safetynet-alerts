@@ -8,10 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.exception.ExceptionMessages;
@@ -37,7 +37,7 @@ public class FirestationController {
 	 * 
 	 * @return						A List<Firestation> containing existing firestations
 	 */
-	@GetMapping
+	@GetMapping(path = "/firestation")
 	public List<Firestation> returnFirestations() {
 		return firestationService.getAllFirestation();
 	}
@@ -52,7 +52,6 @@ public class FirestationController {
 	public ResponseEntity<Firestation> createFirestation(@RequestBody FirestationDto firestationDto) {
 
 		if (firestationDto != null) {
-
 			Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
 
 			Firestation firestation = firestationService.createFirestation(firestationRequestBody);
@@ -73,7 +72,6 @@ public class FirestationController {
 	public ResponseEntity<Firestation> updateFirestation(@RequestBody FirestationDto firestationDto) {
 
 		if (firestationDto != null) {
-
 			Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
 
 			Firestation firestation = firestationService.updateFirestation(firestationRequestBody);
@@ -90,11 +88,10 @@ public class FirestationController {
 	 * @param address				String : the address of the firestation
 	 * @return						A 201 HTTP CODE, meaning the firestation has been deleted
 	 */
-	@DeleteMapping(path = "/firestation/{address}")
-	public ResponseEntity<String> deleteFirestation(@PathVariable("address") String address) {
+	@DeleteMapping(path = "/firestation")
+	public ResponseEntity<String> deleteFirestation(@RequestParam String address) {
 
 		if (address != null) {
-
 			firestationService.deleteFirestation(address);
 			return new ResponseEntity<String>("Firestation with address '" + address + "' has been deleted",
 					HttpStatus.OK);

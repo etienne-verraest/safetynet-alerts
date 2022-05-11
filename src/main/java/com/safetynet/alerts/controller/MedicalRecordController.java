@@ -97,7 +97,6 @@ public class MedicalRecordController {
 			@PathVariable("lastName") String lastName) {
 
 		if (firstName != null && lastName != null) {
-
 			Person person = personService.getPersonFromDatabase(firstName, lastName);
 
 			List<Allergy> allergies = allergyService.getAllPersonAllergies(person);
@@ -121,7 +120,6 @@ public class MedicalRecordController {
 			@PathVariable("lastName") String lastName) {
 
 		if (firstName != null && lastName != null) {
-
 			Person person = personService.getPersonFromDatabase(firstName, lastName);
 
 			List<Medication> medications = medicationService.getAllPersonMedications(person);
@@ -149,7 +147,6 @@ public class MedicalRecordController {
 			Person person = personService.getPersonFromDatabase(firstName, lastName);
 
 			allergyService.deletePersonAllergy(person, name);
-
 			return new ResponseEntity<String>("Deleted Allergy : " + name + " for " + firstName + " " + lastName,
 					HttpStatus.OK);
 		}
@@ -175,7 +172,6 @@ public class MedicalRecordController {
 			Person person = personService.getPersonFromDatabase(firstName, lastName);
 
 			medicationService.deletePersonMedication(person, namePosology);
-
 			return new ResponseEntity<String>("Deleted medication : " + namePosology + " for " + firstName + " " + lastName,
 					HttpStatus.OK);
 		}
