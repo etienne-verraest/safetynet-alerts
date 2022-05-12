@@ -125,10 +125,22 @@ public class PersonService {
 	/**
 	 * Get list of emails for a given city
 	 * 
-	 * @param city					The name of the city
+	 * @param city					String : the name of the city
 	 * @return						List<String> of emails for the given city
 	 */
 	public List<String> getEmailsByCity(String city) {
+		log.info("[COMMUNITY EMAIL] Getting emails of {} residents", city);
 		return personRepository.findEmailByCity(city);
+	}
+	
+	/**
+	 * Get every person for a given address
+	 * 
+	 * @param address				String : the desired address
+	 * @return						List<Person> of people living at this address
+	 */
+	public List<Person> findPersonByAddress(String address) {
+		log.info("[PERSON] Getting people living at address : {}", address);
+		return personRepository.findAllByAddress(address);
 	}
 }

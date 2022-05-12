@@ -25,8 +25,8 @@ public class FirestationService {
 	/**
 	 * Find a fire station by its address
 	 * 
-	 * @param address	The address of the fire station
-	 * @return			a fire station if it exists
+	 * @param address				The address of the fire station
+	 * @return						a fire station if it exists
 	 */
 	public Firestation findFirestationByAddress(String address) {
 		return firestationRepository.findByAddress(address);		
@@ -35,7 +35,7 @@ public class FirestationService {
 	/**
 	 * Fetch all fire station saved in database
 	 * 
-	 * @return				a list of available fire stations
+	 * @return						a list of available fire stations
 	 */
 	public List<Firestation> getAllFirestation() {
 		log.info("[FIRESTATION] Fetching all firestations");
@@ -45,8 +45,8 @@ public class FirestationService {
 	/**
 	 * Create a new fire station mapping based on address
 	 * 
-	 * @param firestation	a "Firestation" object
-	 * @return				a "Firestation" object if it doesn't exist
+	 * @param firestation			a "Firestation" object
+	 * @return						a "Firestation" object if it doesn't exist
 	 */
 	public Firestation createFirestation(Firestation firestationEntity) {
 		
@@ -63,8 +63,8 @@ public class FirestationService {
 	/**
 	 * Update a fire station if it exists
 	 * 
-	 * @param firestation	a "Firestation" object
-	 * @return				True if a firestation has been found and updated
+	 * @param firestation			a "Firestation" object
+	 * @return						True if a firestation has been found and updated
 	 */
 	public Firestation updateFirestation(Firestation firestationEntity) {				
 		
@@ -81,12 +81,13 @@ public class FirestationService {
 	/**
 	 * Delete a fire station in database
 	 * 
-	 * @param  address	The address of the fire station
-	 * @return 
+	 * @param  address				String : The address of the fire station
+	 * 
 	 */
 	public void deleteFirestation(String address) {						
 		
 		Firestation firestation = findFirestationByAddress(address);				
+		
 		if(firestation != null) {
 			log.info("[FIRESTATION] Deleted fire station with address : '{}'", address);
 			firestationRepository.delete(firestation);
@@ -95,5 +96,27 @@ public class FirestationService {
 		
 		log.error("[FIRESTATION] Could not delete firestation with address '{}'", address);
 		throw new ResourceNotFoundException(ExceptionMessages.FIRESTATION_NOT_FOUND);
+	}
+	
+	/**
+	 * Get the firestation number for a given address
+	 * 
+	 * @param address				String : The address we want to check
+	 * @return						Integer : a station number if there is a matching address
+	 */
+	public Integer getFirestationNumber(String address) {
+		log.info("[FIRESTATION] Getting station number for address : {} ", address);
+		return firestationRepository.findStationNumberByAddress(address);
+	}
+	
+	/**
+	 * Get a list of addresses served by a firestation
+	 * 
+	 * @param stationNumber			Integer : The desired firestationNumber
+	 * @return						List<String> list of matching addresses
+	 */
+	public List<String> getAddressesFromFirestationNumber(Integer stationNumber) {
+		log.info("[FIRESTATION] Getting addresses for station number {} ", stationNumber);
+		return firestationRepository.findAddressesByStationNumber(stationNumber);
 	}
 }

@@ -41,7 +41,7 @@ public class FirestationController {
 	public List<Firestation> returnFirestations() {
 		return firestationService.getAllFirestation();
 	}
-
+	
 	/**
 	 * Create a firestation
 	 * 
