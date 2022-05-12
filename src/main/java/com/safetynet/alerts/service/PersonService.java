@@ -121,4 +121,14 @@ public class PersonService {
 		log.error("[PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
 		throw new ResourceNotFoundException(ExceptionMessages.PERSON_NOT_FOUND);
 	}
+	
+	/**
+	 * Get list of emails for a given city
+	 * 
+	 * @param city					The name of the city
+	 * @return						List<String> of emails for the given city
+	 */
+	public List<String> getEmailsByCity(String city) {
+		return personRepository.findEmailByCity(city);
+	}
 }
