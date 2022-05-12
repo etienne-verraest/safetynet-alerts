@@ -23,4 +23,6 @@ public class ExceptionMessages {
 	public final static String MEDICATION_MALFORMED_REQUEST = "The request for this medication is malformed";
 	
 	public final static String MEDICALRECORD_MALFORMED_REQUEST = "The request for this medical record is malformed";
+	
+	public final static String COMMIUNITYEMAIL_MALFORMED_REQUEST = "The request to get emails by city is malformed";
 }

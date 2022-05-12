@@ -129,4 +129,23 @@ public class PersonController {
 		log.error("[DELETE /PERSON] Request to delete person is malformed");
 		throw new ResourceMalformedException(ExceptionMessages.PERSON_MALFORMED_REQUEST);
 	}
+	
+	/**
+	 * Get mail addresses for a given city
+	 * 
+	 * @param city			String : The name of the city
+	 * @return				List<String> of request emails
+	 */
+	@GetMapping(path = "/communityEmail")
+	public ResponseEntity<List<String>> getEmails(@RequestParam String city) {
+		
+		if (!city.isBlank()) {		
+
+			List<String> response = personService.getEmailsByCity(city);
+			return new ResponseEntity<List<String>>(response, HttpStatus.FOUND);
+		}
+		
+		log.error("[GET /COMMUNITYEMAIL] Request to get emails by city is malformed");
+		throw new ResourceMalformedException(ExceptionMessages.COMMIUNITYEMAIL_MALFORMED_REQUEST);
+	}
 }
