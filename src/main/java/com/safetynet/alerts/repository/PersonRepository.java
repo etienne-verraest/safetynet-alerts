@@ -16,10 +16,13 @@ public interface PersonRepository extends CrudRepository<Person, PersonId> {
 	@Override
 	List<Person> findAll();
 	
+	// Find person by its identifier
 	Person findPersonById(PersonId id);
 	
 	// CommunityEmail endpoint
 	@Query(value = "SELECT email FROM person p WHERE p.city = :requestedCity", nativeQuery= true)
 	List<String> findEmailByCity(@Param("requestedCity") String city);
 
+	// Find every people living at given address
+	List<Person> findAllByAddress(String address);
 }
