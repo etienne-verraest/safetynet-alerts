@@ -112,11 +112,18 @@ public class FirestationService {
 	/**
 	 * Get a list of addresses served by a firestation
 	 * 
-	 * @param stationNumber			Integer : The desired firestationNumber
-	 * @return						List<String> list of matching addresses
+	 * @param stationNumber			Integer : The desired firestation Number
+	 * @return						List<String> list containing matching addresses
 	 */
-	public List<String> getAddressesFromFirestationNumber(Integer stationNumber) {
-		log.info("[FIRESTATION] Getting addresses for station number {} ", stationNumber);
-		return firestationRepository.findAddressesByStationNumber(stationNumber);
+	public List<String> getAddressesFromFirestationNumber(Integer stationNumber) {	
+		
+		List<String> response = firestationRepository.findAddressesByStationNumber(stationNumber);
+		
+		if(!response.isEmpty()) {
+			log.info("[FIRESTATION] Getting addresses for station number {} ", stationNumber);
+			return response;
+		}
+		
+		throw new ResourceNotFoundException("There are no addresses linked to firestation number " + stationNumber);
 	}
 }

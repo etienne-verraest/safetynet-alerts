@@ -37,7 +37,7 @@ public class FirestationController {
 	 * 
 	 * @return						A List<Firestation> containing existing firestations
 	 */
-	@GetMapping(path = "/firestation")
+	@GetMapping(path = "/firestations")
 	public List<Firestation> returnFirestations() {
 		return firestationService.getAllFirestation();
 	}
