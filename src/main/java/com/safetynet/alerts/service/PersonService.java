@@ -15,6 +15,9 @@ import com.safetynet.alerts.exception.ResourceMalformedException;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.mapper.PersonId;
 import com.safetynet.alerts.model.Person;
+import com.safetynet.alerts.model.dto.AdultsDto;
+import com.safetynet.alerts.model.dto.ChildAlertDto;
+import com.safetynet.alerts.model.dto.ChildrenDto;
 import com.safetynet.alerts.model.dto.PersonsInFireAlertDto;
 import com.safetynet.alerts.repository.PersonRepository;
 import com.safetynet.alerts.util.AgeCalculator;
@@ -42,7 +45,6 @@ public class PersonService {
 	 * @return 						a person if first and last name matches someone, otherwise returns null
 	 */
 	public Person getPersonFromDatabase(String firstName, String lastName) {
-
 		PersonId id = new PersonId(firstName, lastName);
 		if (personRepository.findPersonById(id) != null) {
 			log.info("[PERSON] Fetching person from database : {} {}", firstName, lastName);
@@ -58,7 +60,6 @@ public class PersonService {
 	 * @return 						a list of Person
 	 */
 	public List<Person> getPeople() {
-
 		log.info("[PERSON] Fetching people from database");
 		return personRepository.findAll();
 
@@ -176,7 +177,7 @@ public class PersonService {
 	 * @param address				String : the address concerned by the fire alert
 	 * @return						List<PersonsInFireAlertDto> containing requested informations
 	 */
-	public List<PersonsInFireAlertDto> getPersonsConcernedByFireAlert(String address) {
+	public List<PersonsInFireAlertDto> getPersonsConcernedByFireAlertAtAddress(String address) {
 		
 		if(address != null) {
 			
@@ -191,11 +192,52 @@ public class PersonService {
 			});
 			
 			// We return the DTO with requested informations
+			log.info("[FIRE ALERT] Getting people living at address : {}", address);
 			return dto;
 		}
 		
-		log.error("[PERSON] No persons were found for this request");
-		throw new ResourceMalformedException("No persons were found for this request");
+		log.error("[PERSON] Address for the fire alert request is malformed");
+		throw new ResourceMalformedException("Address for the fire alert request is malformed");
 	}
 
+	/**
+	 * Get a list of children at a given address. The request must return :
+	 *  - Children for the given address
+	 *  - Age of every children
+	 *  - First name and last name of persons with age over 18 ("relatives")
+	 * 
+	 * @param address				String : the address concerned by the childAlert
+	 * @return						ChildAlertDto containing requested informations
+	 */
+	public ChildAlertDto getChildrensAtAddress(String address) {
+		
+		if(address != null) {
+			
+			List<Person> persons = findPersonByAddresses(Arrays.asList(address));
+			
+			// Mapping children informations 
+			List<ChildrenDto> children = persons.stream().filter(p -> AgeCalculator.calculateAge(p.getBirthdate()) <= 18)
+			.map(p -> modelMapper.map(p, ChildrenDto.class)).collect(Collectors.toList());
+			
+			// If there are childrens we need to get a list of others people living at the address, else we can return an empty list
+			if(children.size() > 0) {			
+				
+				// Calculating age for each children
+				children.forEach(c -> c.setAge(AgeCalculator.calculateAge(c.getBirthdate())));
+				
+				// Mapping adults informations
+				List<AdultsDto> adults = persons.stream().filter(p -> AgeCalculator.calculateAge(p.getBirthdate()) > 18)
+						.map(p -> modelMapper.map(p, AdultsDto.class)).collect(Collectors.toList());
+				
+				ChildAlertDto childAlert = new ChildAlertDto(address, children, adults);
+				log.info("[CHILD ALERT] Found {} children for address : {}", children.size(), address);
+				return childAlert;
+			}		
+			
+			log.error("[CHILD ALERT] No children were found for the specified address");
+			throw new ResourceNotFoundException("No children were found for the specified address");
+		}
+		
+		throw new ResourceMalformedException("Address for the child alert request is malformed");
+	}
 }
