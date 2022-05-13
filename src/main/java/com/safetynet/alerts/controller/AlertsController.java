@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.exception.ResourceMalformedException;
 import com.safetynet.alerts.model.Person;
+import com.safetynet.alerts.model.dto.ChildAlertDto;
 import com.safetynet.alerts.model.dto.PersonsInFireAlertDto;
 import com.safetynet.alerts.service.AllergyService;
 import com.safetynet.alerts.service.FirestationService;
@@ -89,21 +90,40 @@ public class AlertsController {
 	 * Get a list of person concerned by a fire alert
 	 * 
 	 * @param address				String : the address concerned by the fire alert
+	 * @return						List<PersonsInFireAlertDto> Persons concerned by the fire Alert
 	 */
 	@GetMapping(path = "/fire")
 	public List<PersonsInFireAlertDto> fireAlert(@RequestParam String address) {
 		
 		if(address != null) {
 			
-			List<PersonsInFireAlertDto> personsConcernedByFireAlert = personService.getPersonsConcernedByFireAlert(address);
-			Integer firestationNumber = firestationService.getFirestationNumber(address);
+			List<PersonsInFireAlertDto> persons = personService.getPersonsConcernedByFireAlertAtAddress(address);
 			
-			personsConcernedByFireAlert.forEach(person -> person.setStationNumber(firestationNumber));
-			return personsConcernedByFireAlert;
+			Integer firestationNumber = firestationService.getFirestationNumber(address);
+			persons.forEach(p -> p.setStationNumber(firestationNumber));
+			
+			return persons;
 		}
 		
 		log.error("[GET /FIRE] Request to get persons at the given address is malformed");
 		throw new ResourceMalformedException("Request to get persons at the given address is malformed");
+	}
+	
+	/**
+	 * Get a list of children for a given address
+	 * 
+	 * @param address				String : the address we want to check
+	 * @return						ChildAlertDto: List of children and their relatives
+	 */
+	@GetMapping(path = "/childAlert")
+	public ChildAlertDto childAlert(@RequestParam String address) {
+		
+		if(address != null) {
+			return personService.getChildrensAtAddress(address);
+		}
+		
+		log.error("[GET /CHILDALERT] Request to get children at the given address is malformed");
+		throw new ResourceMalformedException("Request to get children at the given address is malformed");
 	}
 
 }
