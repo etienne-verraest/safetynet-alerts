@@ -1,4 +1,4 @@
-package com.safetynet.alerts.model.dto.response;
+package com.safetynet.alerts.model.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.safetynet.alerts.mapper.PersonId;
@@ -10,12 +10,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PersonByStationNumberDto {
+public class PersonByFirestationResponse {
 
+	@JsonIgnore
 	private PersonId id;
 	
+	private String firstName;
+	private String lastName;
+	
 	// Birthdate is used to calculate age
-	@JsonIgnore()
+	@JsonIgnore
 	private String birthdate;
 	
 	private String address;

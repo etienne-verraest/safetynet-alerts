@@ -1,4 +1,4 @@
-package com.safetynet.alerts.model.dto.response;
+package com.safetynet.alerts.model.response;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChildAlertDto {
+public class ChildAlertResponse {
 
 	private String address;
 	
 	// List should contains children (age inferior or equals to 18)
-	private List<ChildrenDto> childrens;
+	private List<ChildrenResponse> childrens;
 	
 	// We need to have the adults living with them
-	private List<AdultsDto> relatives;
+	private List<AdultsResponse> relatives;
 }

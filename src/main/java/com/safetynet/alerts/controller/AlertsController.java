@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.exception.ResourceMalformedException;
-import com.safetynet.alerts.model.Person;
-import com.safetynet.alerts.model.dto.response.ChildAlertDto;
-import com.safetynet.alerts.model.dto.response.DatasByStationNumberDto;
-import com.safetynet.alerts.model.dto.response.PersonFireAlertDto;
-import com.safetynet.alerts.service.FirestationService;
+import com.safetynet.alerts.model.response.ChildAlertResponse;
+import com.safetynet.alerts.model.response.FireAlertResponse;
+import com.safetynet.alerts.model.response.FirestationResponse;
+import com.safetynet.alerts.service.AlertsService;
 import com.safetynet.alerts.service.PersonService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +26,7 @@ public class AlertsController {
 	private PersonService personService;
 
 	@Autowired
-	private FirestationService firestationService;
+	private AlertsService alertsService;
 
 	/**
 	 * Get mail addresses for a given city
@@ -39,7 +38,6 @@ public class AlertsController {
 	public ResponseEntity<List<String>> getEmails(@RequestParam String city) {
 
 		if (!city.isBlank()) {
-
 			List<String> response = personService.getEmailsByCity(city);
 			return new ResponseEntity<List<String>>(response, HttpStatus.FOUND);
 		}
@@ -59,12 +57,8 @@ public class AlertsController {
 
 		if (firestationNumber != null && firestationNumber > 0) {
 
-			// Get persons served by the firestation number
-			List<Person> persons = personService
-					.findPersonByAddresses(firestationService.getAddressesFromFirestationNumber(firestationNumber));
-
 			// Get Phone numbers
-			List<String> phoneNumbers = personService.getPhoneNumbersOfPersons(persons);
+			List<String> phoneNumbers = alertsService.getPhoneAlert(firestationNumber);
 
 			log.info("[GET /PHONEALERT] {} phones numbers have been found", phoneNumbers.size());
 			return new ResponseEntity<List<String>>(phoneNumbers, HttpStatus.FOUND);
@@ -81,16 +75,11 @@ public class AlertsController {
 	 * @return							List<PersonsInFireAlertDto> Persons concerned by the fire Alert
 	 */
 	@GetMapping(path = "/fire")
-	public List<PersonFireAlertDto> fireAlert(@RequestParam String address) {
+	public List<FireAlertResponse> fireAlert(@RequestParam String address) {
 
 		if (address != null) {
-
-			List<PersonFireAlertDto> persons = personService.getPersonsConcernedByFireAlertAtAddress(address);
-
-			Integer firestationNumber = firestationService.getFirestationNumber(address);
-			persons.forEach(p -> p.setStationNumber(firestationNumber));
-
-			return persons;
+			log.info("[GET /FIRE] Checking for persons living at {}", address);
+			return alertsService.getFireAlert(address);
 		}
 
 		log.error("[GET /FIRE] Request to get persons at the given address is malformed");
@@ -104,10 +93,11 @@ public class AlertsController {
 	 * @return							ChildAlertDto: List of children and their relatives
 	 */
 	@GetMapping(path = "/childAlert")
-	public ChildAlertDto childAlert(@RequestParam String address) {
+	public ChildAlertResponse childAlert(@RequestParam String address) {
 
 		if (address != null) {
-			return personService.getChildrenAtAddress(address);
+			log.info("[GET /CHILDALERT] Checking for children at address {}", address);
+			return alertsService.getChildAlert(address);
 		}
 
 		log.error("[GET /CHILDALERT] Request to get children at the given address is malformed");
@@ -120,15 +110,11 @@ public class AlertsController {
 	 * @param stationNumber				Integer : the firestationNumber
 	 * @return							DatasByStationNumberDto : All requested datas for a station number
 	 */
-	@GetMapping(path = "/firestations")
-	public DatasByStationNumberDto getPersonsByStationNumber(@RequestParam Integer stationNumber) {
+	@GetMapping(path = "/firestation")
+	public FirestationResponse getPersonsByStationNumber(@RequestParam Integer stationNumber) {
 
-		if (stationNumber != null && stationNumber >= 0) {
-			
-			List<Person> persons = personService
-					.findPersonByAddresses(firestationService.getAddressesFromFirestationNumber(stationNumber));
-			return personService.processPersonsForAGivenStationNumber(persons);
-
+		if (stationNumber != null && stationNumber >= 0) {	
+			return alertsService.getFirestationAlert(stationNumber);
 		}
 
 		log.error("[GET /FIRESTATION] Request to get persons at the given firestation number is malformed");

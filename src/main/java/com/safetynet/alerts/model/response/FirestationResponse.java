@@ -1,4 +1,4 @@
-package com.safetynet.alerts.model.dto.response;
+package com.safetynet.alerts.model.response;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DatasByStationNumberDto {
+public class FirestationResponse {
 
-	private List<PersonByStationNumberDto> persons;
+	private List<PersonByFirestationResponse> persons;
 	
 	private Integer numberOfChildren;
 	
