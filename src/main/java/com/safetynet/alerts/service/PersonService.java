@@ -1,16 +1,23 @@
 package com.safetynet.alerts.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.safetynet.alerts.exception.ExceptionMessages;
 import com.safetynet.alerts.exception.ResourceAlreadyExistingException;
+import com.safetynet.alerts.exception.ResourceMalformedException;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.mapper.PersonId;
 import com.safetynet.alerts.model.Person;
+import com.safetynet.alerts.model.dto.PersonsInFireAlertDto;
 import com.safetynet.alerts.repository.PersonRepository;
+import com.safetynet.alerts.util.AgeCalculator;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +29,9 @@ public class PersonService {
 
 	@Autowired
 	private PersonRepository personRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	/**
 	 * Get a person from database using first name and last name
@@ -105,8 +115,8 @@ public class PersonService {
 	/**
 	 * Delete a person from database, only if the person exists
 	 * 
-	 * @param firstName 			First name of the person
-	 * @param lastName  			Last name of the person
+	 * @param firstName 			String : First name of the person
+	 * @param lastName  			String : Last name of the person
 	 * @return 						true if the person exists, otherwise returns false
 	 */
 	public void deletePerson(String firstName, String lastName) {
@@ -136,11 +146,56 @@ public class PersonService {
 	/**
 	 * Get every person for a given address
 	 * 
-	 * @param address				String : the desired address
+	 * @param address				List<String> : the desired addresses
 	 * @return						List<Person> of people living at this address
 	 */
-	public List<Person> findPersonByAddress(String address) {
-		log.info("[PERSON] Getting people living at address : {}", address);
-		return personRepository.findAllByAddress(address);
+	public List<Person> findPersonByAddresses(List<String> addresses) {
+		
+		if(!addresses.isEmpty()) {
+			
+			List<Person> persons = new ArrayList<Person>();
+			addresses.stream().forEach(address -> {
+				persons.addAll(personRepository.findAllByAddress(address));
+				log.info("[PERSON] Getting people living at address : {}", address);
+			});
+			
+			return persons;
+		}
+		
+		log.error("[PERSON] No addresses were specified for the request");
+		throw new ResourceMalformedException("There are no addresses specified for this request");
 	}
+	
+	/**
+	 * Get a list of person concerned by a fire alert. The request must return :
+	 *  - Residents for the given address
+	 *  - Fire station number
+	 *  - Ages
+	 *  - Medical record
+	 * 
+	 * @param address				String : the address concerned by the fire alert
+	 * @return						List<PersonsInFireAlertDto> containing requested informations
+	 */
+	public List<PersonsInFireAlertDto> getPersonsConcernedByFireAlert(String address) {
+		
+		if(address != null) {
+			
+			List<Person> persons = findPersonByAddresses(Arrays.asList(address));
+			
+			// Map list of persons to PersonByAddressDto
+			List<PersonsInFireAlertDto> dto = persons.stream().map(p -> modelMapper.map(p, PersonsInFireAlertDto.class)).collect(Collectors.toList());
+			
+			// For each persons, we calculate their ages
+			dto.forEach(p -> {
+				p.setAge(AgeCalculator.calculateAge(p.getBirthdate()));
+			});
+			
+			// We return the DTO with requested informations
+			return dto;
+		}
+		
+		log.error("[PERSON] No persons were found for this request");
+		throw new ResourceMalformedException("No persons were found for this request");
+	}
+
 }
