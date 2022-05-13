@@ -1,4 +1,4 @@
-package com.safetynet.alerts.model.dto;
+package com.safetynet.alerts.model.dto.response;
 
 import com.safetynet.alerts.mapper.PersonId;
 
@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdultsDto {
-	
-	private PersonId id;
-	
+public class ChildrenDto {
+
+	private PersonId id;	
+	private String birthdate;
+	private Integer age;
 }

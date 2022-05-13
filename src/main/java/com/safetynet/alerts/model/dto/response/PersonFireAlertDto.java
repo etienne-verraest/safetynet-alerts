@@ -1,4 +1,4 @@
-package com.safetynet.alerts.model.dto;
+package com.safetynet.alerts.model.dto.response;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonsInFireAlertDto {
+public class PersonFireAlertDto {
 
 	private PersonId id;
 	
