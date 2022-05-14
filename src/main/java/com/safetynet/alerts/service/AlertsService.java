@@ -69,12 +69,11 @@ public class AlertsService {
 			Integer firestationNumber = firestationService.getFirestationNumber(address);
 
 			// Map list of persons in PersonFireAlertDto
-			List<FireAlertResponse> dto = persons.stream().map(p -> modelMapper.map(p, FireAlertResponse.class))
-					.collect(Collectors.toList());
+			List<FireAlertResponse> dto = persons.stream()
+					.map(person -> modelMapper.map(person, FireAlertResponse.class)).collect(Collectors.toList());
 
 			// For each persons, we calculate their ages and set their correct station
-			// number +
-			// We set proper first name and last name instead of personId
+			// number + we set proper first name and last name instead of personId
 			dto.forEach(p -> {
 				p.setAge(AgeCalculator.calculateAge(p.getBirthdate()));
 				p.setStationNumber(firestationNumber);
@@ -222,7 +221,8 @@ public class AlertsService {
 			List<PersonFloodAlertResponse> persons = personsFound.stream()
 					.map(p -> modelMapper.map(p, PersonFloodAlertResponse.class)).collect(Collectors.toList());
 
-			// We need to calculate the age for each person (+ we also set first name and last name)
+			// We need to calculate the age for each person (+ we also set first name and
+			// last name)
 			persons.forEach(p -> {
 				p.setAge(AgeCalculator.calculateAge(p.getBirthdate()));
 				p.setFirstName(p.getId().getFirstName());
@@ -232,11 +232,11 @@ public class AlertsService {
 			// We then regroup every persons by their address (address, List<Person>)
 			List<FloodAlertGroupByAddress> personsByAddress = new ArrayList<>();
 			addresses.forEach(a -> {
-				List<PersonFloodAlertResponse> personsFilteredByAddress = persons.stream().filter(p -> p.getAddress().equals(a)).collect(Collectors.toList());
+				List<PersonFloodAlertResponse> personsFilteredByAddress = persons.stream()
+						.filter(p -> p.getAddress().equals(a)).collect(Collectors.toList());
 				personsByAddress.add(new FloodAlertGroupByAddress(a, personsFilteredByAddress));
 			});
 
-			
 			// Returning the result
 			log.info("[FLOOD ALERT] Found {} persons for stations numbers {}", personsFound.size(), stationsNumbers);
 			return new FloodAlertResponse(addresses, personsByAddress);

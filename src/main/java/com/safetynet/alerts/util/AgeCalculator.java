@@ -8,7 +8,7 @@ public class AgeCalculator {
 
 	public static Integer calculateAge(String birthdate) {
 		
-		// parse birthdate to the correct formatting
+		// Parse birthdate to the correct formatting
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDate from = LocalDate.parse(birthdate, formatter);
 	
