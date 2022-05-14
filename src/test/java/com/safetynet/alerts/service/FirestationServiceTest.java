@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
@@ -168,6 +169,36 @@ class FirestationServiceTest {
 		 
 		 // ACT and ASSERT
 		 assertThrows(ResourceNotFoundException.class, () -> firestationService.deleteFirestation("Zulu Foxtrot"));
+	 }
+	 
+	 @Test
+	 void testGetFirestationNumber_ShouldReturn_Integer() {
+		 
+		 // ARRANGE
+		 when(firestationRepository.findStationNumberByAddress(anyString())).thenReturn(5);
+		 
+		 // ACT
+		 Integer expected = firestationService.getFirestationNumber("Lambda Address");
+		 
+		 assertThat(expected).isEqualTo(5);	 
+	 }
+	 
+	 @Test
+	 void testGetAddressesFromFirestationNumber_ShouldReturn_ListOfAddresses() {
+		 
+		 // ARRANGE
+		 List<String> addresses = new ArrayList<String>();
+		 addresses.add(FIRESTATION_ADDRESS);
+		 addresses.add(FIRESTATION_ADDRESS_2);
+		 
+		 when(firestationRepository.findAddressesByStationNumber(anyInt())).thenReturn(addresses);
+		 
+		 // ACT
+		 List<String> response = firestationService.getAddressesFromFirestationNumber(1);
+		 
+		 // ASSERT
+		 assertThat(response.get(0)).isEqualTo(FIRESTATION_ADDRESS);
+		 assertThat(response.get(1)).isEqualTo(FIRESTATION_ADDRESS_2);
 	 }
 
 }

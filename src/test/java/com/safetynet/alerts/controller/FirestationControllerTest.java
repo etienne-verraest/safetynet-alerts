@@ -85,7 +85,7 @@ class FirestationControllerTest {
 		when(firestationService.getAllFirestation()).thenReturn(firestationList);
 		
 		// ACT AND ASSERT
-		mockMvc.perform(get("/firestation")
+		mockMvc.perform(get("/firestations")
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)			
 			).andExpect(status().isOk()).andExpect(jsonPath("$").isArray())
 			.andExpect(jsonPath("$[0].address").value(FIRESTATION_ADDRESS))

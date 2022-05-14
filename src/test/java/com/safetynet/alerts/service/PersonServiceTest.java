@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -13,15 +14,18 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.safetynet.alerts.exception.ResourceAlreadyExistingException;
+import com.safetynet.alerts.exception.ResourceMalformedException;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.mapper.PersonId;
 import com.safetynet.alerts.model.Allergy;
@@ -37,6 +41,8 @@ public class PersonServiceTest {
 	
 	@Mock
 	PersonRepository personRepository;
+	
+	private static final String ADDRESS = "123 Dummy Address";
 	
 	private Person person;
 
@@ -69,11 +75,11 @@ public class PersonServiceTest {
 			person.setId(personId);
 
 			// Personal informations
-			person.setAddress("123 Dummy Address");
-			person.setCity("Liverpool");
+			person.setAddress(ADDRESS);
+			person.setCity("Paris");
 			person.setZip("000000");
 			person.setPhone("0102030405");
-			person.setEmail("dummy-name@gmail.com");
+			person.setEmail(names[i].toLowerCase() + "-dummy@mail.com");
 			person.setBirthdate("16/02/1998");
 
 			// Allergies and medications
@@ -93,11 +99,11 @@ public class PersonServiceTest {
 		person.setId(personId);
 
 		// Personal informations
-		person.setAddress("123 Dummy Address");
-		person.setCity("Liverpool");
+		person.setAddress(ADDRESS);
+		person.setCity("Paris");
 		person.setZip("000000");
 		person.setPhone("0102030405");
-		person.setEmail("dummy-name@gmail.com");
+		person.setEmail("alpha-dummy@mail.com");
 		person.setBirthdate("16/02/1998");
 
 		// Allergies and medications
@@ -164,7 +170,7 @@ public class PersonServiceTest {
 
 		// ASSERT
 		assertNotNull(response);
-		assertTrue(response.getCity().equals("Liverpool"));
+		assertTrue(response.getCity().equals("Paris"));
 	}
 	
 	@Test
@@ -182,7 +188,7 @@ public class PersonServiceTest {
 	void testUpdatePerson_ShouldReturn_UpdatedPerson() {
 		
 		// ARRANGE
-		person.setCity("Manchester");
+		person.setCity("Lille");
 		when(personRepository.findPersonById(any(PersonId.class))).thenReturn(person);
 		when(personRepository.save(any(Person.class))).thenReturn(person);
 
@@ -191,7 +197,7 @@ public class PersonServiceTest {
 
 		// ASSERT
 		assertNotNull(response);
-		assertTrue(response.getCity().equals("Manchester"));
+		assertTrue(response.getCity().equals("Lille"));
 	}
 	
 	@Test
@@ -227,6 +233,52 @@ public class PersonServiceTest {
 		 
 		 // ACT and ASSERT
 		 assertThrows(ResourceNotFoundException.class, () -> personService.deletePerson("Zulu", "Dummy"));
+		 
+	 }
+	 
+	 @Test
+	 void testGetEmailsByCity_ShouldReturn_ListOfMails() {
+		 
+		 // ARRANGE
+		 List<String> mails = listOfPerson.stream().map(p -> p.getEmail()).collect(Collectors.toList());
+		 when(personRepository.findEmailByCity(anyString())).thenReturn(mails);
+		 
+		 // ACT
+		 List<String> response = personService.getEmailsByCity("Paris");
+		 
+		 // ASSERT
+		 assertThat(response.size()).isEqualTo(2);
+	 }
+	 
+	 @Test
+	 void testFindPersonByAddresses_ShouldReturn_ListOfPerson() {
+		 
+		 // ARRANGE
+		 List<String> addresses = new ArrayList<String>();
+		 addresses.add(ADDRESS);
+		 when(personRepository.findAllByAddress(anyString())).thenReturn(listOfPerson);
+		 
+		 // ACT
+		 List<Person> response = personService.findPersonByAddresses(addresses);
+		 
+		 // ASSERT
+		 assertThat(response.get(0).getAddress()).isEqualTo(ADDRESS);
+		 assertThat(response.get(0).getId().getFirstName()).isEqualTo("Alpha");
+		 assertThat(response.get(1).getId().getFirstName()).isEqualTo("Bravo");
+		 
+	 }
+	 
+	 @Test
+	 void testFindPersonByAddresses_ShouldThrow_ResourceMalformedException() {
+		 
+		 // ARRANGE
+		 List<String> addresses = new ArrayList<String>();
+		 
+		 // ACT
+		 Executable executable = () -> personService.findPersonByAddresses(addresses);
+		 
+		 // ASSERT
+		 assertThrows(ResourceMalformedException.class, executable);
 		 
 	 }
 	 
