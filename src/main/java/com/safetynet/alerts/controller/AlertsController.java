@@ -13,8 +13,8 @@ import com.safetynet.alerts.exception.ResourceMalformedException;
 import com.safetynet.alerts.model.response.ChildAlertResponse;
 import com.safetynet.alerts.model.response.FireAlertResponse;
 import com.safetynet.alerts.model.response.FirestationResponse;
+import com.safetynet.alerts.model.response.FloodAlertResponse;
 import com.safetynet.alerts.service.AlertsService;
-import com.safetynet.alerts.service.PersonService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,28 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AlertsController {
 
 	@Autowired
-	private PersonService personService;
-
-	@Autowired
 	private AlertsService alertsService;
-
-	/**
-	 * Get mail addresses for a given city
-	 * 
-	 * @param city						String : The name of the city
-	 * @return							List<String> of corresponding mail addresses
-	 */
-	@GetMapping(path = "/communityEmail")
-	public ResponseEntity<List<String>> getEmails(@RequestParam String city) {
-
-		if (!city.isBlank()) {
-			List<String> response = personService.getEmailsByCity(city);
-			return new ResponseEntity<List<String>>(response, HttpStatus.FOUND);
-		}
-
-		log.error("[GET /COMMUNITYEMAIL] Request to get emails by city is malformed");
-		throw new ResourceMalformedException("Request to get emails is malformed");
-	}
 
 	/**
 	 * Get phone numbers for a given firestation number
@@ -72,7 +51,7 @@ public class AlertsController {
 	 * Get a list of person concerned by a fire alert
 	 * 
 	 * @param address					String : the address concerned by the fire alert
-	 * @return							List<PersonsInFireAlertDto> Persons concerned by the fire Alert
+	 * @return							List<FireAlertResponse> Persons concerned by the fire Alert
 	 */
 	@GetMapping(path = "/fire")
 	public List<FireAlertResponse> fireAlert(@RequestParam String address) {
@@ -90,7 +69,7 @@ public class AlertsController {
 	 * Get a list of children for a given address
 	 * 
 	 * @param address					String : the address we want to check
-	 * @return							ChildAlertDto: List of children and their relatives
+	 * @return							ChildAlertResponse: List of children and their relatives
 	 */
 	@GetMapping(path = "/childAlert")
 	public ChildAlertResponse childAlert(@RequestParam String address) {
@@ -108,10 +87,10 @@ public class AlertsController {
 	 * Get a list of person given a firestation number
 	 * 
 	 * @param stationNumber				Integer : the firestationNumber
-	 * @return							DatasByStationNumberDto : All requested datas for a station number
+	 * @return							FirestationResponse: All requested datas for a station number
 	 */
 	@GetMapping(path = "/firestation")
-	public FirestationResponse getPersonsByStationNumber(@RequestParam Integer stationNumber) {
+	public FirestationResponse firestationAlert(@RequestParam Integer stationNumber) {
 
 		if (stationNumber != null && stationNumber >= 0) {	
 			return alertsService.getFirestationAlert(stationNumber);
@@ -119,6 +98,23 @@ public class AlertsController {
 
 		log.error("[GET /FIRESTATION] Request to get persons at the given firestation number is malformed");
 		throw new ResourceMalformedException("Request to get persons at the given firestation number is malformed");
+	}
+	
+	/**
+	 * Get a list of person given a list of firestation numbers
+	 * 
+	 * @param stations				List<Integer> : list of numbers
+	 * @return						FloodAlertResponse : All requested datas for the stations numbers
+	 */
+	@GetMapping(path = "/flood/stations")
+	public FloodAlertResponse floodAlert(@RequestParam List<Integer> stations) {
+		
+		if(!stations.isEmpty()) {
+			return alertsService.getFloodAlert(stations);
+		}
+		
+		log.error("[GET /FLOOD/STATIONS] Request to get persons at given stations numbers is incorrect");
+		throw new ResourceMalformedException("Request to get persons at given stations numbers is incorrect");
 	}
 
 }
