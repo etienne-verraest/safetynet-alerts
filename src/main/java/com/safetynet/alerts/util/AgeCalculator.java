@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 
 public class AgeCalculator {
 
+	private AgeCalculator() {}
+	
 	public static Integer calculateAge(String birthdate) {
 		
 		// Parse birthdate to the correct formatting

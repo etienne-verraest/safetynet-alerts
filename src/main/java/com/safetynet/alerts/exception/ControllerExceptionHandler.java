@@ -15,35 +15,29 @@ public class ControllerExceptionHandler {
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	public ErrorMessage resourceNotFoundException(Exception ex, WebRequest request) {
 	    
-		ErrorMessage message = new ErrorMessage(
-	        String.format("%s", HttpStatus.NOT_FOUND),
-	        new Date(),
-	        ex.getMessage());
-	    
-	    return message;
+	    return new ErrorMessage(
+		        String.format("%s", HttpStatus.NOT_FOUND),
+		        new Date(),
+		        ex.getMessage());
 	}
 	
 	@ExceptionHandler(ResourceAlreadyExistingException.class)
 	@ResponseStatus(value = HttpStatus.FOUND)
 	public ErrorMessage resourceAlreadyExistingException(Exception ex, WebRequest request) {
 		
-		ErrorMessage message = new ErrorMessage(
+		return new ErrorMessage(
 		        String.format("%s", HttpStatus.FOUND),
 		        new Date(),
 		        ex.getMessage());
-		
-		return message;
 	}
 	
 	@ExceptionHandler(ResourceMalformedException.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	public ErrorMessage resourceMalformedException(Exception ex, WebRequest request) {
 		
-		ErrorMessage message = new ErrorMessage(
+		return new ErrorMessage(
 		        String.format("%s", HttpStatus.BAD_REQUEST),
 		        new Date(),
 		        ex.getMessage());
-		
-		return message;
 	}
 }

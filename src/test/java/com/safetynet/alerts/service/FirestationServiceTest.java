@@ -91,7 +91,7 @@ class FirestationServiceTest {
 		
 		// ASSERT
 		assertThat(response.get(1).getAddress()).isEqualTo(FIRESTATION_ADDRESS_2);
-		assertThat(response.size()).isEqualTo(2);
+		assertThat(response).hasSize(2);
 	}
 	
 	@Test

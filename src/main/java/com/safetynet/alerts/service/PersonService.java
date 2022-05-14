@@ -147,7 +147,7 @@ public class PersonService {
 
 		if (!addresses.isEmpty()) {
 
-			List<Person> persons = new ArrayList<Person>();
+			List<Person> persons = new ArrayList<>();
 			addresses.stream().forEach(address -> {
 				persons.addAll(personRepository.findAllByAddress(address));
 				log.info("[PERSON] Getting people living at address : {}", address);

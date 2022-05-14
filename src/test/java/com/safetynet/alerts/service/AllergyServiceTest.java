@@ -70,7 +70,7 @@ class AllergyServiceTest {
 		List<Allergy> response = allergyService.getAllPersonAllergies(person);
 		
 		// ASSERT
-		assertThat(response.size()).isEqualTo(2);
+		assertThat(response).hasSize(2);
 	}
 
 	@Test

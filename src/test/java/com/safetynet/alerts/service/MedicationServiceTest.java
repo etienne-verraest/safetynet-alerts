@@ -70,7 +70,7 @@ class MedicationServiceTest {
 		List<Medication> response = medicationService.getAllPersonMedications(person);
 		
 		// ASSERT
-		assertThat(response.size()).isEqualTo(2);
+		assertThat(response).hasSize(2);
 	}
 	
 	@Test
@@ -143,8 +143,7 @@ class MedicationServiceTest {
 		List<Medication> response = medicationService.savePersonMedications(person, medications);
 		
 		// ASSERT
-		assertThat(response).isNotNull();
-		assertThat(response.size()).isEqualTo(2);
+		assertThat(response).isNotNull().hasSize(2);
 
 	}
 	
