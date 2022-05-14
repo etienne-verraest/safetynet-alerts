@@ -58,7 +58,7 @@ public class PersonController {
 			Person person = personService.getPersonFromDatabase(firstName, lastName);		
 			
 			if(person != null) {
-				return new ResponseEntity<Person>(person, HttpStatus.FOUND);
+				return new ResponseEntity<>(person, HttpStatus.FOUND);
 			}
 			
 			log.error("[PERSON] Person with name '{} {}' was not found in database", firstName, lastName);
@@ -82,7 +82,7 @@ public class PersonController {
 			Person personRequestBody = modelMapper.map(personDto, Person.class);
 			
 			Person person = personService.createPerson(personRequestBody);
-			return new ResponseEntity<Person>(person, HttpStatus.CREATED);
+			return new ResponseEntity<>(person, HttpStatus.CREATED);
 		}
 		
 		log.error("[POST /PERSON] Request to create person is malformed");
@@ -103,7 +103,7 @@ public class PersonController {
 			Person personRequestBody = modelMapper.map(personDto, Person.class);		
 			
 			Person person = personService.updatePerson(personRequestBody);	
-			return new ResponseEntity<Person>(person, HttpStatus.ACCEPTED);
+			return new ResponseEntity<>(person, HttpStatus.ACCEPTED);
 		}
 		
 		log.error("[PUT /PERSON] Request to update person is malformed");
@@ -123,7 +123,7 @@ public class PersonController {
 
 		if (!firstName.isBlank() && !lastName.isBlank()) {
 			personService.deletePerson(firstName, lastName);
-			return new ResponseEntity<String>(firstName + " " + lastName + " was succesfully deleted", HttpStatus.OK);
+			return new ResponseEntity<>(firstName + " " + lastName + " was succesfully deleted", HttpStatus.OK);
 		}
 
 		log.error("[DELETE /PERSON] Request to delete person is malformed");
@@ -141,7 +141,7 @@ public class PersonController {
 
 		if (!city.isBlank()) {
 			List<String> response = personService.getEmailsByCity(city);
-			return new ResponseEntity<List<String>>(response, HttpStatus.FOUND);
+			return new ResponseEntity<>(response, HttpStatus.FOUND);
 		}
 
 		log.error("[GET /COMMUNITYEMAIL] Request to get emails by city is malformed");

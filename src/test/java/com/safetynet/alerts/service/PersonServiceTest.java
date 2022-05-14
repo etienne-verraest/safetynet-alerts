@@ -1,10 +1,10 @@
 package com.safetynet.alerts.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -34,7 +34,7 @@ import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.PersonRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class PersonServiceTest {
+class PersonServiceTest {
 
 	@InjectMocks
 	PersonService personService;
@@ -127,8 +127,8 @@ public class PersonServiceTest {
 		Person response = personService.getPersonFromDatabase(firstName, lastName);
 
 		// ASSERT
-		assertTrue(response.getId().getFirstName().equals(firstName));
-		assertTrue(response.getId().getLastName().equals(lastName));
+		assertEquals(response.getId().getFirstName(), firstName);
+		assertEquals(response.getId().getLastName(), lastName);
 	}
 	
 	@Test
@@ -155,7 +155,7 @@ public class PersonServiceTest {
 		List<Person> response = personService.getPeople();
 
 		// ASSERT
-		assertThat(response.size()).isEqualTo(2);
+		assertThat(response).hasSize(2);
 	}
 
 	@Test
@@ -170,7 +170,7 @@ public class PersonServiceTest {
 
 		// ASSERT
 		assertNotNull(response);
-		assertTrue(response.getCity().equals("Paris"));
+		assertEquals("Paris", response.getCity());
 	}
 	
 	@Test
@@ -197,7 +197,7 @@ public class PersonServiceTest {
 
 		// ASSERT
 		assertNotNull(response);
-		assertTrue(response.getCity().equals("Lille"));
+		assertEquals("Lille", response.getCity());
 	}
 	
 	@Test
@@ -247,7 +247,7 @@ public class PersonServiceTest {
 		 List<String> response = personService.getEmailsByCity("Paris");
 		 
 		 // ASSERT
-		 assertThat(response.size()).isEqualTo(2);
+		 assertThat(response).hasSize(2);
 	 }
 	 
 	 @Test

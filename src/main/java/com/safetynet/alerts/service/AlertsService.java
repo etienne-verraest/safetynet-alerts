@@ -48,7 +48,7 @@ public class AlertsService {
 		// Get persons served by the firestation number
 		List<String> addresses = firestationService.getAddressesFromFirestationNumber(firestationNumber);
 		List<Person> persons = personService.findPersonByAddresses(addresses);
-		return persons.stream().map(p -> p.getPhone()).collect(Collectors.toList());
+		return persons.stream().map(Person::getPhone).collect(Collectors.toList());
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class AlertsService {
 
 			// If there are childrens we need to get a list of others people living at the
 			// address
-			if (children.size() > 0) {
+			if (!children.isEmpty()) {
 
 				// Setting first name and last name instead of using personId, also calculating
 				// age
@@ -209,10 +209,9 @@ public class AlertsService {
 		if (!stationsNumbers.isEmpty()) {
 
 			// Getting addresses
-			List<String> addresses = new ArrayList<String>();
-			stationsNumbers.stream().forEach(n -> {
-				addresses.addAll(firestationService.getAddressesFromFirestationNumber(n));
-			});
+			List<String> addresses = new ArrayList<>();
+			stationsNumbers.stream()
+					.forEach(n -> addresses.addAll(firestationService.getAddressesFromFirestationNumber(n)));
 
 			// Find every person living at the addresses
 			List<Person> personsFound = personService.findPersonByAddresses(addresses);

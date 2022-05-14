@@ -100,7 +100,7 @@ class AlertsServiceTest {
 		List<String> phones = alertsService.getPhoneAlert(1);
 
 		// ASSERT
-		assertThat(phones.size()).isEqualTo(2);
+		assertThat(phones).hasSize(2);
 		assertThat(phones.get(0)).isEqualTo("+33700000");
 	}
 
@@ -116,7 +116,7 @@ class AlertsServiceTest {
 
 		// ASSERT
 		// General assertions
-		assertThat(response.size()).isEqualTo(2);
+		assertThat(response).hasSize(2);
 		
 		// Assertions related to "Alpha Dummy"
 		assertThat(response.get(0).getAge()).isGreaterThan(18);
@@ -138,8 +138,8 @@ class AlertsServiceTest {
 		
 		// ASSERT
 		// General assertions
-		assertThat(response.getChildrens().size()).isEqualTo(1);
-		assertThat(response.getRelatives().size()).isEqualTo(1);
+		assertThat(response.getChildrens()).hasSize(1);
+		assertThat(response.getRelatives()).hasSize(1);
 		
 		// Child assertions
 		assertThat(response.getChildrens().get(0).getAge()).isLessThanOrEqualTo(18);
@@ -163,7 +163,7 @@ class AlertsServiceTest {
 		FirestationResponse response = alertsService.getFirestationAlert(1);
 		
 		// ASSERT
-		assertThat(response.getPersons().size()).isEqualTo(2);
+		assertThat(response.getPersons()).hasSize(2);
 		assertThat(response.getNumberOfAdults()).isEqualTo(1);
 		assertThat(response.getNumberOfChildren()).isEqualTo(1);
 	}
@@ -186,7 +186,7 @@ class AlertsServiceTest {
 
 		// ASSERT
 		assertThat(response.getAddressesServed().get(0)).isEqualTo(ADDRESS);
-		assertThat(response.getPersonsByAddress().get(0).getPersons().size()).isEqualTo(2);
+		assertThat(response.getPersonsByAddress().get(0).getPersons()).hasSize(2);
 	}
 
 }

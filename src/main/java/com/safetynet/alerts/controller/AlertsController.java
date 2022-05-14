@@ -40,7 +40,7 @@ public class AlertsController {
 			List<String> phoneNumbers = alertsService.getPhoneAlert(firestationNumber);
 
 			log.info("[GET /PHONEALERT] {} phones numbers have been found", phoneNumbers.size());
-			return new ResponseEntity<List<String>>(phoneNumbers, HttpStatus.FOUND);
+			return new ResponseEntity<>(phoneNumbers, HttpStatus.FOUND);
 		}
 
 		log.error("[GET /PHONEALERT] Request to get phone numbers is malformed");

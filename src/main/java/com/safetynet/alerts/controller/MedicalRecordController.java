@@ -60,8 +60,8 @@ public class MedicalRecordController {
 		if (medicalRecordDto != null) {
 
 			// Creating a new empty list to add our allergies and medications
-			List<Allergy> allergies = new ArrayList<Allergy>();
-			List<Medication> medications = new ArrayList<Medication>();
+			List<Allergy> allergies = new ArrayList<>();
+			List<Medication> medications = new ArrayList<>();
 
 			// Fetching person
 			Person person = personService.getPersonFromDatabase(medicalRecordDto.getId().getFirstName(),
@@ -77,7 +77,7 @@ public class MedicalRecordController {
 					.forEach(medicationDto -> medications.add(modelMapper.map(medicationDto, Medication.class)));
 			medicationService.savePersonMedications(person, medications);
 
-			return new ResponseEntity<Person>(person, HttpStatus.ACCEPTED);
+			return new ResponseEntity<>(person, HttpStatus.ACCEPTED);
 		}
 
 		log.error("[MEDICALRECORD] Request to post medical record is malformed");
@@ -100,7 +100,7 @@ public class MedicalRecordController {
 			Person person = personService.getPersonFromDatabase(firstName, lastName);
 
 			List<Allergy> allergies = allergyService.getAllPersonAllergies(person);
-			return new ResponseEntity<List<Allergy>>(allergies, HttpStatus.FOUND);
+			return new ResponseEntity<>(allergies, HttpStatus.FOUND);
 		}
 
 		log.error("[ALLERGIES] Request to get allergies is malformed");
@@ -123,7 +123,7 @@ public class MedicalRecordController {
 			Person person = personService.getPersonFromDatabase(firstName, lastName);
 
 			List<Medication> medications = medicationService.getAllPersonMedications(person);
-			return new ResponseEntity<List<Medication>>(medications, HttpStatus.FOUND);
+			return new ResponseEntity<>(medications, HttpStatus.FOUND);
 		}
 
 		log.error("[MEDICATIONS] Request to get medication is malformed");
@@ -147,7 +147,7 @@ public class MedicalRecordController {
 			Person person = personService.getPersonFromDatabase(firstName, lastName);
 
 			allergyService.deletePersonAllergy(person, name);
-			return new ResponseEntity<String>("Deleted Allergy : " + name + " for " + firstName + " " + lastName,
+			return new ResponseEntity<>("Deleted Allergy : " + name + " for " + firstName + " " + lastName,
 					HttpStatus.OK);
 		}
 
@@ -172,7 +172,7 @@ public class MedicalRecordController {
 			Person person = personService.getPersonFromDatabase(firstName, lastName);
 
 			medicationService.deletePersonMedication(person, namePosology);
-			return new ResponseEntity<String>("Deleted medication : " + namePosology + " for " + firstName + " " + lastName,
+			return new ResponseEntity<>("Deleted medication : " + namePosology + " for " + firstName + " " + lastName,
 					HttpStatus.OK);
 		}
 

@@ -35,7 +35,7 @@ import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.PersonService;
 
 @WebMvcTest(controllers = PersonController.class)
-public class PersonControllerTest {
+class PersonControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;

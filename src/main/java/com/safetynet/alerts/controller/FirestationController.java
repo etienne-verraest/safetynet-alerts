@@ -55,7 +55,7 @@ public class FirestationController {
 			Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
 
 			Firestation firestation = firestationService.createFirestation(firestationRequestBody);
-			return new ResponseEntity<Firestation>(firestation, HttpStatus.CREATED);
+			return new ResponseEntity<>(firestation, HttpStatus.CREATED);
 		}
 
 		log.error("[FIRESTATION] Request body of the firestation is malformed");
@@ -75,7 +75,7 @@ public class FirestationController {
 			Firestation firestationRequestBody = modelMapper.map(firestationDto, Firestation.class);
 
 			Firestation firestation = firestationService.updateFirestation(firestationRequestBody);
-			return new ResponseEntity<Firestation>(firestation, HttpStatus.ACCEPTED);
+			return new ResponseEntity<>(firestation, HttpStatus.ACCEPTED);
 		}
 
 		log.error("[FIRESTATION] Request to update firestation is malformed");
@@ -93,7 +93,7 @@ public class FirestationController {
 
 		if (address != null) {
 			firestationService.deleteFirestation(address);
-			return new ResponseEntity<String>("Firestation with address '" + address + "' has been deleted",
+			return new ResponseEntity<>("Firestation with address '" + address + "' has been deleted",
 					HttpStatus.OK);
 		}
 
