@@ -48,20 +48,6 @@ class PersonServiceTest {
 
 	private List<Person> listOfPerson = new ArrayList<Person>();
 
-	/**
-	 * Setting up 2 dummy users in order to test Person Service The last person'
-	 * data are related to "Emma Dummy"
-	 * 
-	 * Person : 
-	 * Name : Emma Dummy
-	 * Address : 123 Dummy Address
-	 * City : Liverpool
-	 * Zip : 000000
-	 * Phone : 0102030405
-	 * Mail : dummy-name@gmail.com
-	 * Birthdate : 16/02/1998
-	 * 
-	 */
 	@BeforeEach
 	void setup() {
 
