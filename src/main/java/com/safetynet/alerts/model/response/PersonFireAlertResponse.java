@@ -14,23 +14,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class PersonFloodAlertResponse {
-
+@NoArgsConstructor
+public class PersonFireAlertResponse {
+	
 	@JsonIgnore
 	private PersonId id;
 	
 	private String firstName;
 	private String lastName;
+	
 	private String phone;
 	
-	@JsonIgnore
-	private String address;
-	
-	@JsonIgnore
 	private String birthdate;
-	
 	private Integer age;
 	
 	@JsonInclude(Include.NON_EMPTY)
@@ -38,5 +34,4 @@ public class PersonFloodAlertResponse {
 	
 	@JsonInclude(Include.NON_EMPTY)
 	private List<Allergy> allergies;
-	
 }

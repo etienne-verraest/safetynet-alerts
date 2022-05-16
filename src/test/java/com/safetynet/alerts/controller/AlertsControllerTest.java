@@ -33,6 +33,7 @@ import com.safetynet.alerts.model.response.FirestationResponse;
 import com.safetynet.alerts.model.response.FloodAlertGroupByAddress;
 import com.safetynet.alerts.model.response.FloodAlertResponse;
 import com.safetynet.alerts.model.response.PersonByFirestationResponse;
+import com.safetynet.alerts.model.response.PersonFireAlertResponse;
 import com.safetynet.alerts.model.response.PersonFloodAlertResponse;
 import com.safetynet.alerts.service.AlertsService;
 import com.safetynet.alerts.util.AgeCalculator;
@@ -114,27 +115,26 @@ class AlertsControllerTest {
 	@Test
 	void testFireAlert_ShouldReturn_StatusIsOk() throws Exception {
 
-		// ARRANGE
-		List<FireAlertResponse> listFireAlertResponse = new ArrayList<>();
+		// ARRANG
+		List<PersonFireAlertResponse> persons = new ArrayList<>();
 		for (int i = 0; i < 2; i++) {
-			FireAlertResponse response = new FireAlertResponse();
+			PersonFireAlertResponse response = new PersonFireAlertResponse();
 			Person person = listOfPerson.get(i);
-			response.setAddress(person.getAddress());
 			response.setBirthdate(person.getBirthdate());
 			response.setPhone(person.getPhone());
 			response.setAge(AgeCalculator.calculateAge(person.getBirthdate()));
 			response.setFirstName(person.getId().getFirstName());
 			response.setLastName(person.getId().getLastName());
-			response.setStationNumber(1);
-			listFireAlertResponse.add(response);
+			persons.add(response);
 		}
-		when(alertsService.getFireAlert(anyString())).thenReturn(listFireAlertResponse);
+		FireAlertResponse fireAlertResponse = new FireAlertResponse(ADDRESS, 1, persons);
+		when(alertsService.getFireAlert(anyString())).thenReturn(fireAlertResponse);
 
 		// ACT AND ASSERT
 		mockMvc.perform(
 				get("/fire").param("address", ADDRESS).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk()).andExpect(jsonPath("$[0].firstName").value("Alpha"))
-				.andExpect(jsonPath("$[0].age").isNumber()).andExpect(jsonPath("$[1].firstName").value("Bravo"));
+				.andExpect(status().isOk()).andExpect(jsonPath("$.persons.[0].firstName").value("Alpha"))
+				.andExpect(jsonPath("$.persons.[0].age").isNumber()).andExpect(jsonPath("$.persons[1].firstName").value("Bravo"));
 	}
 
 	@Test

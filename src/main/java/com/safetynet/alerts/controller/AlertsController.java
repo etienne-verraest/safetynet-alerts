@@ -54,7 +54,7 @@ public class AlertsController {
 	 * @return							List<FireAlertResponse> Persons concerned by the fire Alert
 	 */
 	@GetMapping(path = "/fire")
-	public List<FireAlertResponse> fireAlert(@RequestParam String address) {
+	public FireAlertResponse fireAlert(@RequestParam String address) {
 
 		if (address != null) {
 			log.info("[GET /FIRE] Checking for persons living at {}", address);
