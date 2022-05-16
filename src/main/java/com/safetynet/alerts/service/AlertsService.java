@@ -20,6 +20,7 @@ import com.safetynet.alerts.model.response.FirestationResponse;
 import com.safetynet.alerts.model.response.FloodAlertGroupByAddress;
 import com.safetynet.alerts.model.response.FloodAlertResponse;
 import com.safetynet.alerts.model.response.PersonByFirestationResponse;
+import com.safetynet.alerts.model.response.PersonFireAlertResponse;
 import com.safetynet.alerts.model.response.PersonFloodAlertResponse;
 import com.safetynet.alerts.util.AgeCalculator;
 
@@ -61,7 +62,7 @@ public class AlertsService {
 	 * @param address						String : the address concerned by the fire alert
 	 * @return								List<FireAlertResponse> containing requested informations
 	 */
-	public List<FireAlertResponse> getFireAlert(String address) {
+	public FireAlertResponse getFireAlert(String address) {
 
 		if (address != null) {
 
@@ -69,21 +70,20 @@ public class AlertsService {
 			Integer firestationNumber = firestationService.getFirestationNumber(address);
 
 			// Map list of persons in PersonFireAlertDto
-			List<FireAlertResponse> dto = persons.stream()
-					.map(person -> modelMapper.map(person, FireAlertResponse.class)).collect(Collectors.toList());
+			List<PersonFireAlertResponse> personsFound = persons.stream()
+					.map(person -> modelMapper.map(person, PersonFireAlertResponse.class)).collect(Collectors.toList());
 
 			// For each persons, we calculate their ages and set their correct station
 			// number + we set proper first name and last name instead of personId
-			dto.forEach(p -> {
+			personsFound.forEach(p -> {
 				p.setAge(AgeCalculator.calculateAge(p.getBirthdate()));
-				p.setStationNumber(firestationNumber);
 				p.setFirstName(p.getId().getFirstName());
 				p.setLastName(p.getId().getLastName());
 			});
 
 			// We return the DTO with requested informations
 			log.info("[FIRE ALERT] Getting people living at address : {}", address);
-			return dto;
+			return new FireAlertResponse(address, firestationNumber, personsFound);
 		}
 
 		log.error("[PERSON] Address for the fire alert request is malformed");

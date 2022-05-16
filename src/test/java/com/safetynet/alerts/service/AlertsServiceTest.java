@@ -112,18 +112,18 @@ class AlertsServiceTest {
 		when(firestationService.getFirestationNumber(anyString())).thenReturn(1);
 
 		// ACT
-		List<FireAlertResponse> response = alertsService.getFireAlert(ADDRESS);
+		FireAlertResponse response = alertsService.getFireAlert(ADDRESS);
 
 		// ASSERT
 		// General assertions
-		assertThat(response).hasSize(2);
+		assertThat(response.getPersons()).hasSize(2);
 		
 		// Assertions related to "Alpha Dummy"
-		assertThat(response.get(0).getAge()).isGreaterThan(18);
-		assertThat(response.get(0).getAllergies().get(0).getName()).isEqualTo("Peanuts");
+		assertThat(response.getPersons().get(0).getAge()).isGreaterThan(18);
+		assertThat(response.getPersons().get(0).getAllergies().get(0).getName()).isEqualTo("Peanuts");
 		
 		// Assertions related to "Bravo Dummy"
-		assertThat(response.get(1).getStationNumber()).isEqualTo(1);
+		assertThat(response.getStationNumber()).isEqualTo(1);
 		
 	}
 
