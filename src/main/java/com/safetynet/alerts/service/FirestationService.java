@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.safetynet.alerts.exception.ExceptionMessages;
-import com.safetynet.alerts.exception.ResourceAlreadyExistingException;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.repository.FirestationRepository;
@@ -33,6 +32,20 @@ public class FirestationService {
 	}
 	
 	/**
+	 * Checks if a firestation exists
+	 * 
+	 * @param address				String : the address of the fire station
+	 * @return						True if a firestation is found at given address
+	 */
+	public boolean checkIfFirestationExists(String address) {
+		
+		if(firestationRepository.findByAddress(address) != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Fetch all fire station saved in database
 	 * 
 	 * @return						a list of available fire stations
@@ -50,14 +63,13 @@ public class FirestationService {
 	 */
 	public Firestation createFirestation(Firestation firestationEntity) {
 		
-		if(findFirestationByAddress(firestationEntity.getAddress()) == null) {	
+		if(!checkIfFirestationExists(firestationEntity.getAddress())) {
 			log.info("[FIRESTATION] Mapping '{}' to firestation number '{}'", firestationEntity.getAddress(),
 					firestationEntity.getStationNumber());
 			return firestationRepository.save(firestationEntity);
 		}
 		
-		log.error("[FIRESTATION] Could not create firestation with address '{}'", firestationEntity.getAddress());
-		throw new ResourceAlreadyExistingException(ExceptionMessages.FIRESTATION_FOUND);
+		return null;
 	}
 	
 	/**

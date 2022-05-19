@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.safetynet.alerts.exception.ExceptionMessages;
-import com.safetynet.alerts.exception.ResourceAlreadyExistingException;
 import com.safetynet.alerts.exception.ResourceMalformedException;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.mapper.PersonId;
@@ -46,6 +45,21 @@ public class PersonService {
 
 		return null;
 	}
+	
+	/**
+	 * Check if a person exists in database
+	 * 
+	 * @param firstName 			First name of the person
+	 * @param lastName  			Last name of the person
+	 * @return						True if the person exists
+	 */
+	public boolean checkIfPersonExists(String firstName, String lastName) {
+		PersonId id = new PersonId(firstName, lastName);
+		if(personRepository.findPersonById(id) != null) {
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Get every person in the database
@@ -69,13 +83,11 @@ public class PersonService {
 		String firstName = personEntity.getId().getFirstName();
 		String lastName = personEntity.getId().getLastName();
 
-		if (getPersonFromDatabase(firstName, lastName) == null) {
+		if (!checkIfPersonExists(firstName, lastName)) {
 			log.info("[PERSON] Adding person to database : {} {}", firstName, lastName);
 			return personRepository.save(personEntity);
 		}
-
-		log.error("[PERSON] Person with name '{} {}' is already registered in database", firstName, lastName);
-		throw new ResourceAlreadyExistingException(ExceptionMessages.PERSON_FOUND);
+		return null;
 	}
 
 	/**

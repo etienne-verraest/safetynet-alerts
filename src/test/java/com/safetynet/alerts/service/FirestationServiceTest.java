@@ -1,6 +1,7 @@
 package com.safetynet.alerts.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -21,7 +22,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.safetynet.alerts.exception.ResourceAlreadyExistingException;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.repository.FirestationRepository;
@@ -110,13 +110,15 @@ class FirestationServiceTest {
 	}
 	
 	@Test
-	void testCreateFirestation_ShouldReturn_ResourceAlreadyExistingException() {
+	void testCreateFirestation_ShouldReturn_Null() {
 		
 		// ARRANGE
-		when(firestationRepository.findByAddress(anyString())).thenReturn(firestation);
+		when(firestationRepository.findByAddress(anyString())).thenReturn(null);
 		
 		// ACT and ASSERT
-		assertThrows(ResourceAlreadyExistingException.class, () -> firestationService.createFirestation(firestation));
+		Firestation response = firestationService.createFirestation(firestation);
+		
+		assertNull(response);
 		
 	}
 	

@@ -24,7 +24,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.safetynet.alerts.exception.ResourceAlreadyExistingException;
 import com.safetynet.alerts.exception.ResourceMalformedException;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.mapper.PersonId;
@@ -66,7 +65,7 @@ class PersonServiceTest {
 			person.setZip("000000");
 			person.setPhone("0102030405");
 			person.setEmail(names[i].toLowerCase() + "-dummy@mail.com");
-			person.setBirthdate("16/02/1998");
+			person.setBirthdate("02/16/1998");
 
 			// Allergies and medications
 			List<Allergy> allergies = new ArrayList<Allergy>();
@@ -90,7 +89,7 @@ class PersonServiceTest {
 		person.setZip("000000");
 		person.setPhone("0102030405");
 		person.setEmail("alpha-dummy@mail.com");
-		person.setBirthdate("16/02/1998");
+		person.setBirthdate("02/16/1998");
 
 		// Allergies and medications
 		List<Allergy> allergies = new ArrayList<Allergy>();
@@ -160,13 +159,15 @@ class PersonServiceTest {
 	}
 	
 	@Test
-	void testCreatePerson_ShouldReturn_ResourceAlreadyExistingException() {
+	void testCreatePerson_ShouldReturn_Null() {
 		
 		// ARRANGE
-		when(personRepository.findPersonById(any(PersonId.class))).thenReturn(person);
+		when(personRepository.findPersonById(any(PersonId.class))).thenReturn(null);
 		
 		// ACT AND ASSERT
-		assertThrows(ResourceAlreadyExistingException.class, () -> personService.createPerson(person));
+		Person response = personService.createPerson(person);
+		
+		assertNull(response);
 		
 	}
 	
