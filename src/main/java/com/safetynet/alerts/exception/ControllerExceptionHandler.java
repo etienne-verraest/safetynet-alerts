@@ -21,16 +21,6 @@ public class ControllerExceptionHandler {
 		        ex.getMessage());
 	}
 	
-	@ExceptionHandler(ResourceAlreadyExistingException.class)
-	@ResponseStatus(value = HttpStatus.FOUND)
-	public ErrorMessage resourceAlreadyExistingException(Exception ex, WebRequest request) {
-		
-		return new ErrorMessage(
-		        String.format("%s", HttpStatus.FOUND),
-		        new Date(),
-		        ex.getMessage());
-	}
-	
 	@ExceptionHandler(ResourceMalformedException.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	public ErrorMessage resourceMalformedException(Exception ex, WebRequest request) {

@@ -10,7 +10,7 @@ class AgeCalculatorTest {
 	void testCalculateAge_ShouldReturn_Over18() {
 		
 		// ARRANGE
-		String birthdate = "16/02/1998";
+		String birthdate = "02/16/1998";
 		
 		// ACT
 		Integer age = AgeCalculator.calculateAge(birthdate);

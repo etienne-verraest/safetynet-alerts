@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class AlertsApplication {
-
+	
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
@@ -16,4 +16,5 @@ public class AlertsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AlertsApplication.class, args);
 	}
+	
 }

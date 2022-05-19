@@ -65,7 +65,7 @@ class AlertsControllerTest {
 
 		// Preparing a list of persons with datas
 		String[] names = new String[] { "Alpha", "Bravo" };
-		String[] birthdates = new String[] { "16/02/1998", "01/01/2020" };
+		String[] birthdates = new String[] { "02/16/1998", "01/01/2020" };
 		String[] phoneNumbers = new String[] { "+33700000", "+33600000" };
 
 		for (int i = 0; i < 2; i++) {
