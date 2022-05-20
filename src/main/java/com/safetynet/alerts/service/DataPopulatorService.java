@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.alerts.mapper.PersonId;
+import com.safetynet.alerts.model.Allergy;
 import com.safetynet.alerts.model.Firestation;
+import com.safetynet.alerts.model.Medication;
 import com.safetynet.alerts.model.Person;
 
 @Service
@@ -23,6 +25,12 @@ public class DataPopulatorService {
 	
 	@Autowired
 	FirestationService firestationService;
+	
+	@Autowired
+	MedicationService medicationService;
+	
+	@Autowired
+	AllergyService allergyService;
 	
 	@EventListener(ApplicationReadyEvent.class)
 	public void loadDatas() throws Exception {
@@ -60,5 +68,40 @@ public class DataPopulatorService {
     		firestations.add(firestation);
     	});
     	firestations.forEach(f -> firestationService.createFirestation(f));
+    	
+    	// Loading medical record
+    	node.get("medicalrecords").forEach(medicalrecord -> { 	
+    		
+    		String firstName = medicalrecord.get("firstName").asText();
+    		String lastName = medicalrecord.get("lastName").asText();
+    		
+    		// Instead of fetching person from database, we create a new person object with an ID
+    		// This way is faster since we don't have to fetch an entire person object
+    		PersonId personId = new PersonId(firstName, lastName);
+    		Person person = new Person();
+    		person.setId(personId);
+    	   		
+			// Loading medications
+    		List<Medication> medications = new ArrayList<>();
+    		JsonNode medicationsNode = medicalrecord.withArray("medications");
+    		medicationsNode.forEach(m -> { 
+    			Medication medication = new Medication();
+    			medication.setNamePosology(m.asText());
+    			medication.setPerson(person);
+    			medications.add(medication);
+    		});		
+    		medicationService.savePersonMedications(person, medications);
+
+    		// Loading allergies
+			List<Allergy> allergies = new ArrayList<>();
+    		JsonNode allergiesNode = medicalrecord.withArray("allergies");
+			allergiesNode.forEach(a -> { 
+    			Allergy allergy = new Allergy();
+    			allergy.setName(a.asText());
+    			allergy.setPerson(person);
+    			allergies.add(allergy);
+    		});		
+    		allergyService.savePersonAllergies(person, allergies);
+    	});
 	}
 }
