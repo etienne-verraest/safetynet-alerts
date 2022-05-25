@@ -70,7 +70,7 @@
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
 		    <version>20180130</version>
-		</dependency>
+    </dependency>
 	</dependencies>
 
 
@@ -140,8 +140,6 @@
 			        </execution>
 			    </executions>
             </plugin>
-            
-            
 		</plugins>
 	</build>
 	
@@ -159,6 +157,5 @@
       </plugin>   
     </plugins>
   </reporting>
-  
-  
+
 </project>

@@ -1,0 +1,533 @@
+{
+	"info": {
+		"_postman_id": "6780b7ce-6d24-4ef3-b6fe-0d411f0be3e7",
+		"name": "SafetyNet Alerts API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19991978"
+	},
+	"item": [
+		{
+			"name": "Alerts API",
+			"item": [
+				{
+					"name": "Community Email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/communityEmail?city=Culver",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"communityEmail"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "Culver"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Phone Alert",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/phoneAlert?firestationNumber=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"phoneAlert"
+							],
+							"query": [
+								{
+									"key": "firestationNumber",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fire Alert",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/fire?address=947 E. Rose Dr",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"fire"
+							],
+							"query": [
+								{
+									"key": "address",
+									"value": "947 E. Rose Dr"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Child Alert",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/childAlert?address=947 E. Rose Dr",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"childAlert"
+							],
+							"query": [
+								{
+									"key": "address",
+									"value": "947 E. Rose Dr"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Firestation by Station Number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/firestation?stationNumber=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"firestation"
+							],
+							"query": [
+								{
+									"key": "stationNumber",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Flood alert",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/flood/stations?stations=1,2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"flood",
+								"stations"
+							],
+							"query": [
+								{
+									"key": "stations",
+									"value": "1,2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Person API",
+			"item": [
+				{
+					"name": "Get People",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/person",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"person"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Person",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/personInfo?firstName=Alpha&lastName=Bravo",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"personInfo"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "Alpha"
+								},
+								{
+									"key": "lastName",
+									"value": "Bravo"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Person",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": {\r\n        \"firstName\": \"Alpha\",\r\n        \"lastName\": \"Bravo\"\r\n    },\r\n    \"address\": \"1 Bd Palm Spring\",\r\n    \"city\": \"Culver\",\r\n    \"zip\": \"97451\",\r\n    \"phone\": \"070-102-304\",\r\n    \"email\": \"alpha-bravo@mail.com\",\r\n    \"birthdate\" : \"16/02/1998\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/person",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"person"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Person",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": {\r\n        \"firstName\": \"Alpha\",\r\n        \"lastName\": \"Bravo\"\r\n    },\r\n    \"address\": \"1 Bd Palm Spring\",\r\n    \"city\": \"Culver\",\r\n    \"zip\": \"97451\",\r\n    \"phone\": \"070-102-304\",\r\n    \"email\": \"alpha-bravo@mail.com\",\r\n    \"birthdate\" : \"16/02/1998\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/person/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"person",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete person",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/person?firstName=Alpha&lastName=Bravo",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"person"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "Alpha"
+								},
+								{
+									"key": "lastName",
+									"value": "Bravo"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Firestation API",
+			"item": [
+				{
+					"name": "Get fire stations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/firestations",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"firestations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create fire station",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"address\": \"1 Bd Palm Spring\",\r\n    \"stationNumber\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/firestation",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"firestation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update fire station",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"address\": \"1 Bd Palm Spring\",\r\n    \"stationNumber\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/firestation",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"firestation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete fire station",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/firestation?address=1 Bd Palm Spring",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"firestation"
+							],
+							"query": [
+								{
+									"key": "address",
+									"value": "1 Bd Palm Spring"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MedicalRecord API",
+			"item": [
+				{
+					"name": "Add medical record",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"id\": {\r\n    \"firstName\": \"Alpha\",\r\n    \"lastName\": \"Bravo\"\r\n},\r\n\"medications\": [\r\n    {\r\n        \"namePosology\": \"Doliprane:5g\"\r\n    }\r\n],\r\n\"allergies\": [\r\n    {\r\n        \"name\": \"Peanuts\"\r\n    },\r\n    {\r\n        \"name\": \"Ketchup\"\r\n    }\r\n]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/medicalRecord/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"medicalRecord",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Person Medication",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/medicalRecord/Alpha/Bravo/medications",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"medicalRecord",
+								"Alpha",
+								"Bravo",
+								"medications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Person Allergy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/medicalRecord/Alpha/Bravo/allergies",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"medicalRecord",
+								"Alpha",
+								"Bravo",
+								"allergies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Person Allergy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/medicalRecord/Alpha/Bravo/allergies/Ketchup",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"medicalRecord",
+								"Alpha",
+								"Bravo",
+								"allergies",
+								"Ketchup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Person Medication",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/medicalRecord/Alpha/Bravo/medications/Doliprane:3g",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"medicalRecord",
+								"Alpha",
+								"Bravo",
+								"medications",
+								"Doliprane:3g"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Actuator",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/actuator",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actuator"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
