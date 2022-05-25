@@ -9,6 +9,4 @@ SafetyNet Alerts uses a MySQL database to store the datas. You must change **app
 To load the premade schema of the database, please go to the main/resources folder.
 
 ## Postman collections
-Postman collections are in the root of the project for a fast and easy setup of the differents api endpoints.
-
-
+Postman collections are in the resources directory of the project for a fast and easy setup of the differents api endpoints.
