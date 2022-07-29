@@ -50,12 +50,11 @@ public class DataPopulatorService {
     		String zip = p.get("zip").asText();
     		String phone = p.get("phone").asText();
     		String email = p.get("email").asText();
-    		String birthdate = p.get("birthdate").asText();
     		
-    		Person person = new Person(id, address, city, zip, phone, email, birthdate, null, null);
+    		Person person = new Person(id, address, city, zip, phone, email, null, null, null);
     		persons.add(person);
     	});
-    	persons.forEach(p -> personService.createPerson(p));
+    	personService.createPersonFromList(persons);
     	
     	// Loading firestations node
     	List<Firestation> firestations = new ArrayList<>();
@@ -67,7 +66,7 @@ public class DataPopulatorService {
     		Firestation firestation = new Firestation(address, Integer.valueOf(stationNumber));
     		firestations.add(firestation);
     	});
-    	firestations.forEach(f -> firestationService.createFirestation(f));
+    	firestationService.createFirestationFromList(firestations);
     	
     	// Loading medical record
     	node.get("medicalrecords").forEach(medicalrecord -> { 	
@@ -80,8 +79,12 @@ public class DataPopulatorService {
     		PersonId personId = new PersonId(firstName, lastName);
     		Person person = new Person();
     		person.setId(personId);
-    	   		
-			// Loading medications
+    		
+    		// Getting person's birthdate
+    		String birthdate = medicalrecord.get("birthdate").asText();
+    	   	personService.updatePersonBirthdateFromMedicalRecord(person, birthdate);
+			
+    		// Loading medications
     		List<Medication> medications = new ArrayList<>();
     		JsonNode medicationsNode = medicalrecord.withArray("medications");
     		medicationsNode.forEach(m -> { 

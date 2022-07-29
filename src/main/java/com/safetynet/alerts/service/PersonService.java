@@ -1,7 +1,9 @@
 package com.safetynet.alerts.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,18 @@ public class PersonService {
 	}
 	
 	/**
+	 * Updates the person with its birth date given in the medical record section
+	 * 
+	 * @param personToUpdate		The person to update
+	 * @param birthdate				The birth date we want to add
+	 */
+	public void updatePersonBirthdateFromMedicalRecord(Person personToUpdate, String birthdate) {		
+		Person person = getPersonFromDatabase(personToUpdate.getId().getFirstName(), personToUpdate.getId().getLastName());
+		person.setBirthdate(birthdate);
+		personRepository.save(person);
+	}
+	
+	/**
 	 * Check if a person exists in database
 	 * 
 	 * @param firstName 			First name of the person
@@ -89,6 +103,26 @@ public class PersonService {
 		}
 		return null;
 	}
+	
+	/**
+	 * Creates and populate a list of person in database
+	 * 
+	 * @param listOfPerson			A List<Person> containing informations about people
+	 * @return						A saved list of person in database
+	 */
+	public Iterable<Person> createPersonFromList(List<Person> listOfPerson)	{	
+		
+		if(!listOfPerson.isEmpty()) {
+			List<Person> persons = listOfPerson.stream()
+			.filter(p -> !checkIfPersonExists(p.getId().getFirstName(), p.getId().getLastName()))
+			.collect(Collectors.toList());
+			
+			persons.forEach(p -> log.info("[PERSON] Adding person to database : {} {}", p.getId().getFirstName(), p.getId().getLastName()));
+			return personRepository.saveAll(persons);
+		}
+		return Collections.emptyList();
+	}
+
 
 	/**
 	 * Update person fields and save it in a database

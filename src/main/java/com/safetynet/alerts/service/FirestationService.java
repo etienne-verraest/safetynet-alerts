@@ -1,6 +1,8 @@
 package com.safetynet.alerts.service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.safetynet.alerts.exception.ExceptionMessages;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.model.Firestation;
+import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.FirestationRepository;
 
 import lombok.Data;
@@ -70,6 +73,25 @@ public class FirestationService {
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Create new fire stations mapping from a list
+	 * 
+	 * @param listOfFirestation		a List of firestation
+	 * @return						A List of saved firestation
+	 */
+	public Iterable<Firestation> createFirestationFromList(List<Firestation> listOfFirestation) {
+		
+		if(!listOfFirestation.isEmpty()) {
+			List<Firestation> firestations = listOfFirestation.stream()
+			.filter(f -> !checkIfFirestationExists(f.getAddress()))
+			.collect(Collectors.toList());
+			
+			firestations.forEach(f -> log.info("[FIRESTATION] Mapping '{}' to firestation number '{}'", f.getAddress(), f.getStationNumber()));
+			return firestationRepository.saveAll(firestations);
+		}
+		return Collections.emptyList();
 	}
 	
 	/**
