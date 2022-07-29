@@ -64,12 +64,10 @@ public class PersonService {
 			// We don't use the method getPersonFromDatabase since we don't want to fetch an entire person object
 			if(personRepository.findPersonById(id).getBirthdate() == null) {
 				
-				log.info("[PERSON] Setting birthdate to '{}' for : {} {}", birthdate, firstName, lastName);
-				
 				// If no birth date is set, then we fetch everything and update the person.
 				Person person = getPersonFromDatabase(firstName, lastName);
-				person.setBirthdate(birthdate);
-				
+				log.info("[PERSON] Setting birthdate to '{}' for : {} {}", birthdate, firstName, lastName);		
+				person.setBirthdate(birthdate);	
 				personRepository.save(person);
 			}
 		}
