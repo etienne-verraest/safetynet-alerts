@@ -56,6 +56,7 @@ public class PersonService {
 	 */
 	public void updatePersonBirthdateFromMedicalRecord(Person personToUpdate, String birthdate) {		
 		Person person = getPersonFromDatabase(personToUpdate.getId().getFirstName(), personToUpdate.getId().getLastName());
+		log.info("[PERSON] Setting birthdate to '{}' for : {} {}", birthdate, personToUpdate.getId().getFirstName(), personToUpdate.getId().getLastName());
 		person.setBirthdate(birthdate);
 		personRepository.save(person);
 	}

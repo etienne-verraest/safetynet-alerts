@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.safetynet.alerts.exception.ExceptionMessages;
 import com.safetynet.alerts.exception.ResourceNotFoundException;
 import com.safetynet.alerts.model.Firestation;
-import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.FirestationRepository;
 
 import lombok.Data;
