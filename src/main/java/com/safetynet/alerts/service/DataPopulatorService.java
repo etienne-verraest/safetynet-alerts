@@ -82,7 +82,7 @@ public class DataPopulatorService {
     		
     		// Getting person's birthdate
     		String birthdate = medicalrecord.get("birthdate").asText();
-    	   	personService.updatePersonBirthdateFromMedicalRecord(person, birthdate);
+    	   	personService.updatePersonBirthdateFromMedicalRecord(firstName, lastName, birthdate);
 			
     		// Loading medications
     		List<Medication> medications = new ArrayList<>();

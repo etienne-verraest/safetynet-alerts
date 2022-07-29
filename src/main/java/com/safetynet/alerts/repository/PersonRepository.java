@@ -18,7 +18,7 @@ public interface PersonRepository extends CrudRepository<Person, PersonId> {
 	
 	// Find person by its identifier
 	Person findPersonById(PersonId id);
-	
+		
 	// CommunityEmail endpoint
 	@Query(value = "SELECT email FROM person p WHERE p.city = :requestedCity", nativeQuery= true)
 	List<String> findEmailByCity(@Param("requestedCity") String city);

@@ -54,11 +54,25 @@ public class PersonService {
 	 * @param personToUpdate		The person to update
 	 * @param birthdate				The birth date we want to add
 	 */
-	public void updatePersonBirthdateFromMedicalRecord(Person personToUpdate, String birthdate) {		
-		Person person = getPersonFromDatabase(personToUpdate.getId().getFirstName(), personToUpdate.getId().getLastName());
-		log.info("[PERSON] Setting birthdate to '{}' for : {} {}", birthdate, personToUpdate.getId().getFirstName(), personToUpdate.getId().getLastName());
-		person.setBirthdate(birthdate);
-		personRepository.save(person);
+	public void updatePersonBirthdateFromMedicalRecord(String firstName, String lastName, String birthdate) {		
+		
+		// Checking if the person is already registered in database
+		if(checkIfPersonExists(firstName, lastName)) 
+		{
+			PersonId id = new PersonId(firstName, lastName);
+			// We check if the birth date is set for a given person (firstName, lastName)
+			// We don't use the method getPersonFromDatabase since we don't want to fetch an entire person object
+			if(personRepository.findPersonById(id).getBirthdate() == null) {
+				
+				log.info("[PERSON] Setting birthdate to '{}' for : {} {}", birthdate, firstName, lastName);
+				
+				// If no birth date is set, then we fetch everything and update the person.
+				Person person = getPersonFromDatabase(firstName, lastName);
+				person.setBirthdate(birthdate);
+				
+				personRepository.save(person);
+			}
+		}
 	}
 	
 	/**
