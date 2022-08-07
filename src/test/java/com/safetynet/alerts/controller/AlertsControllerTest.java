@@ -107,7 +107,7 @@ class AlertsControllerTest {
 		when(alertsService.getPhoneAlert(anyInt())).thenReturn(phoneNumbers);
 
 		// ACT AND ASSERT
-		mockMvc.perform(get("/phoneAlert").param("firestationNumber", stationNumber.toString())
+		mockMvc.perform(get("/phoneAlert").param("firestation", stationNumber.toString())
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)).andExpect(status().isFound())
 				.andExpect(jsonPath("$[0]").value("+33700000"));
 	}
@@ -134,7 +134,8 @@ class AlertsControllerTest {
 		mockMvc.perform(
 				get("/fire").param("address", ADDRESS).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andExpect(jsonPath("$.persons.[0].firstName").value("Alpha"))
-				.andExpect(jsonPath("$.persons.[0].age").isNumber()).andExpect(jsonPath("$.persons[1].firstName").value("Bravo"));
+				.andExpect(jsonPath("$.persons.[0].age").isNumber())
+				.andExpect(jsonPath("$.persons[1].firstName").value("Bravo"));
 	}
 
 	@Test

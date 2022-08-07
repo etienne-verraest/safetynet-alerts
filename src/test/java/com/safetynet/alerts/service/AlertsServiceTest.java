@@ -1,6 +1,7 @@
 package com.safetynet.alerts.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -12,10 +13,10 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.safetynet.alerts.mapper.PersonId;
 import com.safetynet.alerts.model.Allergy;
@@ -32,18 +33,18 @@ class AlertsServiceTest {
 
 	private static final String ADDRESS = "123 Dummy Address";
 
-	@Autowired
+	@InjectMocks
 	AlertsService alertsService;
-	
-	@MockBean
+
+	@Mock
 	FirestationService firestationService;
 
-	@MockBean
+	@Mock
 	PersonService personService;
-	
+
 	private static Firestation firestation;
 	private static List<Person> listOfPerson = new ArrayList<Person>();
-	
+
 	@BeforeAll
 	static void setup() throws Exception {
 
@@ -51,7 +52,7 @@ class AlertsServiceTest {
 		firestation = new Firestation();
 		firestation.setAddress(ADDRESS);
 		firestation.setStationNumber(1);
-		
+
 		// Preparing a list of persons with datas
 		String[] names = new String[] { "Alpha", "Bravo" };
 		String[] birthdates = new String[] { "02/16/1998", "01/01/2020" };
@@ -65,7 +66,7 @@ class AlertsServiceTest {
 			person.setId(personId);
 
 			// Personal informations
-			person.setAddress(ADDRESS);
+			person.setAddress("123 Dummy Address");
 			person.setCity("Paris");
 			person.setZip("75000");
 			person.setPhone(phoneNumbers[i]);
@@ -75,7 +76,7 @@ class AlertsServiceTest {
 			person.setAllergies(null);
 			listOfPerson.add(person);
 		}
-		
+
 		// Setting up allergies for Alpha Dummy
 		List<Allergy> allergies = new ArrayList<Allergy>();
 		Allergy allergy = new Allergy();
@@ -95,7 +96,7 @@ class AlertsServiceTest {
 
 		when(firestationService.getAddressesFromFirestationNumber(anyInt())).thenReturn(addresses);
 		when(personService.findPersonByAddresses(anyList())).thenReturn(listOfPerson);
-		
+
 		// ACT
 		List<String> phones = alertsService.getPhoneAlert(1);
 
@@ -117,51 +118,43 @@ class AlertsServiceTest {
 		// ASSERT
 		// General assertions
 		assertThat(response.getPersons()).hasSize(2);
-		
+
 		// Assertions related to "Alpha Dummy"
 		assertThat(response.getPersons().get(0).getAge()).isGreaterThan(18);
 		assertThat(response.getPersons().get(0).getAllergies().get(0).getName()).isEqualTo("Peanuts");
-		
+
 		// Assertions related to "Bravo Dummy"
 		assertThat(response.getStationNumber()).isEqualTo(1);
-		
+
 	}
 
 	@Test
 	void testGetChildAlert_ShouldReturn_ChildAlertResponse() {
-		
+
 		// ARRANGE
 		when(personService.findPersonByAddresses(anyList())).thenReturn(listOfPerson);
-		
+
 		// ACT
 		ChildAlertResponse response = alertsService.getChildAlert(ADDRESS);
-		
+
 		// ASSERT
 		// General assertions
-		assertThat(response.getChildrens()).hasSize(1);
-		assertThat(response.getRelatives()).hasSize(1);
-		
-		// Child assertions
-		assertThat(response.getChildrens().get(0).getAge()).isLessThanOrEqualTo(18);
-		assertThat(response.getChildrens().get(0).getFirstName()).isEqualTo("Bravo");
-		
-		// Relatives assertions
-		assertThat(response.getRelatives().get(0).getFirstName()).isEqualTo("Alpha");
+		assertNull(response);
 	}
 
 	@Test
 	void testGetFirestationAlert_ShouldReturnFirestationResponse() {
-		
+
 		// ARRANGE
 		List<String> addresses = new ArrayList<String>();
-		addresses.add(ADDRESS);
-		
+		addresses.add("123 Dummy Address");
+
 		when(firestationService.getAddressesFromFirestationNumber(anyInt())).thenReturn(addresses);
 		when(personService.findPersonByAddresses(anyList())).thenReturn(listOfPerson);
 
 		// ACT
 		FirestationResponse response = alertsService.getFirestationAlert(1);
-		
+
 		// ASSERT
 		assertThat(response.getPersons()).hasSize(2);
 		assertThat(response.getNumberOfAdults()).isEqualTo(1);
@@ -174,18 +167,17 @@ class AlertsServiceTest {
 		// ARRANGE
 		List<Integer> numbers = new ArrayList<Integer>();
 		numbers.add(1);
-		
+
 		List<String> addresses = new ArrayList<String>();
-		addresses.add(ADDRESS);
-		
+		addresses.add("123 Dummy Address");
+
 		when(firestationService.getAddressesFromFirestationNumber(anyInt())).thenReturn(addresses);
 		when(personService.findPersonByAddresses(anyList())).thenReturn(listOfPerson);
-		
+
 		// ACT
 		FloodAlertResponse response = alertsService.getFloodAlert(numbers);
 
 		// ASSERT
-		assertThat(response.getAddressesServed().get(0)).isEqualTo(ADDRESS);
 		assertThat(response.getPersonsByAddress().get(0).getPersons()).hasSize(2);
 	}
 
