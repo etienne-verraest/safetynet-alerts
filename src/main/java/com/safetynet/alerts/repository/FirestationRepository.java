@@ -12,13 +12,13 @@ public interface FirestationRepository extends CrudRepository<Firestation, Strin
 
 	@Override
 	List<Firestation> findAll();
-	
+
 	Firestation findByAddress(String address);
-	
-	@Query(value = "SELECT stationNumber from firestation f where address = :requestedAddress", nativeQuery = true)
+
+	@Query(value = "SELECT STATION_NUMBER from firestation f where ADDRESS = :requestedAddress", nativeQuery = true)
 	Integer findStationNumberByAddress(@Param("requestedAddress") String address);
-	
-	@Query(value = "SELECT address from firestation f where stationNumber = :requestedNumber", nativeQuery = true)
+
+	@Query(value = "SELECT ADDRESS from firestation f where STATION_NUMBER = :requestedNumber", nativeQuery = true)
 	List<String> findAddressesByStationNumber(@Param("requestedNumber") Integer stationNumber);
 
 }
