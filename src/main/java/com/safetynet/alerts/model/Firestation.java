@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "firestation")
+@Table()
 @AllArgsConstructor
 @NoArgsConstructor
 public class Firestation {
@@ -19,7 +19,7 @@ public class Firestation {
 	@Id
 	@Column
 	private String address;
-	
+
 	@Column
 	private Integer stationNumber;
 }

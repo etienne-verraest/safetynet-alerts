@@ -16,7 +16,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "allergy")
+@Table()
 public class Allergy {
 
 	@JsonIgnore
