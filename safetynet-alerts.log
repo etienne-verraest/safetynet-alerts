@@ -1,0 +1,398 @@
+2022-08-07 22:39:52.692  INFO 13436 --- [main] c.s.alerts.AlertsApplicationTests        : Starting AlertsApplicationTests using Java 11.0.16 on XPS17 with PID 13436 (started by verra in C:\Users\verra\Desktop\safetynet-alerts)
+2022-08-07 22:39:52.693  INFO 13436 --- [main] c.s.alerts.AlertsApplicationTests        : No active profile set, falling back to 1 default profile: "default"
+2022-08-07 22:39:56.437  INFO 13436 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:938d3e96-4abb-487b-82fe-7f9da5d629ca'
+2022-08-07 22:39:56.960  INFO 13436 --- [main] c.s.alerts.AlertsApplicationTests        : Started AlertsApplicationTests in 4.582 seconds (JVM running for 5.573)
+2022-08-07 22:39:57.170  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : John Boyd
+2022-08-07 22:39:57.171  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Jacob Boyd
+2022-08-07 22:39:57.171  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Tenley Boyd
+2022-08-07 22:39:57.171  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Roger Boyd
+2022-08-07 22:39:57.172  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Felicia Boyd
+2022-08-07 22:39:57.172  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Jonanathan Marrack
+2022-08-07 22:39:57.172  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Tessa Carman
+2022-08-07 22:39:57.172  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Peter Duncan
+2022-08-07 22:39:57.172  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Foster Shepard
+2022-08-07 22:39:57.172  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Tony Cooper
+2022-08-07 22:39:57.172  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Lily Cooper
+2022-08-07 22:39:57.172  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Sophia Zemicks
+2022-08-07 22:39:57.172  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Warren Zemicks
+2022-08-07 22:39:57.173  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Zach Zemicks
+2022-08-07 22:39:57.173  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Reginold Walker
+2022-08-07 22:39:57.173  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Jamie Peters
+2022-08-07 22:39:57.173  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Ron Peters
+2022-08-07 22:39:57.173  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Allison Boyd
+2022-08-07 22:39:57.173  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Brian Stelzer
+2022-08-07 22:39:57.173  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Shawna Stelzer
+2022-08-07 22:39:57.173  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Kendrik Stelzer
+2022-08-07 22:39:57.173  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Clive Ferguson
+2022-08-07 22:39:57.173  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Eric Cadigan
+2022-08-07 22:39:57.262  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '1509 Culver St' to firestation number '3'
+2022-08-07 22:39:57.262  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '29 15th St' to firestation number '2'
+2022-08-07 22:39:57.262  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '834 Binoc Ave' to firestation number '3'
+2022-08-07 22:39:57.262  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '644 Gershwin Cir' to firestation number '1'
+2022-08-07 22:39:57.262  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '748 Townings Dr' to firestation number '3'
+2022-08-07 22:39:57.262  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '112 Steppes Pl' to firestation number '3'
+2022-08-07 22:39:57.262  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '489 Manchester St' to firestation number '4'
+2022-08-07 22:39:57.262  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '892 Downing Ct' to firestation number '2'
+2022-08-07 22:39:57.263  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '908 73rd St' to firestation number '1'
+2022-08-07 22:39:57.263  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '112 Steppes Pl' to firestation number '4'
+2022-08-07 22:39:57.263  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '947 E. Rose Dr' to firestation number '1'
+2022-08-07 22:39:57.263  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '748 Townings Dr' to firestation number '3'
+2022-08-07 22:39:57.263  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '951 LoneTree Rd' to firestation number '2'
+2022-08-07 22:39:57.289  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : John Boyd
+2022-08-07 22:39:57.291  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1984' for : John Boyd
+2022-08-07 22:39:57.309  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'aznol:350mg' to John Boyd
+2022-08-07 22:39:57.312  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'hydrapermazol:100mg' to John Boyd
+2022-08-07 22:39:57.319  INFO 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'nillacilan' to John Boyd
+2022-08-07 22:39:57.323  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Jacob Boyd
+2022-08-07 22:39:57.324  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1989' for : Jacob Boyd
+2022-08-07 22:39:57.328  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'pharmacol:5000mg' to Jacob Boyd
+2022-08-07 22:39:57.331  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'terazine:10mg' to Jacob Boyd
+2022-08-07 22:39:57.334  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'noznazol:250mg' to Jacob Boyd
+2022-08-07 22:39:57.337  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Tenley Boyd
+2022-08-07 22:39:57.338  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '02/18/2012' for : Tenley Boyd
+2022-08-07 22:39:57.343  INFO 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'peanut' to Tenley Boyd
+2022-08-07 22:39:57.346  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Roger Boyd
+2022-08-07 22:39:57.347  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '09/06/2017' for : Roger Boyd
+2022-08-07 22:39:57.352  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Felicia Boyd
+2022-08-07 22:39:57.353  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '01/08/1986' for : Felicia Boyd
+2022-08-07 22:39:57.357  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'tetracyclaz:650mg' to Felicia Boyd
+2022-08-07 22:39:57.360  INFO 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'xilliathal' to Felicia Boyd
+2022-08-07 22:39:57.363  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Jonanathan Marrack
+2022-08-07 22:39:57.364  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '01/03/1989' for : Jonanathan Marrack
+2022-08-07 22:39:57.368  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Tessa Carman
+2022-08-07 22:39:57.369  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '02/18/2012' for : Tessa Carman
+2022-08-07 22:39:57.374  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Peter Duncan
+2022-08-07 22:39:57.375  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '09/06/2000' for : Peter Duncan
+2022-08-07 22:39:57.380  INFO 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'shellfish' to Peter Duncan
+2022-08-07 22:39:57.383  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Foster Shepard
+2022-08-07 22:39:57.384  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '01/08/1980' for : Foster Shepard
+2022-08-07 22:39:57.389  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Tony Cooper
+2022-08-07 22:39:57.390  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1994' for : Tony Cooper
+2022-08-07 22:39:57.394  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'hydrapermazol:300mg' to Tony Cooper
+2022-08-07 22:39:57.396  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'dodoxadin:30mg' to Tony Cooper
+2022-08-07 22:39:57.398  INFO 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'shellfish' to Tony Cooper
+2022-08-07 22:39:57.402  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Lily Cooper
+2022-08-07 22:39:57.403  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1994' for : Lily Cooper
+2022-08-07 22:39:57.407  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Sophia Zemicks
+2022-08-07 22:39:57.408  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1988' for : Sophia Zemicks
+2022-08-07 22:39:57.412  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'aznol:60mg' to Sophia Zemicks
+2022-08-07 22:39:57.415  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'hydrapermazol:900mg' to Sophia Zemicks
+2022-08-07 22:39:57.418  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'pharmacol:5000mg' to Sophia Zemicks
+2022-08-07 22:39:57.420  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'terazine:500mg' to Sophia Zemicks
+2022-08-07 22:39:57.422  INFO 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'peanut' to Sophia Zemicks
+2022-08-07 22:39:57.425  INFO 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'shellfish' to Sophia Zemicks
+2022-08-07 22:39:57.427  INFO 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'aznol' to Sophia Zemicks
+2022-08-07 22:39:57.430  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Warren Zemicks
+2022-08-07 22:39:57.431  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1985' for : Warren Zemicks
+2022-08-07 22:39:57.436  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Zach Zemicks
+2022-08-07 22:39:57.436  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/2017' for : Zach Zemicks
+2022-08-07 22:39:57.441  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Reginold Walker
+2022-08-07 22:39:57.442  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '08/30/1979' for : Reginold Walker
+2022-08-07 22:39:57.445  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'thradox:700mg' to Reginold Walker
+2022-08-07 22:39:57.448  INFO 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'illisoxian' to Reginold Walker
+2022-08-07 22:39:57.451  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Jamie Peters
+2022-08-07 22:39:57.452  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1982' for : Jamie Peters
+2022-08-07 22:39:57.457  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Ron Peters
+2022-08-07 22:39:57.457  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '04/06/1965' for : Ron Peters
+2022-08-07 22:39:57.462  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Allison Boyd
+2022-08-07 22:39:57.463  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/15/1965' for : Allison Boyd
+2022-08-07 22:39:57.467  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'aznol:200mg' to Allison Boyd
+2022-08-07 22:39:57.469  INFO 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'nillacilan' to Allison Boyd
+2022-08-07 22:39:57.472  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Brian Stelzer
+2022-08-07 22:39:57.472  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '12/06/1975' for : Brian Stelzer
+2022-08-07 22:39:57.476  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'ibupurin:200mg' to Brian Stelzer
+2022-08-07 22:39:57.478  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'hydrapermazol:400mg' to Brian Stelzer
+2022-08-07 22:39:57.480  INFO 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'nillacilan' to Brian Stelzer
+2022-08-07 22:39:57.483  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Shawna Stelzer
+2022-08-07 22:39:57.483  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '07/08/1980' for : Shawna Stelzer
+2022-08-07 22:39:57.487  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Kendrik Stelzer
+2022-08-07 22:39:57.488  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/2014' for : Kendrik Stelzer
+2022-08-07 22:39:57.491  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'noxidian:100mg' to Kendrik Stelzer
+2022-08-07 22:39:57.493  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'pharmacol:2500mg' to Kendrik Stelzer
+2022-08-07 22:39:57.496  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Clive Ferguson
+2022-08-07 22:39:57.497  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1994' for : Clive Ferguson
+2022-08-07 22:39:57.501  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Eric Cadigan
+2022-08-07 22:39:57.501  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '08/06/1945' for : Eric Cadigan
+2022-08-07 22:39:57.504  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'tradoxidine:400mg' to Eric Cadigan
+2022-08-07 22:39:57.669  INFO 13436 --- [main] c.s.a.controller.AlertsControllerTest    : Starting AlertsControllerTest using Java 11.0.16 on XPS17 with PID 13436 (started by verra in C:\Users\verra\Desktop\safetynet-alerts)
+2022-08-07 22:39:57.670  INFO 13436 --- [main] c.s.a.controller.AlertsControllerTest    : No active profile set, falling back to 1 default profile: "default"
+2022-08-07 22:39:58.087  INFO 13436 --- [main] c.s.a.controller.AlertsControllerTest    : Started AlertsControllerTest in 0.443 seconds (JVM running for 6.7)
+2022-08-07 22:39:58.240  INFO 13436 --- [main] c.s.alerts.controller.AlertsController   : [GET /FIRE] Checking for persons living at 123 Dummy Address
+2022-08-07 22:39:58.252  INFO 13436 --- [main] c.s.alerts.controller.AlertsController   : [GET /CHILDALERT] Checking for children at address 123 Dummy Address
+2022-08-07 22:39:58.262  INFO 13436 --- [main] c.s.alerts.controller.AlertsController   : [GET /PHONEALERT] 1 phones numbers have been found
+2022-08-07 22:39:58.309  INFO 13436 --- [main] c.s.a.c.FirestationControllerTest        : Starting FirestationControllerTest using Java 11.0.16 on XPS17 with PID 13436 (started by verra in C:\Users\verra\Desktop\safetynet-alerts)
+2022-08-07 22:39:58.310  INFO 13436 --- [main] c.s.a.c.FirestationControllerTest        : No active profile set, falling back to 1 default profile: "default"
+2022-08-07 22:39:58.660  INFO 13436 --- [main] c.s.a.c.FirestationControllerTest        : Started FirestationControllerTest in 0.373 seconds (JVM running for 7.272)
+2022-08-07 22:39:58.785  INFO 13436 --- [main] c.s.a.controller.PersonControllerTest    : Starting PersonControllerTest using Java 11.0.16 on XPS17 with PID 13436 (started by verra in C:\Users\verra\Desktop\safetynet-alerts)
+2022-08-07 22:39:58.786  INFO 13436 --- [main] c.s.a.controller.PersonControllerTest    : No active profile set, falling back to 1 default profile: "default"
+2022-08-07 22:39:59.109  INFO 13436 --- [main] c.s.a.controller.PersonControllerTest    : Started PersonControllerTest in 0.337 seconds (JVM running for 7.721)
+2022-08-07 22:39:59.117 ERROR 13436 --- [main] c.s.alerts.controller.PersonController   : [PERSON] Person with name 'Zulu Foxtrot' was not found in database
+2022-08-07 22:39:59.169 ERROR 13436 --- [main] c.s.alerts.controller.PersonController   : [GET /PERSON] Request to get person is malformed
+2022-08-07 22:39:59.181 ERROR 13436 --- [main] c.s.alerts.controller.PersonController   : [DELETE /PERSON] Request to delete person is malformed
+2022-08-07 22:39:59.212  INFO 13436 --- [main] c.s.a.c.MedicalRecordControllerTest      : Starting MedicalRecordControllerTest using Java 11.0.16 on XPS17 with PID 13436 (started by verra in C:\Users\verra\Desktop\safetynet-alerts)
+2022-08-07 22:39:59.213  INFO 13436 --- [main] c.s.a.c.MedicalRecordControllerTest      : No active profile set, falling back to 1 default profile: "default"
+2022-08-07 22:39:59.512  INFO 13436 --- [main] c.s.a.c.MedicalRecordControllerTest      : Started MedicalRecordControllerTest in 0.316 seconds (JVM running for 8.125)
+2022-08-07 22:39:59.670 ERROR 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Allergy 'Unknown Allergy' was not found for Alpha Dummy
+2022-08-07 22:39:59.675  INFO 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Deleted allergy 'Peanuts' for Alpha Dummy
+2022-08-07 22:39:59.677  INFO 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Getting allergies of Alpha Dummy
+2022-08-07 22:39:59.696  INFO 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'Peanuts' to Alpha Dummy
+2022-08-07 22:39:59.697  INFO 13436 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'Ketchup' to Alpha Dummy
+2022-08-07 22:39:59.717  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '123 New Address' to firestation number '1'
+2022-08-07 22:39:59.719  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '123 Dummy Address' to firestation number '1'
+2022-08-07 22:39:59.723  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Getting station number for address : Lambda Address 
+2022-08-07 22:39:59.725  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Deleted fire station with address : '123 Dummy Address'
+2022-08-07 22:39:59.729  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '123 Dummy Address' to firestation number '1'
+2022-08-07 22:39:59.732  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Getting addresses for station number 1 
+2022-08-07 22:39:59.734  INFO 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Fetching all firestations
+2022-08-07 22:39:59.736 ERROR 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Could not update firestation with address '123 Dummy Address'
+2022-08-07 22:39:59.739 ERROR 13436 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Could not delete firestation with address 'Zulu Foxtrot'
+2022-08-07 22:39:59.800  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Alpha Dummy
+2022-08-07 22:39:59.800  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Updating person in database : Alpha Dummy
+2022-08-07 22:39:59.807  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Alpha Dummy
+2022-08-07 22:39:59.809  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Getting people living at address : 123 Dummy Address
+2022-08-07 22:39:59.811 ERROR 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] No addresses were specified for the request
+2022-08-07 22:39:59.813  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Alpha Dummy
+2022-08-07 22:39:59.814  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Deleted 'Alpha Dummy' from database
+2022-08-07 22:39:59.817  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [COMMUNITY EMAIL] Getting emails of Paris residents
+2022-08-07 22:39:59.818  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching people from database
+2022-08-07 22:39:59.821 ERROR 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Person with name 'Alpha Dummy' was not found in database
+2022-08-07 22:39:59.823 ERROR 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Person with name 'Zulu Dummy' was not found in database
+2022-08-07 22:39:59.825  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Alpha Dummy
+2022-08-07 22:39:59.827  INFO 13436 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Alpha Dummy
+2022-08-07 22:39:59.842  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Getting medications of Alpha Dummy
+2022-08-07 22:39:59.847 ERROR 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATION] Medication 'Unknown Medication' was not found for Alpha Dummy
+2022-08-07 22:39:59.849  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'Doliprane:1g' to Alpha Dummy
+2022-08-07 22:39:59.850  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'Lysopaine:1g' to Alpha Dummy
+2022-08-07 22:39:59.853  INFO 13436 --- [main] c.s.alerts.service.MedicationService     : [MEDICATION] Deleted medication 'Doliprane:1g' for Alpha Dummy
+2022-08-07 22:42:25.137  INFO 12340 --- [main] c.s.alerts.service.AlertsServiceTest     : Starting AlertsServiceTest using Java 11.0.16 on XPS17 with PID 12340 (started by verra in C:\Users\verra\Desktop\safetynet-alerts)
+2022-08-07 22:42:25.139  INFO 12340 --- [main] c.s.alerts.service.AlertsServiceTest     : No active profile set, falling back to 1 default profile: "default"
+2022-08-07 22:42:29.011  INFO 12340 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:f6a5c00d-f012-43f7-9b61-456cc50ac8c7'
+2022-08-07 22:42:29.586  INFO 12340 --- [main] c.s.alerts.service.AlertsServiceTest     : Started AlertsServiceTest in 4.764 seconds (JVM running for 5.597)
+2022-08-07 22:42:29.796  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : John Boyd
+2022-08-07 22:42:29.798  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Jacob Boyd
+2022-08-07 22:42:29.798  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Tenley Boyd
+2022-08-07 22:42:29.798  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Roger Boyd
+2022-08-07 22:42:29.799  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Felicia Boyd
+2022-08-07 22:42:29.799  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Jonanathan Marrack
+2022-08-07 22:42:29.799  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Tessa Carman
+2022-08-07 22:42:29.799  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Peter Duncan
+2022-08-07 22:42:29.799  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Foster Shepard
+2022-08-07 22:42:29.799  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Tony Cooper
+2022-08-07 22:42:29.799  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Lily Cooper
+2022-08-07 22:42:29.799  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Sophia Zemicks
+2022-08-07 22:42:29.799  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Warren Zemicks
+2022-08-07 22:42:29.799  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Zach Zemicks
+2022-08-07 22:42:29.800  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Reginold Walker
+2022-08-07 22:42:29.800  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Jamie Peters
+2022-08-07 22:42:29.800  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Ron Peters
+2022-08-07 22:42:29.800  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Allison Boyd
+2022-08-07 22:42:29.800  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Brian Stelzer
+2022-08-07 22:42:29.800  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Shawna Stelzer
+2022-08-07 22:42:29.800  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Kendrik Stelzer
+2022-08-07 22:42:29.800  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Clive Ferguson
+2022-08-07 22:42:29.800  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Eric Cadigan
+2022-08-07 22:42:29.886  INFO 12340 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '1509 Culver St' to firestation number '3'
+2022-08-07 22:42:29.886  INFO 12340 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '29 15th St' to firestation number '2'
+2022-08-07 22:42:29.886  INFO 12340 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '834 Binoc Ave' to firestation number '3'
+2022-08-07 22:42:29.886  INFO 12340 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '644 Gershwin Cir' to firestation number '1'
+2022-08-07 22:42:29.886  INFO 12340 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '748 Townings Dr' to firestation number '3'
+2022-08-07 22:42:29.886  INFO 12340 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '112 Steppes Pl' to firestation number '3'
+2022-08-07 22:42:29.886  INFO 12340 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '489 Manchester St' to firestation number '4'
+2022-08-07 22:42:29.886  INFO 12340 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '892 Downing Ct' to firestation number '2'
+2022-08-07 22:42:29.887  INFO 12340 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '908 73rd St' to firestation number '1'
+2022-08-07 22:42:29.887  INFO 12340 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '112 Steppes Pl' to firestation number '4'
+2022-08-07 22:42:29.887  INFO 12340 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '947 E. Rose Dr' to firestation number '1'
+2022-08-07 22:42:29.887  INFO 12340 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '748 Townings Dr' to firestation number '3'
+2022-08-07 22:42:29.887  INFO 12340 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '951 LoneTree Rd' to firestation number '2'
+2022-08-07 22:42:29.911  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : John Boyd
+2022-08-07 22:42:29.912  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1984' for : John Boyd
+2022-08-07 22:42:29.931  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'aznol:350mg' to John Boyd
+2022-08-07 22:42:29.934  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'hydrapermazol:100mg' to John Boyd
+2022-08-07 22:42:29.942  INFO 12340 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'nillacilan' to John Boyd
+2022-08-07 22:42:29.946  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Jacob Boyd
+2022-08-07 22:42:29.949  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1989' for : Jacob Boyd
+2022-08-07 22:42:29.954  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'pharmacol:5000mg' to Jacob Boyd
+2022-08-07 22:42:29.956  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'terazine:10mg' to Jacob Boyd
+2022-08-07 22:42:29.959  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'noznazol:250mg' to Jacob Boyd
+2022-08-07 22:42:29.962  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Tenley Boyd
+2022-08-07 22:42:29.963  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '02/18/2012' for : Tenley Boyd
+2022-08-07 22:42:29.967  INFO 12340 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'peanut' to Tenley Boyd
+2022-08-07 22:42:29.970  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Roger Boyd
+2022-08-07 22:42:29.972  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '09/06/2017' for : Roger Boyd
+2022-08-07 22:42:29.976  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Felicia Boyd
+2022-08-07 22:42:29.977  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '01/08/1986' for : Felicia Boyd
+2022-08-07 22:42:29.982  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'tetracyclaz:650mg' to Felicia Boyd
+2022-08-07 22:42:29.986  INFO 12340 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'xilliathal' to Felicia Boyd
+2022-08-07 22:42:29.989  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Jonanathan Marrack
+2022-08-07 22:42:29.991  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '01/03/1989' for : Jonanathan Marrack
+2022-08-07 22:42:29.996  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Tessa Carman
+2022-08-07 22:42:29.997  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '02/18/2012' for : Tessa Carman
+2022-08-07 22:42:30.001  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Peter Duncan
+2022-08-07 22:42:30.002  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '09/06/2000' for : Peter Duncan
+2022-08-07 22:42:30.007  INFO 12340 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'shellfish' to Peter Duncan
+2022-08-07 22:42:30.010  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Foster Shepard
+2022-08-07 22:42:30.011  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '01/08/1980' for : Foster Shepard
+2022-08-07 22:42:30.015  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Tony Cooper
+2022-08-07 22:42:30.016  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1994' for : Tony Cooper
+2022-08-07 22:42:30.020  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'hydrapermazol:300mg' to Tony Cooper
+2022-08-07 22:42:30.022  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'dodoxadin:30mg' to Tony Cooper
+2022-08-07 22:42:30.025  INFO 12340 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'shellfish' to Tony Cooper
+2022-08-07 22:42:30.028  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Lily Cooper
+2022-08-07 22:42:30.029  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1994' for : Lily Cooper
+2022-08-07 22:42:30.033  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Sophia Zemicks
+2022-08-07 22:42:30.033  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1988' for : Sophia Zemicks
+2022-08-07 22:42:30.037  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'aznol:60mg' to Sophia Zemicks
+2022-08-07 22:42:30.040  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'hydrapermazol:900mg' to Sophia Zemicks
+2022-08-07 22:42:30.043  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'pharmacol:5000mg' to Sophia Zemicks
+2022-08-07 22:42:30.045  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'terazine:500mg' to Sophia Zemicks
+2022-08-07 22:42:30.047  INFO 12340 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'peanut' to Sophia Zemicks
+2022-08-07 22:42:30.049  INFO 12340 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'shellfish' to Sophia Zemicks
+2022-08-07 22:42:30.051  INFO 12340 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'aznol' to Sophia Zemicks
+2022-08-07 22:42:30.053  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Warren Zemicks
+2022-08-07 22:42:30.053  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1985' for : Warren Zemicks
+2022-08-07 22:42:30.058  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Zach Zemicks
+2022-08-07 22:42:30.059  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/2017' for : Zach Zemicks
+2022-08-07 22:42:30.063  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Reginold Walker
+2022-08-07 22:42:30.064  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '08/30/1979' for : Reginold Walker
+2022-08-07 22:42:30.067  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'thradox:700mg' to Reginold Walker
+2022-08-07 22:42:30.068  INFO 12340 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'illisoxian' to Reginold Walker
+2022-08-07 22:42:30.070  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Jamie Peters
+2022-08-07 22:42:30.071  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1982' for : Jamie Peters
+2022-08-07 22:42:30.076  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Ron Peters
+2022-08-07 22:42:30.076  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '04/06/1965' for : Ron Peters
+2022-08-07 22:42:30.080  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Allison Boyd
+2022-08-07 22:42:30.081  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/15/1965' for : Allison Boyd
+2022-08-07 22:42:30.084  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'aznol:200mg' to Allison Boyd
+2022-08-07 22:42:30.086  INFO 12340 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'nillacilan' to Allison Boyd
+2022-08-07 22:42:30.088  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Brian Stelzer
+2022-08-07 22:42:30.088  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '12/06/1975' for : Brian Stelzer
+2022-08-07 22:42:30.092  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'ibupurin:200mg' to Brian Stelzer
+2022-08-07 22:42:30.094  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'hydrapermazol:400mg' to Brian Stelzer
+2022-08-07 22:42:30.095  INFO 12340 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'nillacilan' to Brian Stelzer
+2022-08-07 22:42:30.097  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Shawna Stelzer
+2022-08-07 22:42:30.098  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '07/08/1980' for : Shawna Stelzer
+2022-08-07 22:42:30.101  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Kendrik Stelzer
+2022-08-07 22:42:30.102  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/2014' for : Kendrik Stelzer
+2022-08-07 22:42:30.105  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'noxidian:100mg' to Kendrik Stelzer
+2022-08-07 22:42:30.106  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'pharmacol:2500mg' to Kendrik Stelzer
+2022-08-07 22:42:30.108  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Clive Ferguson
+2022-08-07 22:42:30.109  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1994' for : Clive Ferguson
+2022-08-07 22:42:30.113  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Eric Cadigan
+2022-08-07 22:42:30.113  INFO 12340 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '08/06/1945' for : Eric Cadigan
+2022-08-07 22:42:30.116  INFO 12340 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'tradoxidine:400mg' to Eric Cadigan
+2022-08-07 22:43:11.523  INFO 5632 --- [main] c.s.alerts.service.AlertsServiceTest     : Starting AlertsServiceTest using Java 11.0.16 on XPS17 with PID 5632 (started by verra in C:\Users\verra\Desktop\safetynet-alerts)
+2022-08-07 22:43:11.525  INFO 5632 --- [main] c.s.alerts.service.AlertsServiceTest     : No active profile set, falling back to 1 default profile: "default"
+2022-08-07 22:43:15.161  INFO 5632 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:a019939f-910a-409b-b73b-8be48e187695'
+2022-08-07 22:43:15.701  INFO 5632 --- [main] c.s.alerts.service.AlertsServiceTest     : Started AlertsServiceTest in 4.48 seconds (JVM running for 5.312)
+2022-08-07 22:43:15.906  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : John Boyd
+2022-08-07 22:43:15.908  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Jacob Boyd
+2022-08-07 22:43:15.908  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Tenley Boyd
+2022-08-07 22:43:15.908  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Roger Boyd
+2022-08-07 22:43:15.908  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Felicia Boyd
+2022-08-07 22:43:15.908  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Jonanathan Marrack
+2022-08-07 22:43:15.908  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Tessa Carman
+2022-08-07 22:43:15.908  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Peter Duncan
+2022-08-07 22:43:15.909  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Foster Shepard
+2022-08-07 22:43:15.909  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Tony Cooper
+2022-08-07 22:43:15.909  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Lily Cooper
+2022-08-07 22:43:15.909  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Sophia Zemicks
+2022-08-07 22:43:15.909  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Warren Zemicks
+2022-08-07 22:43:15.909  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Zach Zemicks
+2022-08-07 22:43:15.909  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Reginold Walker
+2022-08-07 22:43:15.909  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Jamie Peters
+2022-08-07 22:43:15.909  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Ron Peters
+2022-08-07 22:43:15.909  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Allison Boyd
+2022-08-07 22:43:15.909  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Brian Stelzer
+2022-08-07 22:43:15.909  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Shawna Stelzer
+2022-08-07 22:43:15.910  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Kendrik Stelzer
+2022-08-07 22:43:15.910  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Clive Ferguson
+2022-08-07 22:43:15.910  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Adding person to database : Eric Cadigan
+2022-08-07 22:43:15.993  INFO 5632 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '1509 Culver St' to firestation number '3'
+2022-08-07 22:43:15.993  INFO 5632 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '29 15th St' to firestation number '2'
+2022-08-07 22:43:15.993  INFO 5632 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '834 Binoc Ave' to firestation number '3'
+2022-08-07 22:43:15.993  INFO 5632 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '644 Gershwin Cir' to firestation number '1'
+2022-08-07 22:43:15.993  INFO 5632 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '748 Townings Dr' to firestation number '3'
+2022-08-07 22:43:15.994  INFO 5632 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '112 Steppes Pl' to firestation number '3'
+2022-08-07 22:43:15.994  INFO 5632 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '489 Manchester St' to firestation number '4'
+2022-08-07 22:43:15.994  INFO 5632 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '892 Downing Ct' to firestation number '2'
+2022-08-07 22:43:15.994  INFO 5632 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '908 73rd St' to firestation number '1'
+2022-08-07 22:43:15.994  INFO 5632 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '112 Steppes Pl' to firestation number '4'
+2022-08-07 22:43:15.994  INFO 5632 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '947 E. Rose Dr' to firestation number '1'
+2022-08-07 22:43:15.994  INFO 5632 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '748 Townings Dr' to firestation number '3'
+2022-08-07 22:43:15.994  INFO 5632 --- [main] c.s.alerts.service.FirestationService    : [FIRESTATION] Mapping '951 LoneTree Rd' to firestation number '2'
+2022-08-07 22:43:16.018  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : John Boyd
+2022-08-07 22:43:16.019  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1984' for : John Boyd
+2022-08-07 22:43:16.038  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'aznol:350mg' to John Boyd
+2022-08-07 22:43:16.041  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'hydrapermazol:100mg' to John Boyd
+2022-08-07 22:43:16.048  INFO 5632 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'nillacilan' to John Boyd
+2022-08-07 22:43:16.052  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Jacob Boyd
+2022-08-07 22:43:16.055  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1989' for : Jacob Boyd
+2022-08-07 22:43:16.059  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'pharmacol:5000mg' to Jacob Boyd
+2022-08-07 22:43:16.061  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'terazine:10mg' to Jacob Boyd
+2022-08-07 22:43:16.064  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'noznazol:250mg' to Jacob Boyd
+2022-08-07 22:43:16.067  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Tenley Boyd
+2022-08-07 22:43:16.068  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '02/18/2012' for : Tenley Boyd
+2022-08-07 22:43:16.072  INFO 5632 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'peanut' to Tenley Boyd
+2022-08-07 22:43:16.075  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Roger Boyd
+2022-08-07 22:43:16.076  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '09/06/2017' for : Roger Boyd
+2022-08-07 22:43:16.080  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Felicia Boyd
+2022-08-07 22:43:16.081  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '01/08/1986' for : Felicia Boyd
+2022-08-07 22:43:16.085  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'tetracyclaz:650mg' to Felicia Boyd
+2022-08-07 22:43:16.087  INFO 5632 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'xilliathal' to Felicia Boyd
+2022-08-07 22:43:16.090  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Jonanathan Marrack
+2022-08-07 22:43:16.091  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '01/03/1989' for : Jonanathan Marrack
+2022-08-07 22:43:16.095  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Tessa Carman
+2022-08-07 22:43:16.096  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '02/18/2012' for : Tessa Carman
+2022-08-07 22:43:16.101  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Peter Duncan
+2022-08-07 22:43:16.102  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '09/06/2000' for : Peter Duncan
+2022-08-07 22:43:16.107  INFO 5632 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'shellfish' to Peter Duncan
+2022-08-07 22:43:16.110  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Foster Shepard
+2022-08-07 22:43:16.112  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '01/08/1980' for : Foster Shepard
+2022-08-07 22:43:16.116  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Tony Cooper
+2022-08-07 22:43:16.117  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1994' for : Tony Cooper
+2022-08-07 22:43:16.120  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'hydrapermazol:300mg' to Tony Cooper
+2022-08-07 22:43:16.123  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'dodoxadin:30mg' to Tony Cooper
+2022-08-07 22:43:16.126  INFO 5632 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'shellfish' to Tony Cooper
+2022-08-07 22:43:16.129  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Lily Cooper
+2022-08-07 22:43:16.130  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1994' for : Lily Cooper
+2022-08-07 22:43:16.134  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Sophia Zemicks
+2022-08-07 22:43:16.134  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1988' for : Sophia Zemicks
+2022-08-07 22:43:16.138  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'aznol:60mg' to Sophia Zemicks
+2022-08-07 22:43:16.140  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'hydrapermazol:900mg' to Sophia Zemicks
+2022-08-07 22:43:16.142  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'pharmacol:5000mg' to Sophia Zemicks
+2022-08-07 22:43:16.145  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'terazine:500mg' to Sophia Zemicks
+2022-08-07 22:43:16.148  INFO 5632 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'peanut' to Sophia Zemicks
+2022-08-07 22:43:16.150  INFO 5632 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'shellfish' to Sophia Zemicks
+2022-08-07 22:43:16.153  INFO 5632 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'aznol' to Sophia Zemicks
+2022-08-07 22:43:16.155  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Warren Zemicks
+2022-08-07 22:43:16.156  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1985' for : Warren Zemicks
+2022-08-07 22:43:16.160  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Zach Zemicks
+2022-08-07 22:43:16.162  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/2017' for : Zach Zemicks
+2022-08-07 22:43:16.166  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Reginold Walker
+2022-08-07 22:43:16.167  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '08/30/1979' for : Reginold Walker
+2022-08-07 22:43:16.171  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'thradox:700mg' to Reginold Walker
+2022-08-07 22:43:16.173  INFO 5632 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'illisoxian' to Reginold Walker
+2022-08-07 22:43:16.176  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Jamie Peters
+2022-08-07 22:43:16.177  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1982' for : Jamie Peters
+2022-08-07 22:43:16.180  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Ron Peters
+2022-08-07 22:43:16.181  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '04/06/1965' for : Ron Peters
+2022-08-07 22:43:16.185  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Allison Boyd
+2022-08-07 22:43:16.186  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/15/1965' for : Allison Boyd
+2022-08-07 22:43:16.190  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'aznol:200mg' to Allison Boyd
+2022-08-07 22:43:16.191  INFO 5632 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'nillacilan' to Allison Boyd
+2022-08-07 22:43:16.194  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Brian Stelzer
+2022-08-07 22:43:16.195  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '12/06/1975' for : Brian Stelzer
+2022-08-07 22:43:16.198  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'ibupurin:200mg' to Brian Stelzer
+2022-08-07 22:43:16.201  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'hydrapermazol:400mg' to Brian Stelzer
+2022-08-07 22:43:16.202  INFO 5632 --- [main] c.s.alerts.service.AllergyService        : [ALLERGIES] Adding allergy 'nillacilan' to Brian Stelzer
+2022-08-07 22:43:16.205  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Shawna Stelzer
+2022-08-07 22:43:16.206  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '07/08/1980' for : Shawna Stelzer
+2022-08-07 22:43:16.209  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Kendrik Stelzer
+2022-08-07 22:43:16.210  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/2014' for : Kendrik Stelzer
+2022-08-07 22:43:16.214  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'noxidian:100mg' to Kendrik Stelzer
+2022-08-07 22:43:16.215  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'pharmacol:2500mg' to Kendrik Stelzer
+2022-08-07 22:43:16.218  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Clive Ferguson
+2022-08-07 22:43:16.218  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '03/06/1994' for : Clive Ferguson
+2022-08-07 22:43:16.223  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Fetching person from database : Eric Cadigan
+2022-08-07 22:43:16.224  INFO 5632 --- [main] c.s.alerts.service.PersonService         : [PERSON] Setting birthdate to '08/06/1945' for : Eric Cadigan
+2022-08-07 22:43:16.227  INFO 5632 --- [main] c.s.alerts.service.MedicationService     : [MEDICATIONS] Adding medication 'tradoxidine:400mg' to Eric Cadigan

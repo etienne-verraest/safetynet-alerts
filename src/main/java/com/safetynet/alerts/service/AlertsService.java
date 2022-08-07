@@ -41,7 +41,7 @@ public class AlertsService {
 
 	/**
 	 * Get phone numbers for a given station number
-	 * 
+	 *
 	 * @param firestationNumber				Integer : number of the station
 	 * @return								List<String> containing phone numbers
 	 */
@@ -58,7 +58,7 @@ public class AlertsService {
 	 *  - Fire station number
 	 *  - Ages
 	 *  - Medical record
-	 * 
+	 *
 	 * @param address						String : the address concerned by the fire alert
 	 * @return								List<FireAlertResponse> containing requested informations
 	 */
@@ -95,7 +95,7 @@ public class AlertsService {
 	 *  - Children for the given address
 	 *  - Age of every children
 	 *  - First name and last name of persons with age over 18 ("relatives")
-	 * 
+	 *
 	 * @param address						String : the address concerned by the child alert
 	 * @return								ChildAlertResponse containing requested informations
 	 */
@@ -151,7 +151,7 @@ public class AlertsService {
 	 * - Address and phone number
 	 * - Number of children
 	 * - Number of adults
-	 * 
+	 *
 	 * @param stationNumber					Integer : the requested station number
 	 * @return								FirestationResponse : contains datas requested
 	 */
@@ -198,9 +198,9 @@ public class AlertsService {
 	 * 		- First name and last name
 	 * 		- Phone number
 	 * 		- Age
-	 * 		- MedicalRecord	
-	 * 
-	 * 
+	 * 		- MedicalRecord
+	 *
+	 *
 	 * @param stationsNumbers				List<Integer> of stationsNumbers
 	 * @return								FloodAlertResponse containing requested informations
 	 */

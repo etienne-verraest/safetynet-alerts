@@ -10,13 +10,13 @@ import org.springframework.context.annotation.Bean;
 @EnableAutoConfiguration
 public class AlertsApplication {
 
+	public static void main(String[] args) {
+		SpringApplication.run(AlertsApplication.class, args);
+	}
+
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
-	}
-
-	public static void main(String[] args) {
-		SpringApplication.run(AlertsApplication.class, args);
 	}
 
 }
