@@ -20,6 +20,6 @@ public class Firestation {
 	@Column
 	private String address;
 
-	@Column
+	@Column(name = "station_number")
 	private Integer stationNumber;
 }

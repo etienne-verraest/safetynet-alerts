@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -30,20 +32,7 @@ public class DataPopulatorService {
 	@Autowired
 	AllergyService allergyService;
 
-	/*	public void newLoad() throws FileNotFoundException, IOException, ParseException {
-			JSONParser parser = new JSONParser();
-			Object obj = parser.parse(new FileReader("src/main/resources/datas.json"));
-			JSONObject jsonObject = (JSONObject) obj;
-
-			JSONArray persons = (JSONArray) jsonObject.get("persons");
-			Iterator<JSONObject> personsIterator = persons.iterator();
-			personsIterator.forEachRemaining(p -> {
-
-				String address = (String) p.get("address");
-				System.out.println(address);
-			});
-		}*/
-
+	@EventListener(ApplicationReadyEvent.class)
 	public void loadDatas() throws Exception {
 
 		// Loading and reading the datas .json file

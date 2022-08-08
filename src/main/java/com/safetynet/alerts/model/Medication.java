@@ -30,7 +30,7 @@ public class Medication {
 
 	@JsonBackReference
 	@ManyToOne()
-	@JoinColumn(name = "firstName", nullable = false)
-	@JoinColumn(name = "lastName", nullable = false)
+	@JoinColumn(name = "first_name", nullable = false)
+	@JoinColumn(name = "last_name", nullable = false)
 	private Person person;
 }

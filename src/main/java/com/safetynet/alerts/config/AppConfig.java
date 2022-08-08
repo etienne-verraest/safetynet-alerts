@@ -5,11 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ConfigApplication {
+public class AppConfig {
 
 	@Bean
 	ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
-
 }

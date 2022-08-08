@@ -13,7 +13,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -36,6 +35,7 @@ import com.safetynet.alerts.model.response.PersonByFirestationResponse;
 import com.safetynet.alerts.model.response.PersonFireAlertResponse;
 import com.safetynet.alerts.model.response.PersonFloodAlertResponse;
 import com.safetynet.alerts.service.AlertsService;
+import com.safetynet.alerts.service.DataPopulatorService;
 import com.safetynet.alerts.util.AgeCalculator;
 
 @WebMvcTest(controllers = AlertsController.class)
@@ -46,11 +46,11 @@ class AlertsControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@Autowired
-	ModelMapper modelMapper;
-
 	@MockBean
 	AlertsService alertsService;
+
+	@MockBean
+	private DataPopulatorService dataPopulatorService;
 
 	private static Firestation firestation;
 	private static List<Person> listOfPerson = new ArrayList<Person>();

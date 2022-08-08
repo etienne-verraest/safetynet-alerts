@@ -1,4 +1,4 @@
-package com.safetynet;
+package com.safetynet.alerts;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,7 +12,7 @@ import com.safetynet.alerts.service.DataPopulatorService;
 public class AlertsApplication {
 
 	@Autowired
-	private DataPopulatorService dataPopulatorService;
+	DataPopulatorService dataPopulatorService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AlertsApplication.class, args);

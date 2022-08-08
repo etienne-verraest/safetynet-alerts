@@ -32,6 +32,7 @@ import com.safetynet.alerts.model.Allergy;
 import com.safetynet.alerts.model.Medication;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.AllergyService;
+import com.safetynet.alerts.service.DataPopulatorService;
 import com.safetynet.alerts.service.MedicationService;
 import com.safetynet.alerts.service.PersonService;
 
@@ -41,8 +42,11 @@ class MedicalRecordControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@Autowired
+	@MockBean
 	ModelMapper modelMapper;
+
+	@MockBean
+	private DataPopulatorService dataPopulatorService;
 
 	@MockBean
 	private PersonService personService;
@@ -159,7 +163,7 @@ class MedicalRecordControllerTest {
 		// ACT
 		mockMvc.perform(delete(String.format("/medicalRecord/%s/%s/allergies/%s", firstName, lastName, allergy))
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)).andExpect(status().isOk());
-		
+
 		// ASSERT
 		verify(allergyService, times(1)).deletePersonAllergy(person, allergy);
 
@@ -167,7 +171,7 @@ class MedicalRecordControllerTest {
 
 	@Test
 	void testDeletePersonMedication_ShouldReturn_StatusOk() throws Exception {
-		
+
 		// ARRANGE
 		String firstName = person.getId().getFirstName();
 		String lastName = person.getId().getLastName();
@@ -179,7 +183,7 @@ class MedicalRecordControllerTest {
 		// ACT
 		mockMvc.perform(delete(String.format("/medicalRecord/%s/%s/medications/%s", firstName, lastName, medication))
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)).andExpect(status().isOk());
-		
+
 		// ASSERT
 		verify(medicationService, times(1)).deletePersonMedication(person, medication);
 	}

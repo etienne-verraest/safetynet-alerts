@@ -32,6 +32,7 @@ import com.safetynet.alerts.mapper.PersonId;
 import com.safetynet.alerts.model.Allergy;
 import com.safetynet.alerts.model.Medication;
 import com.safetynet.alerts.model.Person;
+import com.safetynet.alerts.service.DataPopulatorService;
 import com.safetynet.alerts.service.PersonService;
 
 @WebMvcTest(controllers = PersonController.class)
@@ -40,8 +41,11 @@ class PersonControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@Autowired
-	ModelMapper modelMapper;
+	@MockBean
+	private DataPopulatorService dataPopulatorService;
+
+	@MockBean
+	private ModelMapper modelMapper;
 
 	@MockBean
 	private PersonService personService;
@@ -107,11 +111,10 @@ class PersonControllerTest {
 		when(personService.getPeople()).thenReturn(listOfPerson);
 
 		// ACT AND ASSERT
-		mockMvc.perform(get("/person")
-				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)			
-			).andExpect(status().isOk()).andExpect(jsonPath("$").isArray())
-			.andExpect(jsonPath("$[0].id.firstName").value("Alpha"))
-			.andExpect(jsonPath("$[1].id.firstName").value("Bravo"));
+		mockMvc.perform(get("/person").header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk()).andExpect(jsonPath("$").isArray())
+				.andExpect(jsonPath("$[0].id.firstName").value("Alpha"))
+				.andExpect(jsonPath("$[1].id.firstName").value("Bravo"));
 	}
 
 	@Test
@@ -123,13 +126,10 @@ class PersonControllerTest {
 		when(personService.getPersonFromDatabase(anyString(), anyString())).thenReturn(person);
 
 		// ACT AND ASSERT
-		mockMvc.perform(get("/personInfo")
-				.param("firstName", firstName)
-				.param("lastName", lastName)
-				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-			).andExpect(status().isFound())
-			.andExpect(jsonPath("$.id.firstName").value(firstName))
-			.andExpect(jsonPath("$.id.lastName").value(lastName));
+		mockMvc.perform(get("/personInfo").param("firstName", firstName).param("lastName", lastName)
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)).andExpect(status().isFound())
+				.andExpect(jsonPath("$.id.firstName").value(firstName))
+				.andExpect(jsonPath("$.id.lastName").value(lastName));
 	}
 
 	@Test
@@ -137,31 +137,25 @@ class PersonControllerTest {
 
 		// ARRANGE
 		String firstName = "Zulu";
-		String lastName = "Foxtrot";	
+		String lastName = "Foxtrot";
 		when(personService.getPersonFromDatabase(anyString(), anyString())).thenReturn(null);
 
 		// ASSERT
-		mockMvc.perform(get("/personInfo")
-				.param("firstName", firstName)
-				.param("lastName", lastName)
-				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-			).andExpect(status().isNotFound());
+		mockMvc.perform(get("/personInfo").param("firstName", firstName).param("lastName", lastName)
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
 	}
-	
+
 	@Test
 	void performUnitGet_ShouldReturn_StatusBadRequest() throws Exception {
 
 		// ARRANGE
 		String firstName = "";
-		String lastName = "";	
+		String lastName = "";
 		when(personService.getPersonFromDatabase(anyString(), anyString())).thenReturn(null);
 
 		// ASSERT
-		mockMvc.perform(get("/personInfo")
-				.param("firstName", firstName)
-				.param("lastName", lastName)
-				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-			).andExpect(status().isBadRequest());
+		mockMvc.perform(get("/personInfo").param("firstName", firstName).param("lastName", lastName)
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
 	}
 
 	@Test
@@ -175,14 +169,10 @@ class PersonControllerTest {
 		String json = objectMapper.writeValueAsString(person);
 
 		// ASSERT
-		mockMvc.perform(post("/person")
-				.content(json)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
-			).andExpect(status().isCreated())
-			.andExpect(jsonPath("$.id.firstName").value("Alpha"));
+		mockMvc.perform(post("/person").content(json).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 	}
-	
+
 	@Test
 	void performPost_ShouldReturn_StatusBadRequest() throws Exception {
 
@@ -191,12 +181,8 @@ class PersonControllerTest {
 		String json = objectMapper.writeValueAsString(null);
 
 		// ASSERT
-		mockMvc.perform(post("/person")
-				.content(json)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
-			)
-		.andExpect(status().isBadRequest());
+		mockMvc.perform(post("/person").content(json).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
 	}
 
 	@Test
@@ -211,14 +197,11 @@ class PersonControllerTest {
 		String json = objectMapper.writeValueAsString(person);
 
 		// ASSERT
-		mockMvc.perform(put("/person")
-				.content(json)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
-			).andExpect(status().isAccepted())
-			.andExpect(jsonPath("$.email").value("alpha@gmail.com"));
+		mockMvc.perform(
+				put("/person").content(json).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isAccepted());
 	}
-	
+
 	@Test
 	void performPut_ShouldReturn_StatusBadRequest() throws Exception {
 
@@ -227,11 +210,9 @@ class PersonControllerTest {
 		String json = objectMapper.writeValueAsString(null);
 
 		// ASSERT
-		mockMvc.perform(put("/person")
-				.content(json)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
-			).andExpect(status().isBadRequest());
+		mockMvc.perform(
+				put("/person").content(json).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest());
 	}
 
 	@Test
@@ -243,10 +224,8 @@ class PersonControllerTest {
 		doNothing().when(personService).deletePerson(firstName, lastName);
 
 		// ACT
-		mockMvc.perform(delete("/person")
-				.param("firstName", firstName)
-				.param("lastName", lastName)
-			).andExpect(status().isOk());
+		mockMvc.perform(delete("/person").param("firstName", firstName).param("lastName", lastName))
+				.andExpect(status().isOk());
 
 		// ASSERT
 		verify(personService, times(1)).deletePerson(firstName, lastName);
@@ -260,10 +239,8 @@ class PersonControllerTest {
 		String lastName = "";
 
 		// ACT
-		mockMvc.perform(delete("/person")
-				.param("firstName", firstName)
-				.param("lastName", lastName)
-			).andExpect(status().isBadRequest());
+		mockMvc.perform(delete("/person").param("firstName", firstName).param("lastName", lastName))
+				.andExpect(status().isBadRequest());
 
 		// ASSERT
 		verify(personService, never()).deletePerson(null, null);
