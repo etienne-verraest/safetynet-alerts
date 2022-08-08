@@ -1,7 +1,6 @@
 package com.safetynet.alerts.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -13,10 +12,10 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.safetynet.alerts.mapper.PersonId;
 import com.safetynet.alerts.model.Allergy;
@@ -33,13 +32,13 @@ class AlertsServiceTest {
 
 	private static final String ADDRESS = "123 Dummy Address";
 
-	@InjectMocks
+	@Autowired
 	AlertsService alertsService;
 
-	@Mock
+	@MockBean
 	FirestationService firestationService;
 
-	@Mock
+	@MockBean
 	PersonService personService;
 
 	private static Firestation firestation;
@@ -113,18 +112,18 @@ class AlertsServiceTest {
 		when(firestationService.getFirestationNumber(anyString())).thenReturn(1);
 
 		// ACT
-		FireAlertResponse response = alertsService.getFireAlert(ADDRESS);
+		FireAlertResponse responsee = alertsService.getFireAlert(ADDRESS);
 
 		// ASSERT
 		// General assertions
-		assertThat(response.getPersons()).hasSize(2);
+		assertThat(responsee.getPersons()).hasSize(2);
 
 		// Assertions related to "Alpha Dummy"
-		assertThat(response.getPersons().get(0).getAge()).isGreaterThan(18);
-		assertThat(response.getPersons().get(0).getAllergies().get(0).getName()).isEqualTo("Peanuts");
+		assertThat(responsee.getPersons().get(0).getAge()).isGreaterThan(18);
+		assertThat(responsee.getPersons().get(0).getAllergies().get(0).getName()).isEqualTo("Peanuts");
 
 		// Assertions related to "Bravo Dummy"
-		assertThat(response.getStationNumber()).isEqualTo(1);
+		assertThat(responsee.getStationNumber()).isEqualTo(1);
 
 	}
 
@@ -139,7 +138,15 @@ class AlertsServiceTest {
 
 		// ASSERT
 		// General assertions
-		assertNull(response);
+		assertThat(response.getChildrens()).hasSize(1);
+		assertThat(response.getRelatives()).hasSize(1);
+
+		// Child assertions
+		assertThat(response.getChildrens().get(0).getAge()).isLessThanOrEqualTo(18);
+		assertThat(response.getChildrens().get(0).getFirstName()).isEqualTo("Bravo");
+
+		// Relatives assertions
+		assertThat(response.getRelatives().get(0).getFirstName()).isEqualTo("Alpha");
 	}
 
 	@Test
