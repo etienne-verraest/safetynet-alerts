@@ -8,7 +8,8 @@ public class AgeCalculator {
 
 	public static final String BIRTHDATE_FORMAT = "MM/dd/yyyy";
 
-	private AgeCalculator() {
+	public AgeCalculator() {
+
 	}
 
 	public static Integer calculateAge(String birthdate) {

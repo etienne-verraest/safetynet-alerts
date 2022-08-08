@@ -36,9 +36,6 @@ public class AlertsService {
 	@Autowired
 	private FirestationService firestationService;
 
-	@Autowired
-	private ModelMapper modelMapper;
-
 	/**
 	 * Get phone numbers for a given station number
 	 *
@@ -65,7 +62,7 @@ public class AlertsService {
 	public FireAlertResponse getFireAlert(String address) {
 
 		if (address != null) {
-
+			ModelMapper modelMapper = new ModelMapper();
 			List<Person> persons = personService.findPersonByAddresses(Arrays.asList(address));
 			Integer firestationNumber = firestationService.getFirestationNumber(address);
 
@@ -102,7 +99,7 @@ public class AlertsService {
 	public ChildAlertResponse getChildAlert(String address) {
 
 		if (address != null) {
-
+			ModelMapper modelMapper = new ModelMapper();
 			List<Person> persons = personService.findPersonByAddresses(Arrays.asList(address));
 
 			// Getting persons with age inferior or equals to 18, we then map information if
@@ -158,7 +155,7 @@ public class AlertsService {
 	public FirestationResponse getFirestationAlert(Integer stationNumber) {
 
 		if (stationNumber != null && stationNumber >= 0) {
-
+			ModelMapper modelMapper = new ModelMapper();
 			// Getting addresses
 			List<String> addresses = firestationService.getAddressesFromFirestationNumber(stationNumber);
 
@@ -207,7 +204,7 @@ public class AlertsService {
 	public FloodAlertResponse getFloodAlert(List<Integer> stationsNumbers) {
 
 		if (!stationsNumbers.isEmpty()) {
-
+			ModelMapper modelMapper = new ModelMapper();
 			// Getting addresses
 			List<String> addresses = new ArrayList<>();
 			stationsNumbers.stream()

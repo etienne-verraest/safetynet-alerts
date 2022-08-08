@@ -12,10 +12,10 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.safetynet.alerts.mapper.PersonId;
 import com.safetynet.alerts.model.Allergy;
@@ -32,13 +32,13 @@ class AlertsServiceTest {
 
 	private static final String ADDRESS = "123 Dummy Address";
 
-	@Autowired
+	@InjectMocks
 	AlertsService alertsService;
 
-	@MockBean
+	@Mock
 	FirestationService firestationService;
 
-	@MockBean
+	@Mock
 	PersonService personService;
 
 	private static Firestation firestation;
@@ -112,18 +112,18 @@ class AlertsServiceTest {
 		when(firestationService.getFirestationNumber(anyString())).thenReturn(1);
 
 		// ACT
-		FireAlertResponse responsee = alertsService.getFireAlert(ADDRESS);
+		FireAlertResponse response = alertsService.getFireAlert(ADDRESS);
 
 		// ASSERT
 		// General assertions
-		assertThat(responsee.getPersons()).hasSize(2);
+		assertThat(response.getPersons()).hasSize(2);
 
 		// Assertions related to "Alpha Dummy"
-		assertThat(responsee.getPersons().get(0).getAge()).isGreaterThan(18);
-		assertThat(responsee.getPersons().get(0).getAllergies().get(0).getName()).isEqualTo("Peanuts");
+		assertThat(response.getPersons().get(0).getAge()).isGreaterThan(18);
+		assertThat(response.getPersons().get(0).getAllergies().get(0).getName()).isEqualTo("Peanuts");
 
 		// Assertions related to "Bravo Dummy"
-		assertThat(responsee.getStationNumber()).isEqualTo(1);
+		assertThat(response.getStationNumber()).isEqualTo(1);
 
 	}
 

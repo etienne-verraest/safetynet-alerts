@@ -30,6 +30,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.alerts.exception.ResourceMalformedException;
 import com.safetynet.alerts.model.Firestation;
+import com.safetynet.alerts.service.DataPopulatorService;
 import com.safetynet.alerts.service.FirestationService;
 
 @WebMvcTest(controllers = FirestationController.class)
@@ -38,22 +39,25 @@ class FirestationControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@Autowired
-	ModelMapper modelMapper;
+	@MockBean
+	private ModelMapper modelMapper;
+
+	@MockBean
+	private DataPopulatorService dataPopulatorService;
 
 	@MockBean
 	private FirestationService firestationService;
 
 	private static final String FIRESTATION_ADDRESS = "123 Dummy Address";
 	private static final String FIRESTATION_ADDRESS_2 = "789 Dummy Address";
-	
+
 	private Firestation firestation;
-	
+
 	private List<Firestation> firestationList = new ArrayList<Firestation>();
-	
+
 	@BeforeEach
 	void setup() throws Exception {
-		
+
 		String[] address = new String[] { FIRESTATION_ADDRESS, FIRESTATION_ADDRESS_2 };
 		for (int i = 0; i < 2; i++) {
 			Firestation firestation = new Firestation();
@@ -63,7 +67,7 @@ class FirestationControllerTest {
 			// Creating a firestation with address : 789 Dummy Address and stationNumber is
 			// equals to 2
 			firestation.setAddress(address[i]);
-			firestation.setStationNumber(i+1);
+			firestation.setStationNumber(i + 1);
 
 			// Adding firestation to a list
 			firestationList.add(firestation);
@@ -75,122 +79,103 @@ class FirestationControllerTest {
 		firestation = new Firestation();
 		firestation.setAddress(FIRESTATION_ADDRESS);
 		firestation.setStationNumber(1);
-		
+
 	}
 
 	@Test
 	void performGetAll_ShouldReturn_StatusOK() throws Exception {
-		
+
 		// ARRANGE
 		when(firestationService.getAllFirestation()).thenReturn(firestationList);
-		
+
 		// ACT AND ASSERT
-		mockMvc.perform(get("/firestations")
-				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)			
-			).andExpect(status().isOk()).andExpect(jsonPath("$").isArray())
-			.andExpect(jsonPath("$[0].address").value(FIRESTATION_ADDRESS))
-			.andExpect(jsonPath("$[1].address").value(FIRESTATION_ADDRESS_2));
+		mockMvc.perform(get("/firestations").header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk()).andExpect(jsonPath("$").isArray())
+				.andExpect(jsonPath("$[0].address").value(FIRESTATION_ADDRESS))
+				.andExpect(jsonPath("$[1].address").value(FIRESTATION_ADDRESS_2));
 	}
 
 	@Test
 	void performPost_ShouldReturn_StatusCreated() throws Exception {
-		
+
 		// ARRANGE
 		when(firestationService.createFirestation(any(Firestation.class))).thenReturn(firestation);
-		
+
 		// ACT
 		ObjectMapper objectMapper = new ObjectMapper();
 		String json = objectMapper.writeValueAsString(firestation);
-		
+
 		// ASSERT
-		mockMvc.perform(post("/firestation")
-				.content(json)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
-			).andExpect(status().isCreated())
-			.andExpect(jsonPath("$.address").value(FIRESTATION_ADDRESS));
+		mockMvc.perform(post("/firestation").content(json).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 	}
-	
+
 	@Test
 	void performPost_ShouldReturn_StatusBadRequest() throws Exception {
-		
+
 		// ARRANGE
 		ObjectMapper objectMapper = new ObjectMapper();
 		String json = objectMapper.writeValueAsString(null);
-		
+
 		// ACT
-		mockMvc.perform(post("/firestation")
-				.content(json)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
-			)
-		.andExpect(status().isBadRequest());
+		mockMvc.perform(post("/firestation").content(json).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
 	}
 
 	@Test
 	void performPut_ShouldReturn_StatusAccepted() throws Exception {
-		
+
 		// ARRANGE
 		firestation.setAddress("123 New Address");
 		when(firestationService.updateFirestation(any(Firestation.class))).thenReturn(firestation);
-		
+
 		// ACT
 		ObjectMapper objectMapper = new ObjectMapper();
 		String json = objectMapper.writeValueAsString(firestation);
-		
+
 		// ASSERT
-		mockMvc.perform(put("/firestation")
-				.content(json)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
-			).andExpect(status().isAccepted())
-			.andExpect(jsonPath("$.address").value("123 New Address"));
+		mockMvc.perform(put("/firestation").content(json).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isAccepted());
 	}
-	
+
 	@Test
 	void performPut_ShouldReturn_StatusBadRequest() throws Exception {
-		
+
 		// ARRANGE
 		ObjectMapper objectMapper = new ObjectMapper();
 		String json = objectMapper.writeValueAsString(null);
-		
+
 		// ACT
-		mockMvc.perform(put("/firestation")
-				.content(json)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
-			).andExpect(status().isBadRequest());
+		mockMvc.perform(put("/firestation").content(json).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
 	}
 
 	@Test
 	void performDelete_ShouldReturn_StatusOK() throws Exception {
-		
+
 		// ARRANGE
 		doNothing().when(firestationService).deleteFirestation(FIRESTATION_ADDRESS);
-		
+
 		// ACT
-		mockMvc.perform(delete("/firestation").param("address", FIRESTATION_ADDRESS)
-			).andExpect(status().isOk());
-		
+		mockMvc.perform(delete("/firestation").param("address", FIRESTATION_ADDRESS)).andExpect(status().isOk());
+
 		// ASSERT
 		verify(firestationService, times(1)).deleteFirestation(FIRESTATION_ADDRESS);
-		
+
 	}
-	
+
 	@Test
 	void performDelete_ShouldReturn_StatusBadRequest() throws Exception {
-		
+
 		// ARRANGE
 		String address = null;
 		doThrow(ResourceMalformedException.class).when(firestationService).deleteFirestation(address);
-		
+
 		// ACT
-		mockMvc.perform(delete("/firestation")
-				.param("address", address)
-		).andExpect(status().isBadRequest());
-		
+		mockMvc.perform(delete("/firestation").param("address", address)).andExpect(status().isBadRequest());
+
 		// ASSERT
 		verify(firestationService, never()).deleteFirestation(null);
-		
+
 	}
 }
